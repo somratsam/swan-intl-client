@@ -125,6 +125,15 @@ export default function HeroBanner() {
         }}
       />
 
+      {/* Text scrim — dark band behind the text, fading toward the top/bottom edges */}
+      <div
+        className="absolute inset-0 z-[15] pointer-events-none"
+        style={{
+          background:
+            'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.55) 20%, rgba(0,0,0,0.55) 80%, transparent 100%)',
+        }}
+      />
+
       {/* Text */}
       <div className="absolute inset-0 z-20 flex flex-col items-center justify-center px-6 text-center">
         <AnimatePresence mode="wait">
@@ -136,7 +145,7 @@ export default function HeroBanner() {
             transition={{ duration: 0.75 }}
             className="max-w-4xl"
           >
-            <p className="text-[10px] tracking-[7px] uppercase mb-5" style={{ color: '#C9A84C' }}>
+            <p className="text-[10px] tracking-[7px] uppercase mb-5" style={{ color: '#fff' }}>
               Swan International
             </p>
             <h1

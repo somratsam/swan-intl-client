@@ -47,7 +47,19 @@ export default function NewArrivalsPageClient() {
         {isLoading && <GridSkeleton count={12} />}
         {isError && <ErrorMessage onRetry={refetch} />}
 
-        {!isLoading && !isError && filtered && (
+        {!isLoading && !isError && arrivals && arrivals.length === 0 && (
+          <p className="text-center py-16" style={{ color: '#555' }}>
+            No new arrivals available.
+          </p>
+        )}
+
+        {!isLoading && !isError && arrivals && arrivals.length > 0 && filtered && filtered.length === 0 && (
+          <p className="text-center py-16" style={{ color: '#555' }}>
+            No new arrivals found for this brand.
+          </p>
+        )}
+
+        {!isLoading && !isError && filtered && filtered.length > 0 && (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
             {filtered.map((item, i) => (
               <motion.div
@@ -72,12 +84,6 @@ export default function NewArrivalsPageClient() {
               </motion.div>
             ))}
           </div>
-        )}
-
-        {!isLoading && !isError && filtered?.length === 0 && (
-          <p className="text-center py-16 text-sm" style={{ color: '#555' }}>
-            No arrivals found for this brand.
-          </p>
         )}
       </div>
     </div>

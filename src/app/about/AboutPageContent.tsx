@@ -2,27 +2,17 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-
-const brands = [
-  { name: 'MAX&Co',                      desc: 'The contemporary label from the Max Mara Fashion Group, offering accessible luxury with timeless Italian design.' },
-  { name: 'Pennyblack',                  desc: 'Sophisticated, feminine Italian fashion that balances tradition with modern sensibility.' },
-  { name: 'LIU.JO Woman',               desc: 'Glamorous and distinctly Italian, LIU JO brings bold femininity and premium craftsmanship.' },
-  { name: 'Furla',                       desc: 'Iconic Italian leather goods and accessories — handbags, shoes, and jewellery crafted to last a lifetime.' },
-  { name: 'Marella',                     desc: 'A Max Mara Group label offering wearable luxury with an effortlessly modern aesthetic.' },
-  { name: 'United Colors of Benetton',   desc: 'The globally beloved Italian brand known for vibrant colour, quality knitwear, and global perspective.' },
-];
-
-const stores = [
-  { name: 'City Centre Muscat',               desc: 'Our flagship boutique in one of Muscat\'s most prestigious retail destinations.' },
-  { name: 'Al Araimi Boulevard — Swan Galleria', desc: 'A multi-brand luxury gallery in the heart of Al Araimi Boulevard.' },
-  { name: 'Mall of Oman',                     desc: 'Bringing Italian elegance to Oman\'s largest shopping destination.' },
-  { name: 'Furla at City Centre',             desc: 'A dedicated Furla boutique showcasing the full leather goods collection.' },
-  { name: 'Ventisei at Mall of Oman',         desc: 'A curated multi-brand concept store at Mall of Oman.' },
-];
+import { useBrands, useStores } from '@/hooks/useApi';
+import { GridSkeleton } from '@/components/ui/LoadingSkeleton';
+import ErrorMessage from '@/components/ui/ErrorMessage';
 
 const fade = { initial: { opacity: 0, y: 28 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, amount: 0.2 } };
 
 export default function AboutPageContent() {
+  const { data: brands, isLoading: brandsLoading, isError: brandsError, refetch: refetchBrands } = useBrands();
+  const { data: stores, isLoading: storesLoading, isError: storesError, refetch: refetchStores } = useStores();
+  const activeStores = stores?.filter((s) => s.isActive);
+
   return (
     <div style={{ background: '#0a0a0a', minHeight: '100vh' }}>
       {/* Hero */}
@@ -63,7 +53,7 @@ export default function AboutPageContent() {
           </h2>
           <p className="text-base leading-loose mb-5" style={{ color: '#777' }}>
             Swan International is Oman's premier destination for luxury Italian fashion. We are proud to represent
-            six of Italy's most prestigious and beloved fashion houses — bringing the finest European craftsmanship
+            Italy's most prestigious and beloved fashion houses — bringing the finest European craftsmanship
             to the discerning connoisseurs of Muscat.
           </p>
           <p className="text-base leading-loose mb-5" style={{ color: '#777' }}>
@@ -72,7 +62,7 @@ export default function AboutPageContent() {
             to make authentic Italian luxury accessible, personal, and extraordinary for the people of Oman.
           </p>
           <p className="text-base leading-loose" style={{ color: '#777' }}>
-            Over the years, we have grown from a singular boutique to a network of five curated retail spaces
+            Over the years, we have grown from a singular boutique to a network of curated retail spaces
             across Muscat, each thoughtfully designed to reflect the elegance and refinement of the brands we carry.
           </p>
         </motion.section>
@@ -101,24 +91,37 @@ export default function AboutPageContent() {
         <motion.section {...fade} transition={{ duration: 0.7 }} className="mb-20">
           <p className="text-[10px] tracking-[4px] uppercase mb-5" style={{ color: '#C9A84C' }}>Our Portfolio</p>
           <h2 className="text-3xl font-normal mb-10" style={{ fontFamily: 'Playfair Display, serif', color: '#fff' }}>
-            Six Iconic Italian Brands
+            Iconic Italian Brands
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            {brands.map((brand, i) => (
-              <motion.div
-                key={brand.name}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.06 }}
-                className="p-6 border"
-                style={{ background: '#0d0d0d', borderColor: '#1a1a1a' }}
-              >
-                <h3 className="text-lg font-normal mb-3" style={{ fontFamily: 'Playfair Display, serif', color: '#fff' }}>{brand.name}</h3>
-                <p className="text-sm leading-loose" style={{ color: '#666' }}>{brand.desc}</p>
-              </motion.div>
-            ))}
-          </div>
+
+          {brandsLoading && <GridSkeleton count={6} />}
+          {brandsError && <ErrorMessage onRetry={refetchBrands} />}
+
+          {!brandsLoading && !brandsError && brands && brands.length === 0 && (
+            <p className="text-center py-16" style={{ color: '#555' }}>
+              No brands available.
+            </p>
+          )}
+
+          {!brandsLoading && !brandsError && brands && brands.length > 0 && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              {brands.map((brand, i) => (
+                <motion.div
+                  key={brand._id}
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.06 }}
+                  className="p-6 border"
+                  style={{ background: '#0d0d0d', borderColor: '#1a1a1a' }}
+                >
+                  <h3 className="text-lg font-normal mb-3" style={{ fontFamily: 'Playfair Display, serif', color: '#fff' }}>{brand.brand}</h3>
+                  <p className="text-sm leading-loose line-clamp-3" style={{ color: '#666' }}>{brand.description}</p>
+                </motion.div>
+              ))}
+            </div>
+          )}
+
           <div className="mt-10 text-center">
             <Link href="/brands" className="btn-luxury">Explore All Brands</Link>
           </div>
@@ -130,32 +133,45 @@ export default function AboutPageContent() {
         <motion.section {...fade} transition={{ duration: 0.7 }} className="mb-20">
           <p className="text-[10px] tracking-[4px] uppercase mb-5" style={{ color: '#C9A84C' }}>Our Locations</p>
           <h2 className="text-3xl font-normal mb-10" style={{ fontFamily: 'Playfair Display, serif', color: '#fff' }}>
-            Five Boutiques Across Muscat
+            Boutiques Across Muscat
           </h2>
-          <div className="space-y-4">
-            {stores.map((store, i) => (
-              <motion.div
-                key={store.name}
-                initial={{ opacity: 0, x: -16 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.06 }}
-                className="flex items-start gap-6 p-6 border"
-                style={{ background: '#0d0d0d', borderColor: '#1a1a1a' }}
-              >
-                <span
-                  className="text-xl font-light mt-0.5 shrink-0"
-                  style={{ color: '#C9A84C', fontFamily: 'Playfair Display, serif', minWidth: '32px' }}
+
+          {storesLoading && <GridSkeleton count={5} />}
+          {storesError && <ErrorMessage onRetry={refetchStores} />}
+
+          {!storesLoading && !storesError && activeStores && activeStores.length === 0 && (
+            <p className="text-center py-16" style={{ color: '#555' }}>
+              No stores available.
+            </p>
+          )}
+
+          {!storesLoading && !storesError && activeStores && activeStores.length > 0 && (
+            <div className="space-y-4">
+              {activeStores.map((store, i) => (
+                <motion.div
+                  key={store._id}
+                  initial={{ opacity: 0, x: -16 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.06 }}
+                  className="flex items-start gap-6 p-6 border"
+                  style={{ background: '#0d0d0d', borderColor: '#1a1a1a' }}
                 >
-                  {String(i + 1).padStart(2, '0')}
-                </span>
-                <div>
-                  <h3 className="text-base font-normal mb-2" style={{ fontFamily: 'Playfair Display, serif', color: '#fff' }}>{store.name}</h3>
-                  <p className="text-sm" style={{ color: '#666' }}>{store.desc}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+                  <span
+                    className="text-xl font-light mt-0.5 shrink-0"
+                    style={{ color: '#C9A84C', fontFamily: 'Playfair Display, serif', minWidth: '32px' }}
+                  >
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <div>
+                    <h3 className="text-base font-normal mb-2" style={{ fontFamily: 'Playfair Display, serif', color: '#fff' }}>{store.name}</h3>
+                    <p className="text-sm" style={{ color: '#666' }}>{store.address}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          )}
+
           <div className="mt-10 text-center">
             <Link href="/stores" className="btn-luxury">View All Stores</Link>
           </div>

@@ -11,11 +11,10 @@ import type {
   TStore,
   TAuthResponse,
   TLoginPayload,
-  TRegisterPayload,
 } from '@/types';
 
 const api = axios.create({
-  baseURL: 'http://localhost:5000',
+  baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000',
   timeout: 10000,
   headers: { 'Content-Type': 'application/json' },
 });
@@ -29,8 +28,6 @@ api.interceptors.request.use((config) => {
 // ─── AUTH ────────────────────────────────────────────────────────
 export const login = (data: TLoginPayload) =>
   api.post<TAuthResponse>('/api/auth/login', data).then((r) => r.data);
-export const register = (data: TRegisterPayload) =>
-  api.post<TAuthResponse>('/api/auth/register', data).then((r) => r.data);
 
 // ─── BANNERS ─────────────────────────────────────────────────────
 export const getBanners = () =>

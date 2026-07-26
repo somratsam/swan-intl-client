@@ -48,7 +48,19 @@ export default function ProductsPageClient() {
         {isLoading && <GridSkeleton count={8} />}
         {isError && <ErrorMessage onRetry={refetch} />}
 
-        {!isLoading && !isError && filtered && (
+        {!isLoading && !isError && products && products.length === 0 && (
+          <p className="text-center py-16" style={{ color: '#555' }}>
+            No products available.
+          </p>
+        )}
+
+        {!isLoading && !isError && products && products.length > 0 && filtered && filtered.length === 0 && (
+          <p className="text-center py-16" style={{ color: '#555' }}>
+            No products found in this category.
+          </p>
+        )}
+
+        {!isLoading && !isError && filtered && filtered.length > 0 && (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {filtered.map((product, i) => (
               <motion.div

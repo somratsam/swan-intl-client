@@ -53,10 +53,9 @@ export default function Navbar() {
         className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
         style={{
           background: scrolled
-            ? 'rgba(10,10,10,0.96)'
-            : 'linear-gradient(to bottom, rgba(0,0,0,0.75), transparent)',
-          backdropFilter: scrolled ? 'blur(16px)' : 'none',
-          borderBottom: scrolled ? '1px solid rgba(201,168,76,0.12)' : 'none',
+            ? 'linear-gradient(to bottom, rgba(10,10,10,0.96) 0%, rgba(10,10,10,0.96) 80%, rgba(10,10,10,0) 100%)'
+            : 'linear-gradient(to bottom, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.15) 80%, rgba(0,0,0,0) 100%)',
+          backdropFilter: scrolled ? 'blur(16px)' : 'blur(0px)',
         }}
       >
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
@@ -71,7 +70,7 @@ export default function Navbar() {
             </span>
             <span
               className="text-[8px] tracking-[5px] uppercase"
-              style={{ color: '#666', marginTop: '-1px' }}
+              style={{ color: '#fff', marginTop: '-1px' }}
             >
               International
             </span>

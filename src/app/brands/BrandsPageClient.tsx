@@ -47,7 +47,13 @@ export default function BrandsPageClient() {
         {isLoading && <GridSkeleton count={6} />}
         {isError && <ErrorMessage onRetry={refetch} />}
 
-        {!isLoading && !isError && brands && (
+        {!isLoading && !isError && brands && brands.length === 0 && (
+          <p className="text-center py-16" style={{ color: '#555' }}>
+            No brands available.
+          </p>
+        )}
+
+        {!isLoading && !isError && brands && brands.length > 0 && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {brands.map((brand, i) => (
               <motion.div

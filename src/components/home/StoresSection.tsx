@@ -18,7 +18,7 @@ export default function StoresSection() {
         <SectionTitle
           eyebrow="Find Us"
           title="Our Boutiques"
-          subtitle="Five luxury locations across Muscat, each thoughtfully designed to offer an immersive shopping experience."
+          subtitle="Luxury locations across Muscat, each thoughtfully designed to offer an immersive shopping experience."
         />
 
         {isLoading && <GridSkeleton count={3} />}
@@ -65,6 +65,12 @@ export default function StoresSection() {
               </motion.div>
             ))}
           </div>
+        )}
+
+        {!isLoading && !isError && preview && preview.length === 0 && (
+          <p className="text-center py-16" style={{ color: '#555' }}>
+            No stores available.
+          </p>
         )}
 
         <motion.div

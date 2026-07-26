@@ -65,6 +65,12 @@ export default function NewArrivalsSection() {
           </div>
         )}
 
+        {!isLoading && !isError && preview && preview.length === 0 && (
+          <p className="text-center py-16" style={{ color: '#555' }}>
+            No new arrivals available.
+          </p>
+        )}
+
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}

@@ -18,7 +18,7 @@ export default function BrandsSection() {
         <SectionTitle
           eyebrow="Our Portfolio"
           title="Iconic Italian Brands"
-          subtitle="We represent six of Italy's most prestigious fashion houses, bringing European elegance to the heart of Muscat."
+          subtitle="We represent Italy's most prestigious fashion houses, bringing European elegance to the heart of Muscat."
         />
 
         {isLoading && <GridSkeleton count={6} />}

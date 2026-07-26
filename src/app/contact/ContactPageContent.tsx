@@ -4,16 +4,12 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Phone, Mail, Clock, MapPin } from 'lucide-react';
 import { FaInstagram, FaFacebook } from 'react-icons/fa';
-
-const storeContacts = [
-  { name: 'City Centre Muscat',              address: 'City Centre Muscat, Al Khuwair, Muscat', phone: '+968 2200 0001', email: 'citycentre@swanintl.om', hours: 'Sat–Thu 10:00–22:00 | Fri 14:00–22:00' },
-  { name: 'Al Araimi Boulevard — Swan Galleria', address: 'Al Araimi Boulevard, Al Khuwair, Muscat', phone: '+968 2200 0002', email: 'araimi@swanintl.om',     hours: 'Sat–Thu 10:00–22:00 | Fri 14:00–22:00' },
-  { name: 'Mall of Oman',                    address: 'Mall of Oman, Halban, Muscat',            phone: '+968 2200 0003', email: 'mallofoman@swanintl.om', hours: 'Sat–Thu 10:00–22:00 | Fri 14:00–22:00' },
-  { name: 'Furla — City Centre',             address: 'City Centre Muscat, Al Khuwair, Muscat', phone: '+968 2200 0004', email: 'furla@swanintl.om',       hours: 'Sat–Thu 10:00–22:00 | Fri 14:00–22:00' },
-  { name: 'Ventisei — Mall of Oman',         address: 'Mall of Oman, Halban, Muscat',            phone: '+968 2200 0005', email: 'ventisei@swanintl.om',   hours: 'Sat–Thu 10:00–22:00 | Fri 14:00–22:00' },
-];
+import { useStores } from '@/hooks/useApi';
+import ErrorMessage from '@/components/ui/ErrorMessage';
 
 export default function ContactPageContent() {
+  const { data: stores, isLoading, isError, refetch } = useStores();
+  const activeStores = stores?.filter((s) => s.isActive);
   const [form,      setForm]      = useState({ name: '', email: '', subject: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
 
@@ -40,38 +36,63 @@ export default function ContactPageContent() {
           {/* Store Contacts */}
           <div>
             <p className="text-[10px] tracking-[4px] uppercase mb-8" style={{ color: '#C9A84C' }}>Our Boutiques</p>
-            <div className="space-y-4">
-              {storeContacts.map((store, i) => (
-                <motion.div
-                  key={store.name}
-                  initial={{ opacity: 0, x: -16 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.06 }}
-                  className="p-6 border"
-                  style={{ background: '#0d0d0d', borderColor: '#1a1a1a' }}
-                >
-                  <h3 className="text-sm font-normal mb-4" style={{ fontFamily: 'Playfair Display, serif', color: '#fff' }}>{store.name}</h3>
-                  <div className="space-y-2.5">
-                    <div className="flex items-start gap-2.5">
-                      <MapPin size={12} className="mt-0.5 shrink-0" style={{ color: '#C9A84C' }} />
-                      <p className="text-xs" style={{ color: '#666' }}>{store.address}</p>
-                    </div>
-                    <div className="flex items-center gap-2.5">
-                      <Phone size={12} style={{ color: '#C9A84C' }} />
-                      <a href={`tel:${store.phone}`} className="text-xs hover:text-white transition-colors" style={{ color: '#666' }}>{store.phone}</a>
-                    </div>
-                    <div className="flex items-center gap-2.5">
-                      <Mail size={12} style={{ color: '#C9A84C' }} />
-                      <a href={`mailto:${store.email}`} className="text-xs hover:text-white transition-colors" style={{ color: '#666' }}>{store.email}</a>
-                    </div>
-                    <div className="flex items-start gap-2.5">
-                      <Clock size={12} className="mt-0.5 shrink-0" style={{ color: '#C9A84C' }} />
-                      <p className="text-xs" style={{ color: '#555' }}>{store.hours}</p>
-                    </div>
+
+            {isLoading && (
+              <div className="space-y-4">
+                {Array.from({ length: 3 }).map((_, i) => (
+                  <div key={i} className="p-6 border space-y-3" style={{ background: '#0d0d0d', borderColor: '#1a1a1a' }}>
+                    <div className="skeleton h-4 w-1/2 rounded-sm" />
+                    <div className="skeleton h-3 w-full rounded-sm" />
+                    <div className="skeleton h-3 w-2/3 rounded-sm" />
+                    <div className="skeleton h-3 w-2/3 rounded-sm" />
+                    <div className="skeleton h-3 w-1/2 rounded-sm" />
                   </div>
-                </motion.div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
+
+            {isError && <ErrorMessage onRetry={refetch} />}
+
+            {!isLoading && !isError && activeStores && activeStores.length === 0 && (
+              <p className="text-center py-16" style={{ color: '#555' }}>
+                No stores available.
+              </p>
+            )}
+
+            {!isLoading && !isError && activeStores && activeStores.length > 0 && (
+              <div className="space-y-4">
+                {activeStores.map((store, i) => (
+                  <motion.div
+                    key={store._id}
+                    initial={{ opacity: 0, x: -16 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.06 }}
+                    className="p-6 border"
+                    style={{ background: '#0d0d0d', borderColor: '#1a1a1a' }}
+                  >
+                    <h3 className="text-sm font-normal mb-4" style={{ fontFamily: 'Playfair Display, serif', color: '#fff' }}>{store.name}</h3>
+                    <div className="space-y-2.5">
+                      <div className="flex items-start gap-2.5">
+                        <MapPin size={12} className="mt-0.5 shrink-0" style={{ color: '#C9A84C' }} />
+                        <p className="text-xs" style={{ color: '#666' }}>{store.address}</p>
+                      </div>
+                      <div className="flex items-center gap-2.5">
+                        <Phone size={12} style={{ color: '#C9A84C' }} />
+                        <a href={`tel:${store.phone}`} className="text-xs hover:text-white transition-colors" style={{ color: '#666' }}>{store.phone}</a>
+                      </div>
+                      <div className="flex items-center gap-2.5">
+                        <Mail size={12} style={{ color: '#C9A84C' }} />
+                        <a href={`mailto:${store.email}`} className="text-xs hover:text-white transition-colors" style={{ color: '#666' }}>{store.email}</a>
+                      </div>
+                      <div className="flex items-start gap-2.5">
+                        <Clock size={12} className="mt-0.5 shrink-0" style={{ color: '#C9A84C' }} />
+                        <p className="text-xs" style={{ color: '#555' }}>{store.openingHours}</p>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            )}
 
             {/* Social */}
             <div className="mt-6 p-6 border" style={{ background: '#0d0d0d', borderColor: '#1a1a1a' }}>

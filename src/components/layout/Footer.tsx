@@ -3,23 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { FaInstagram, FaFacebook, FaWhatsapp } from 'react-icons/fa';
-
-const brands = [
-  'MAX&Co',
-  'Pennyblack',
-  'LIU.JO Woman',
-  'Furla',
-  'Marella',
-  'United Colors of Benetton',
-];
-
-const stores = [
-  'City Centre Muscat',
-  'Al Araimi Boulevard',
-  'Mall of Oman',
-  'Furla at City Centre',
-  'Ventisei at Mall of Oman',
-];
+import { useBrands, useStores } from '@/hooks/useApi';
 
 const quickLinks = [
   { label: 'Home',         href: '/' },
@@ -42,6 +26,10 @@ const social = [
 
 export default function Footer() {
   const pathname = usePathname();
+  const { data: brands, isLoading: brandsLoading, isError: brandsError } = useBrands();
+  const { data: stores, isLoading: storesLoading, isError: storesError } = useStores();
+  const activeStores = stores?.filter((s) => s.isActive);
+
   if (pathname.startsWith('/admin')) return null;
 
   return (
@@ -111,44 +99,72 @@ export default function Footer() {
           </div>
 
           {/* Brands */}
-          <div>
-            <h4 className="text-[10px] tracking-[3px] uppercase font-semibold mb-6" style={{ color: '#C9A84C' }}>
-              Our Brands
-            </h4>
-            <ul className="space-y-2.5">
-              {brands.map((brand) => (
-                <li key={brand}>
-                  <Link
-                    href="/brands"
-                    className="text-sm transition-colors duration-200 hover:text-white"
-                    style={{ color: '#555' }}
-                  >
-                    {brand}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+          {brandsLoading && (
+            <div>
+              <h4 className="text-[10px] tracking-[3px] uppercase font-semibold mb-6" style={{ color: '#C9A84C' }}>
+                Our Brands
+              </h4>
+              <div className="space-y-3">
+                {Array.from({ length: 6 }).map((_, i) => (
+                  <div key={i} className="skeleton h-3 w-3/4 rounded-sm" />
+                ))}
+              </div>
+            </div>
+          )}
+          {!brandsLoading && !brandsError && brands && brands.length > 0 && (
+            <div>
+              <h4 className="text-[10px] tracking-[3px] uppercase font-semibold mb-6" style={{ color: '#C9A84C' }}>
+                Our Brands
+              </h4>
+              <ul className="space-y-2.5">
+                {brands.map((brand) => (
+                  <li key={brand._id}>
+                    <Link
+                      href={`/brands/${brand._id}`}
+                      className="text-sm transition-colors duration-200 hover:text-white"
+                      style={{ color: '#555' }}
+                    >
+                      {brand.brand}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
 
           {/* Stores */}
-          <div>
-            <h4 className="text-[10px] tracking-[3px] uppercase font-semibold mb-6" style={{ color: '#C9A84C' }}>
-              Our Stores
-            </h4>
-            <ul className="space-y-2.5">
-              {stores.map((store) => (
-                <li key={store}>
-                  <Link
-                    href="/stores"
-                    className="text-sm transition-colors duration-200 hover:text-white"
-                    style={{ color: '#555' }}
-                  >
-                    {store}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+          {storesLoading && (
+            <div>
+              <h4 className="text-[10px] tracking-[3px] uppercase font-semibold mb-6" style={{ color: '#C9A84C' }}>
+                Our Stores
+              </h4>
+              <div className="space-y-3">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <div key={i} className="skeleton h-3 w-3/4 rounded-sm" />
+                ))}
+              </div>
+            </div>
+          )}
+          {!storesLoading && !storesError && activeStores && activeStores.length > 0 && (
+            <div>
+              <h4 className="text-[10px] tracking-[3px] uppercase font-semibold mb-6" style={{ color: '#C9A84C' }}>
+                Our Stores
+              </h4>
+              <ul className="space-y-2.5">
+                {activeStores.map((store) => (
+                  <li key={store._id}>
+                    <Link
+                      href="/stores"
+                      className="text-sm transition-colors duration-200 hover:text-white"
+                      style={{ color: '#555' }}
+                    >
+                      {store.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
 
         {/* Divider */}

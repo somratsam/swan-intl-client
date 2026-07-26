@@ -56,7 +56,19 @@ export default function JobsPageClient() {
         {isLoading && <GridSkeleton count={4} />}
         {isError && <ErrorMessage onRetry={refetch} />}
 
-        {!isLoading && !isError && filtered && (
+        {!isLoading && !isError && jobs && jobs.length === 0 && (
+          <p className="text-center py-16" style={{ color: '#555' }}>
+            No jobs available.
+          </p>
+        )}
+
+        {!isLoading && !isError && jobs && jobs.length > 0 && filtered && filtered.length === 0 && (
+          <p className="text-center py-16" style={{ color: '#555' }}>
+            No jobs found for this type.
+          </p>
+        )}
+
+        {!isLoading && !isError && filtered && filtered.length > 0 && (
           <div className="space-y-6">
             {filtered.map((job, i) => (
               <motion.div

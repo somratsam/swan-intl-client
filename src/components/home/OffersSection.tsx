@@ -103,6 +103,12 @@ export default function OffersSection() {
           </div>
         )}
 
+        {!isLoading && !isError && preview && preview.length === 0 && (
+          <p className="text-center py-16" style={{ color: '#555' }}>
+            No offers available.
+          </p>
+        )}
+
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}

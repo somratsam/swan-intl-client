@@ -9,6 +9,7 @@ import ErrorMessage from '@/components/ui/ErrorMessage';
 
 export default function StoresPageClient() {
   const { data: stores, isLoading, isError, refetch } = useStores();
+  const activeStores = stores?.filter((s) => s.isActive);
 
   return (
     <div style={{ background: '#0a0a0a', minHeight: '100vh' }}>
@@ -24,9 +25,15 @@ export default function StoresPageClient() {
         {isLoading && <GridSkeleton count={4} />}
         {isError && <ErrorMessage onRetry={refetch} />}
 
-        {!isLoading && !isError && stores && (
+        {!isLoading && !isError && activeStores && activeStores.length === 0 && (
+          <p className="text-center py-16" style={{ color: '#555' }}>
+            No stores available.
+          </p>
+        )}
+
+        {!isLoading && !isError && activeStores && activeStores.length > 0 && (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {stores.filter((s) => s.isActive).map((store, i) => (
+            {activeStores.map((store, i) => (
               <motion.div
                 key={store._id}
                 initial={{ opacity: 0, y: 28 }}

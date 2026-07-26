@@ -48,7 +48,19 @@ export default function EventsPageClient() {
         {isLoading && <GridSkeleton count={6} />}
         {isError && <ErrorMessage onRetry={refetch} />}
 
-        {!isLoading && !isError && filtered && (
+        {!isLoading && !isError && events && events.length === 0 && (
+          <p className="text-center py-16" style={{ color: '#555' }}>
+            No events available.
+          </p>
+        )}
+
+        {!isLoading && !isError && events && events.length > 0 && filtered && filtered.length === 0 && (
+          <p className="text-center py-16" style={{ color: '#555' }}>
+            No events found in this category.
+          </p>
+        )}
+
+        {!isLoading && !isError && filtered && filtered.length > 0 && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filtered.map((event, i) => (
               <motion.div

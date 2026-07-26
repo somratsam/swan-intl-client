@@ -31,7 +31,13 @@ export default function OffersPageClient() {
         {isLoading && <GridSkeleton count={6} />}
         {isError && <ErrorMessage onRetry={refetch} />}
 
-        {!isLoading && !isError && offers && (
+        {!isLoading && !isError && offers && offers.length === 0 && (
+          <p className="text-center py-16" style={{ color: '#555' }}>
+            No offers available.
+          </p>
+        )}
+
+        {!isLoading && !isError && offers && offers.length > 0 && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {offers.map((offer, i) => {
               const active = isActive(offer.dateRange.endDate);
