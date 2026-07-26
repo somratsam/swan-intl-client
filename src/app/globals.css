@@ -1,26 +1,218 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600;1,700&family=Inter:wght@300;400;500;600;700&display=swap');
+
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-primary: #000000;
+  --color-secondary: #ffffff;
+  --color-accent: #C9A84C;
+  --color-accent-dim: rgba(201, 168, 76, 0.1);
+  --color-dark-bg: #0A0A0A;
+  --color-card-bg: #111111;
+  --color-subtle-bg: #050505;
+  --color-text-muted: #888888;
+  --color-text-dim: #555555;
+  --color-border: #1A1A1A;
+  --font-heading: 'Playfair Display', serif;
+  --font-body: 'Inter', sans-serif;
+  --transition-base: 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+  --transition-slow: 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-dark-bg);
+  color: var(--color-secondary);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  line-height: 1.6;
 }
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  line-height: 1.2;
+}
+
+img, video {
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+  font-family: var(--font-body);
+}
+
+/* ─── Scrollbar ─────────────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--color-dark-bg); }
+::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-accent); }
+::selection { background: var(--color-accent); color: #000; }
+
+/* ─── Keyframes ──────────────────────────────────────────── */
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ─── Skeleton ───────────────────────────────────────────── */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    #141414 25%,
+    #1e1e1e 50%,
+    #141414 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.8s ease-in-out infinite;
+}
+
+/* ─── Gold Divider ───────────────────────────────────────── */
+.divider-gold {
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--color-accent),
+    transparent
+  );
+  opacity: 0.55;
+}
+
+/* ─── Buttons ────────────────────────────────────────────── */
+.btn-luxury {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 13px 36px;
+  background: transparent;
+  border: 1px solid var(--color-accent);
+  color: var(--color-accent);
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background var(--transition-base),
+              color var(--transition-base),
+              transform 0.2s ease;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.btn-luxury:hover {
+  background: var(--color-accent);
+  color: #000;
+  transform: translateY(-1px);
+}
+
+.btn-luxury:active { transform: translateY(0); }
+
+.btn-luxury-filled {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 13px 36px;
+  background: var(--color-accent);
+  border: 1px solid var(--color-accent);
+  color: #000;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background var(--transition-base),
+              transform 0.2s ease;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.btn-luxury-filled:hover {
+  background: #b8943d;
+  border-color: #b8943d;
+  transform: translateY(-1px);
+}
+
+.btn-luxury-filled:active { transform: translateY(0); }
+
+/* ─── Card Hover ─────────────────────────────────────────── */
+.card-hover {
+  transition: transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              box-shadow 0.45s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 24px 64px rgba(201, 168, 76, 0.08),
+              0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+/* ─── Text utilities ─────────────────────────────────────── */
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.line-clamp-3 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+/* ─── Form inputs ─────────────────────────────────────────── */
+.input-luxury {
+  width: 100%;
+  padding: 12px 16px;
+  background: transparent;
+  border: 1px solid #222;
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 14px;
+  outline: none;
+  transition: border-color var(--transition-base);
+}
+
+.input-luxury:focus { border-color: var(--color-accent); }
+.input-luxury::placeholder { color: #444; }
+
+/* ─── Fade animations ────────────────────────────────────── */
+.fade-in { animation: fadeIn 0.6s ease forwards; }
+.fade-up  { animation: fadeUp 0.7s ease forwards; }
