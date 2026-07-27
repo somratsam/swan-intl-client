@@ -1,57 +1,49 @@
 # Next Session Guide
 
-**Last updated:** 2026-05-06  
-**Status:** ✅ Premium redesign 100% complete. Build passes (24 routes, 0 errors).  
-**Nothing is pending.** Start any new session fresh.
+**Last updated:** 2026-07-26
+**Status:** NOT complete. Section F (admin image uploads) is at F1 of 4.
+
+This file is the "what to do next" companion — for the full verified history of what's actually been done and confirmed, read `PROGRESS.md` first. Don't trust a prior session's "done" claim without re-checking; see the ground rules at the bottom.
 
 ---
 
-## What Was Completed This Session
+## Immediate next step: F2 — ImageUpload component
 
-Every file in the frontend was redesigned or verified. Summary of key changes:
+Build `src/components/admin/ImageUpload.tsx`. Agreed requirements, not yet built:
 
-| Fix | File | Status |
-|-----|------|--------|
-| Admin login button in navbar for non-admins | Navbar.tsx | ✅ FIXED |
-| Missing loading skeleton in StoresSection | StoresSection.tsx | ✅ FIXED |
-| overflow-x: hidden on html + body | globals.css | ✅ FIXED |
-| Mobile stats padding (p-12 → p-8 md:p-12) | AboutSection.tsx | ✅ FIXED |
-| Navbar breakpoint xl: → lg: (1024px+) | Navbar.tsx | ✅ FIXED |
-| Lucide icons everywhere | All components | ✅ DONE |
-| React-icons social media icons | Footer, Contact, Offer detail | ✅ DONE |
-| Shimmer skeleton animation | globals.css + LoadingSkeleton | ✅ DONE |
-| Premium mobile menu with header bar | Navbar.tsx | ✅ DONE |
-| Show/hide password toggle in admin login | admin/login/page.tsx | ✅ DONE |
-| All lucide icons in admin sidebar | AdminLayoutClient.tsx | ✅ DONE |
+- Props to support both single-image and multi-image fields (Stores needs an array; most others need one)
+- File picker + drag-and-drop
+- Client-side validation mirroring the backend exactly: jpg/jpeg/png/webp, 5MB per file, max 10 files — use the backend's exact wording so the two never disagree:
+  - "File too large — maximum 5MB per image"
+  - "Too many files — maximum 10 per upload"
+  - "Only jpg, png and webp images are allowed"
+- Thumbnail previews with per-image remove
+- Upload progress indication — **load-bearing, not decorative.** The upload call has a 60s timeout, which can still be tight for a full 10×5MB batch on a slow connection, so silence during upload will read as broken.
+- Errors surfaced through the existing `Toast` component
+- Shows the current value when editing an existing record, so an admin can see what's already set before replacing it
+- Manual URL-paste fallback, in case Cloudinary is ever unreachable
+- No cropping, rotation, or reordering — upload and remove only
+- Uses the `useUploadImages()` mutation hook already added in F1 (`src/hooks/useApi.ts`)
 
----
+## Then: F3 — wire ImageUpload into the 9 admin screens
 
-## Packages in Project
+One screen at a time — report back after each, don't do them in one silent pass. Order: banners → new-arrivals → offers → events → products → jobs → stores → brands, with **products last as its own step**, not folded in with the single-field screens — its `items[]` array has per-item `image`/`gallery` fields, needing a per-row uploader instance rather than one top-level field. If it turns out to be substantially more work than the others, say so before just doing it. Full field inventory is in `PROGRESS.md`.
 
-```json
-"dependencies": {
-  "@tanstack/react-query": "^5.100.6",
-  "axios": "^1.15.2",
-  "clsx": "^2.1.1",
-  "framer-motion": "^12.38.0",
-  "lucide-react": "^0.542.0",
-  "next": "16.2.4",
-  "react": "19.2.4",
-  "react-dom": "19.2.4",
-  "react-icons": "^5.5.0"
-}
-```
+## Then: F4 — delivery optimization + auth hardening
+
+1. `src/lib/image.ts` — helper that inserts `f_auto,q_auto` + a width parameter into Cloudinary URLs at render time. Must pass non-Cloudinary URLs (picsum placeholders, manually-pasted URLs) through untouched.
+2. Brand logo `filter: brightness(0) invert(1)` in `BrandsPageClient.tsx` / `brands/[id]/page.tsx` — only works for transparent-background silhouettes, will break on real uploaded logos. A fix needs to be **proposed and approved**, not decided unilaterally.
+3. Report — don't just fix — what the axios interceptor currently does on a 401 response, before changing anything.
+
+## Also pending / flagged, not yet scheduled into F1–F4
+
+- **Backend, live security issue:** `POST /api/auth/register` still allows unauthenticated self-registration as admin (arbitrary `role` in the payload, no route guard). Confirmed unchanged on direct read this session. Recommend prioritizing this over further frontend polish — it's in the backend repo, not touched here.
+- **Tier 2 visual polish** (full detail in `PROGRESS.md` → "Known issues"): New Arrivals card alignment/six-across cramping, Home Stores section (text-only) vs. `/stores` listing page (photo-led) mismatch, Product detail missing the hero every sibling detail page has, Contact page's mobile layout burying the form under 5 store cards. Plus lower-priority leftovers from the Section C audit: Event detail's fetch-the-whole-list pattern, filter-pill layout shift on 4 listing pages, and a few typographic scale inconsistencies between detail pages.
+- `/admin/dashboard` loading/error states — reported as thin (no loading state, no error state), not fixed. No decision made yet on whether it's worth building out.
 
 ---
 
-## If Starting New Work
+## Ground rules for this project (full list in `CLAUDE.md`)
 
-The project is fully functional. For any new features:
-1. Read CLAUDE.md first
-2. Check backend models in `swan-intl-m-server/src/app/modules/*/`
-3. Add types to `src/types/index.ts`
-4. Add API calls to `src/services/api.ts`
-5. Add React Query hook to `src/hooks/useApi.ts`
-6. Build the page/component following existing patterns
-7. Run `npm run build` to verify zero errors
-8. Update PROGRESS.md
+- **Verify before recording as done.** Read the file or test at runtime — don't record a "done" report as fact without checking it yourself. This file was wrong for months because past-session claims weren't verified.
+- **Check free RAM before diagnosing a network failure as connectivity/firewall on this machine.** A 5-second HTTPS POST timeout that looked like a network problem turned out to be memory pressure on this 8GB laptop, not a network issue at all.

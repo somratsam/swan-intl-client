@@ -29,6 +29,18 @@ api.interceptors.request.use((config) => {
 export const login = (data: TLoginPayload) =>
   api.post<TAuthResponse>('/api/auth/login', data).then((r) => r.data);
 
+// ─── UPLOAD ──────────────────────────────────────────────────────
+export const uploadImages = (files: File[]) => {
+  const formData = new FormData();
+  files.forEach((file) => formData.append('images', file));
+  return api
+    .post<TApiResponse<{ urls: string[] }>>('/api/upload', formData, {
+      timeout: 60000,
+      headers: { 'Content-Type': undefined },
+    })
+    .then((r) => r.data.data.urls);
+};
+
 // ─── BANNERS ─────────────────────────────────────────────────────
 export const getBanners = () =>
   api.get<TApiResponse<TBanner[]>>('/api/banners').then((r) => r.data.data);

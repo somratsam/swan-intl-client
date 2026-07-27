@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import {
   getBanners,
   getBrandById,
@@ -11,6 +11,7 @@ import {
   getProductById,
   getProducts,
   getStores,
+  uploadImages,
 } from '@/services/api';
 
 export const useBanners = () =>
@@ -45,3 +46,6 @@ export const useProductById = (id: string) =>
 
 export const useJobs = () =>
   useQuery({ queryKey: ['jobs'], queryFn: getJobs });
+
+export const useUploadImages = () =>
+  useMutation({ mutationFn: uploadImages });

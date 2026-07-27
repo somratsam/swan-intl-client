@@ -101,35 +101,25 @@ export default function Navbar() {
             })}
           </ul>
 
-          {/* Desktop right — admin controls */}
-          <div className="hidden lg:flex items-center gap-3 shrink-0">
-            {isAdmin && user ? (
-              <>
-                <Link
-                  href="/admin/dashboard"
-                  className="text-[10px] tracking-[2px] uppercase px-4 py-2 border transition-all duration-200 hover:bg-[#C9A84C] hover:text-black hover:border-[#C9A84C]"
-                  style={{ borderColor: '#C9A84C', color: '#C9A84C' }}
-                >
-                  Dashboard
-                </Link>
-                <button
-                  onClick={handleLogout}
-                  className="text-[10px] tracking-[2px] uppercase transition-colors hover:text-white"
-                  style={{ color: '#555' }}
-                >
-                  Logout
-                </button>
-              </>
-            ) : (
+          {/* Desktop right — admin controls (logged-in admins only; no public entry point) */}
+          {isAdmin && user && (
+            <div className="hidden lg:flex items-center gap-3 shrink-0">
               <Link
-                href="/admin/login"
+                href="/admin/dashboard"
                 className="text-[10px] tracking-[2px] uppercase px-4 py-2 border transition-all duration-200 hover:bg-[#C9A84C] hover:text-black hover:border-[#C9A84C]"
                 style={{ borderColor: '#C9A84C', color: '#C9A84C' }}
               >
-                Admin
+                Dashboard
               </Link>
-            )}
-          </div>
+              <button
+                onClick={handleLogout}
+                className="text-[10px] tracking-[2px] uppercase transition-colors hover:text-white"
+                style={{ color: '#555' }}
+              >
+                Logout
+              </button>
+            </div>
+          )}
 
           {/* Hamburger — mobile/tablet only */}
           <button
@@ -192,13 +182,13 @@ export default function Navbar() {
                   );
                 })}
 
-                {/* Admin link in mobile menu */}
-                <motion.li
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: navLinks.length * 0.04, duration: 0.3 }}
-                >
-                  {isAdmin && user ? (
+                {/* Dashboard link in mobile menu — logged-in admins only; no public entry point */}
+                {isAdmin && user && (
+                  <motion.li
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: navLinks.length * 0.04, duration: 0.3 }}
+                  >
                     <Link
                       href="/admin/dashboard"
                       className="block py-3 text-2xl font-light tracking-wide"
@@ -206,16 +196,8 @@ export default function Navbar() {
                     >
                       Dashboard
                     </Link>
-                  ) : (
-                    <Link
-                      href="/admin/login"
-                      className="block py-3 text-2xl font-light tracking-wide"
-                      style={{ fontFamily: 'Playfair Display, serif', color: '#C9A84C' }}
-                    >
-                      Admin Login
-                    </Link>
-                  )}
-                </motion.li>
+                  </motion.li>
+                )}
               </ul>
             </nav>
 

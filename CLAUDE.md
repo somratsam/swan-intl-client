@@ -68,7 +68,7 @@ This is the **public-facing website + admin dashboard** for Swan International, 
 http://localhost:5000
 ```
 
-The Axios instance in `src/services/api.ts` uses this base URL and automatically attaches the JWT token from `localStorage.getItem('swan_token')` to every request.
+The Axios instance in `src/services/api.ts` reads `process.env.NEXT_PUBLIC_API_URL`, falling back to this URL if unset (see `.env.example`), and automatically attaches the JWT token from `localStorage.getItem('swan_token')` to every request.
 
 ---
 
@@ -226,6 +226,8 @@ The Axios instance in `src/services/api.ts` uses this base URL and automatically
 11. **No unnecessary comments** in code — identifiers should be self-documenting.
 12. **Admin role check:** After login API call, check `res.data.user.role === 'admin'` before calling `authLogin()`.
 13. **localStorage token key is `swan_token`** (not `token`) — the Axios interceptor reads this key.
+14. **Verify a fix by reading the file or testing at runtime before reporting it done or recording it in PROGRESS.md.** A "done" report from a prior turn or a prior session is not verification — two false "done" reports happened in a single session before this rule was written. If context was lost (e.g. a reboot), re-read the actual file; don't assume a described fix landed.
+15. **On this machine, check free RAM before diagnosing a network failure as connectivity/firewall/DNS.** A 5-second HTTPS POST timeout that looked like a blocked connection turned out to be memory pressure on this 8GB laptop — a clean reboot fixed it, no network or code change involved.
 
 ---
 
@@ -271,7 +273,7 @@ The Axios instance in `src/services/api.ts` uses this base URL and automatically
 ```bash
 # 1. Start backend first (required)
 cd "C:\Users\Lenovo\Desktop\swan 2026\Swan Projects\swan-update-site\swan-intl-m-server"
-npm run dev        # → http://localhost:5000
+npm run start:dev  # → http://localhost:5000   ("npm run dev" does not exist in this repo)
 
 # 2. Start frontend
 cd "C:\Users\Lenovo\Desktop\swan 2026\Swan Projects\swan-update-site\swan-intl-client"

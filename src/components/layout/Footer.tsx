@@ -178,13 +178,6 @@ export default function Footer() {
           <p className="text-xs" style={{ color: '#333' }}>
             CEO: H.H. Aliya Bint Thuwainy Al Said
           </p>
-          <Link
-            href="/admin/login"
-            className="text-xs tracking-[2px] uppercase transition-colors hover:text-[#C9A84C]"
-            style={{ color: '#2a2a2a' }}
-          >
-            Admin
-          </Link>
         </div>
       </div>
     </footer>
