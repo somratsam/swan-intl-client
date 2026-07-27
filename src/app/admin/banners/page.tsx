@@ -8,6 +8,7 @@ import { getBanners, createBanner, updateBanner, deleteBanner } from '@/services
 import type { TBanner } from '@/types';
 import Toast, { ToastType } from '@/components/admin/Toast';
 import ConfirmDialog from '@/components/admin/ConfirmDialog';
+import ImageUpload from '@/components/admin/ImageUpload';
 
 const EMPTY: Partial<TBanner> = { title: '', subtitle: '', image: '', link: '', isActive: true, order: 0 };
 
@@ -99,7 +100,20 @@ export default function AdminBannersPage() {
             <motion.div initial={{ scale: 0.93, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.93, opacity: 0 }} onClick={(e) => e.stopPropagation()} className="w-full max-w-lg p-8 border overflow-y-auto max-h-[90vh]" style={{ background: '#111', borderColor: '#222' }}>
               <h2 className="text-xl font-normal mb-6" style={{ fontFamily: 'Playfair Display, serif', color: '#fff' }}>{editingId ? 'Edit Banner' : 'Add Banner'}</h2>
               <div className="space-y-4">
-                {([['title', 'Title', 'text'], ['subtitle', 'Subtitle', 'text'], ['image', 'Image URL', 'url'], ['link', 'Link URL', 'url']] as [keyof TBanner, string, string][]).map(([field, label, type]) => (
+                {([['title', 'Title', 'text'], ['subtitle', 'Subtitle', 'text']] as [keyof TBanner, string, string][]).map(([field, label, type]) => (
+                  <div key={field}>
+                    <label className="block text-[10px] tracking-[3px] uppercase mb-2" style={{ color: '#888' }}>{label}</label>
+                    <input type={type} value={(editing[field] as string) ?? ''} onChange={(e) => setEditing({ ...editing, [field]: e.target.value })}
+                      className="w-full px-4 py-2.5 text-sm bg-transparent border outline-none focus:border-[#C9A84C] transition-colors" style={{ borderColor: '#222', color: '#fff' }} />
+                  </div>
+                ))}
+                <ImageUpload
+                  label="Image"
+                  value={editing.image ?? ''}
+                  onChange={(url) => setEditing({ ...editing, image: url })}
+                  onError={(msg) => showToast(msg, 'error')}
+                />
+                {([['link', 'Link URL', 'url']] as [keyof TBanner, string, string][]).map(([field, label, type]) => (
                   <div key={field}>
                     <label className="block text-[10px] tracking-[3px] uppercase mb-2" style={{ color: '#888' }}>{label}</label>
                     <input type={type} value={(editing[field] as string) ?? ''} onChange={(e) => setEditing({ ...editing, [field]: e.target.value })}
@@ -119,11 +133,6 @@ export default function AdminBannersPage() {
                     </label>
                   </div>
                 </div>
-                {editing.image && (
-                  <div className="relative aspect-video overflow-hidden" style={{ background: '#0a0a0a' }}>
-                    <Image src={editing.image} alt="Preview" fill className="object-cover" sizes="500px" onError={() => {}} />
-                  </div>
-                )}
               </div>
               <div className="flex gap-3 mt-8">
                 <button onClick={() => setModalOpen(false)} className="flex-1 py-3 text-xs tracking-[2px] uppercase border hover:bg-white/5 transition-colors" style={{ borderColor: '#333', color: '#888' }}>Cancel</button>

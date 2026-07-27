@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { ExternalLink } from 'lucide-react';
 import { useProducts } from '@/hooks/useApi';
 import { GridSkeleton } from '@/components/ui/LoadingSkeleton';
 import ErrorMessage from '@/components/ui/ErrorMessage';
@@ -23,6 +24,18 @@ export default function ProductsPageClient() {
           Products
         </motion.h1>
         <motion.div initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ delay: 0.3 }} className="divider-gold w-20 mx-auto mt-8" />
+        <motion.a
+          href="https://swan-intl.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.4 }}
+          className="inline-flex items-center gap-1.5 text-[10px] tracking-[2px] uppercase mt-6 transition-colors hover:text-white"
+          style={{ color: '#C9A84C' }}
+        >
+          Shop the Collection at swan-intl.com <ExternalLink size={11} />
+        </motion.a>
       </div>
 
       <div className="max-w-7xl mx-auto px-6 pb-28">
@@ -85,12 +98,9 @@ export default function ProductsPageClient() {
                     </span>
                   </div>
                   <div className="p-4">
-                    <h2 className="text-sm font-normal mb-1.5 line-clamp-2" style={{ fontFamily: 'Playfair Display, serif', color: '#ddd' }}>
+                    <h2 className="text-sm font-normal line-clamp-2" style={{ fontFamily: 'Playfair Display, serif', color: '#ddd' }}>
                       {product.name}
                     </h2>
-                    <p className="text-base font-semibold" style={{ color: '#C9A84C' }}>
-                      OMR {product.price.toFixed(2)}
-                    </p>
                   </div>
                 </Link>
               </motion.div>

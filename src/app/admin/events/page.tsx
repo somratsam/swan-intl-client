@@ -8,6 +8,7 @@ import { getEvents, createEvent, updateEvent, deleteEvent } from '@/services/api
 import type { TEvent } from '@/types';
 import Toast, { ToastType } from '@/components/admin/Toast';
 import ConfirmDialog from '@/components/admin/ConfirmDialog';
+import ImageUpload from '@/components/admin/ImageUpload';
 
 const EMPTY: Partial<TEvent> = {
   image: '', title: '', description: '', date: '', category: '', tags: [],
@@ -103,12 +104,17 @@ export default function AdminEventsPage() {
               <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <F label="Title" value={editing.title ?? ''} onChange={(v) => setEditing({ ...editing, title: v })} />
-                  <F label="Image URL" value={editing.image ?? ''} onChange={(v) => setEditing({ ...editing, image: v })} />
                   <F label="Date" value={editing.date ? editing.date.slice(0, 10) : ''} type="date" onChange={(v) => setEditing({ ...editing, date: v })} />
                   <F label="Category" value={editing.category ?? ''} onChange={(v) => setEditing({ ...editing, category: v })} />
                   <F label="Start Time" value={editing.time?.start ?? ''} onChange={(v) => setEditing({ ...editing, time: { ...(editing.time ?? { start: '', end: '' }), start: v } })} />
                   <F label="End Time" value={editing.time?.end ?? ''} onChange={(v) => setEditing({ ...editing, time: { ...(editing.time ?? { start: '', end: '' }), end: v } })} />
                 </div>
+                <ImageUpload
+                  label="Image"
+                  value={editing.image ?? ''}
+                  onChange={(url) => setEditing({ ...editing, image: url })}
+                  onError={(msg) => showToast(msg, 'error')}
+                />
                 <div>
                   <label className="block text-[10px] tracking-[3px] uppercase mb-2" style={{ color: '#888' }}>Description</label>
                   <textarea rows={3} value={editing.description ?? ''} onChange={(e) => setEditing({ ...editing, description: e.target.value })} className="w-full px-4 py-2.5 text-sm bg-transparent border outline-none focus:border-[#C9A84C] transition-colors resize-none" style={{ borderColor: '#222', color: '#fff' }} />

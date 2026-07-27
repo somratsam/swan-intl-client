@@ -4,10 +4,13 @@ import { useState, useCallback } from 'react';
 import Image from 'next/image';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { AnimatePresence, motion } from 'framer-motion';
-import { getProducts, createProduct, updateProduct, deleteProduct } from '@/services/api';
+import { getProducts, createProduct, updateProduct, deleteProduct, getBrands } from '@/services/api';
 import type { TProduct, TProductItem } from '@/types';
 import Toast, { ToastType } from '@/components/admin/Toast';
 import ConfirmDialog from '@/components/admin/ConfirmDialog';
+import ImageUpload from '@/components/admin/ImageUpload';
+import BulkAddGrid from '@/components/admin/BulkAddGrid';
+import type { BulkColumn } from '@/components/admin/BulkAddGrid';
 
 const EMPTY_ITEM: TProductItem = { title: '', brand: '', image: '', description: '', gallery: [] };
 const EMPTY: Partial<TProduct> = { name: '', image: '', category: '', description: '', price: 0, tags: [], items: [{ ...EMPTY_ITEM }] };
@@ -15,7 +18,9 @@ const EMPTY: Partial<TProduct> = { name: '', image: '', category: '', descriptio
 export default function AdminProductsPage() {
   const qc = useQueryClient();
   const { data: products = [], isLoading } = useQuery({ queryKey: ['products'], queryFn: getProducts });
+  const { data: brands = [] } = useQuery({ queryKey: ['brands'], queryFn: getBrands });
   const [modalOpen, setModalOpen] = useState(false);
+  const [bulkOpen, setBulkOpen] = useState(false);
   const [editing, setEditing] = useState<Partial<TProduct>>(EMPTY);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
@@ -35,6 +40,38 @@ export default function AdminProductsPage() {
 
   const openCreate = () => { setEditing(EMPTY); setEditingId(null); setModalOpen(true); };
   const openEdit = (p: TProduct) => { setEditing({ ...p }); setEditingId(p._id); setModalOpen(true); };
+
+  type BulkProductRow = { brand: string; name: string; category: string; price: number };
+  const bulkColumns: BulkColumn<BulkProductRow>[] = [
+    { key: 'brand', label: 'Brand', type: 'select', required: true, options: brands.map((b) => ({ value: b.brand, label: b.brand })) },
+    { key: 'name', label: 'Product Name', type: 'text', required: true },
+    { key: 'category', label: 'Category', type: 'text', required: true },
+    { key: 'price', label: 'Price (OMR)', type: 'number', required: true },
+  ];
+
+  const bulkCreateProduct = (row: BulkProductRow & { image: string }) => {
+    // items[] is required by the backend but not exposed in bulk mode — one
+    // default item is auto-generated per row, seeded from the row's own data,
+    // so the create call satisfies the schema without the admin ever seeing
+    // items[] fields. Gallery must be non-empty (backend rejects []), so it's
+    // seeded with the same main image rather than left empty.
+    const description = `${row.name} — details coming soon.`;
+    return createProduct({
+      name: row.name,
+      image: row.image,
+      category: row.category,
+      description,
+      price: row.price,
+      tags: [row.brand],
+      items: [{
+        title: row.name,
+        brand: row.brand,
+        image: row.image,
+        description,
+        gallery: [row.image],
+      }],
+    });
+  };
 
   const updateItem = (idx: number, field: keyof TProductItem, value: string | string[]) => {
     const items = [...(editing.items ?? [])];
@@ -56,7 +93,10 @@ export default function AdminProductsPage() {
           <h1 className="text-2xl font-normal" style={{ fontFamily: 'Playfair Display, serif', color: '#fff' }}>Products</h1>
           <p className="text-sm mt-1" style={{ color: '#666' }}>{products.length} product{products.length !== 1 ? 's' : ''}</p>
         </div>
-        <button onClick={openCreate} className="btn-luxury-filled">+ Add Product</button>
+        <div className="flex gap-3">
+          <button onClick={() => setBulkOpen(true)} className="text-xs tracking-[2px] uppercase px-4 py-2.5 border hover:bg-white/5 transition-colors" style={{ borderColor: '#333', color: '#888' }}>Bulk Add</button>
+          <button onClick={openCreate} className="btn-luxury-filled">+ Add Product</button>
+        </div>
       </div>
 
       {isLoading ? (
@@ -105,13 +145,18 @@ export default function AdminProductsPage() {
               <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <F label="Product Name" value={editing.name ?? ''} onChange={(v) => setEditing({ ...editing, name: v })} />
-                  <F label="Image URL" value={editing.image ?? ''} onChange={(v) => setEditing({ ...editing, image: v })} />
                   <F label="Category" value={editing.category ?? ''} onChange={(v) => setEditing({ ...editing, category: v })} />
                   <div>
                     <label className="block text-[10px] tracking-[3px] uppercase mb-2" style={{ color: '#888' }}>Price (OMR)</label>
                     <input type="number" step="0.01" value={editing.price ?? 0} onChange={(e) => setEditing({ ...editing, price: parseFloat(e.target.value) })} className="w-full px-4 py-2.5 text-sm bg-transparent border outline-none focus:border-[#C9A84C] transition-colors" style={{ borderColor: '#222', color: '#fff' }} />
                   </div>
                 </div>
+                <ImageUpload
+                  label="Main Image"
+                  value={editing.image ?? ''}
+                  onChange={(url) => setEditing({ ...editing, image: url })}
+                  onError={(msg) => showToast(msg, 'error')}
+                />
                 <div>
                   <label className="block text-[10px] tracking-[3px] uppercase mb-2" style={{ color: '#888' }}>Description</label>
                   <textarea rows={3} value={editing.description ?? ''} onChange={(e) => setEditing({ ...editing, description: e.target.value })} className="w-full px-4 py-2.5 text-sm bg-transparent border outline-none focus:border-[#C9A84C] transition-colors resize-none" style={{ borderColor: '#222', color: '#fff' }} />
@@ -155,6 +200,19 @@ export default function AdminProductsPage() {
               </div>
             </motion.div>
           </motion.div>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {bulkOpen && (
+          <BulkAddGrid
+            title="Bulk Add Products"
+            columns={bulkColumns}
+            createFn={bulkCreateProduct}
+            onComplete={() => qc.invalidateQueries({ queryKey: ['products'] })}
+            onClose={() => setBulkOpen(false)}
+            onNotify={(msg, type) => showToast(msg, type)}
+          />
         )}
       </AnimatePresence>
 

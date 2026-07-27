@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { useParams } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, ExternalLink } from 'lucide-react';
 import { useProductById } from '@/hooks/useApi';
 import { DetailSkeleton } from '@/components/ui/LoadingSkeleton';
 import ErrorMessage from '@/components/ui/ErrorMessage';
@@ -71,9 +71,14 @@ export default function ProductDetailPage() {
             <h1 className="text-4xl font-normal mb-4" style={{ fontFamily: 'Playfair Display, serif', color: '#fff' }}>
               {product.name}
             </h1>
-            <p className="text-3xl mb-6" style={{ color: '#C9A84C', fontFamily: 'Playfair Display, serif' }}>
-              OMR {product.price.toFixed(2)}
-            </p>
+            <a
+              href="https://swan-intl.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-luxury-filled mb-6"
+            >
+              Shop the Collection at swan-intl.com <ExternalLink size={14} />
+            </a>
             <div className="divider-gold w-16 mb-7" />
             <p className="text-sm leading-loose mb-8" style={{ color: '#777', lineHeight: '1.8' }}>{product.description}</p>
 

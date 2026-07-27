@@ -28,7 +28,7 @@ export type TAuthResponse = {
   success: boolean;
   message: string;
   data: {
-    accessToken: string;
+    token: string;
     user: TUser;
   };
 };

@@ -7,6 +7,7 @@ import { getStores, createStore, updateStore, deleteStore } from '@/services/api
 import type { TStore } from '@/types';
 import Toast, { ToastType } from '@/components/admin/Toast';
 import ConfirmDialog from '@/components/admin/ConfirmDialog';
+import ImageUpload from '@/components/admin/ImageUpload';
 
 const EMPTY: Partial<TStore> = {
   name: '', address: '', mapLink: '', phone: '', email: '', openingHours: '',
@@ -109,8 +110,13 @@ export default function AdminStoresPage() {
                   <input type="number" step="any" value={editing.location?.lng ?? 0} onChange={(e) => setEditing({ ...editing, location: { ...(editing.location ?? { lat: 0, lng: 0 }), lng: parseFloat(e.target.value) } })} className="w-full px-4 py-2.5 text-sm bg-transparent border outline-none focus:border-[#C9A84C] transition-colors" style={{ borderColor: '#222', color: '#fff' }} />
                 </div>
                 <div className="md:col-span-2">
-                  <label className="block text-[10px] tracking-[3px] uppercase mb-2" style={{ color: '#888' }}>Images (URLs, one per line)</label>
-                  <textarea rows={3} value={(editing.images ?? []).join('\n')} onChange={(e) => setEditing({ ...editing, images: e.target.value.split('\n').filter(Boolean) })} className="w-full px-4 py-2.5 text-sm bg-transparent border outline-none focus:border-[#C9A84C] transition-colors resize-none" style={{ borderColor: '#222', color: '#fff' }} />
+                  <ImageUpload
+                    multiple
+                    label="Images"
+                    value={editing.images ?? []}
+                    onChange={(urls) => setEditing({ ...editing, images: urls })}
+                    onError={(msg) => showToast(msg, 'error')}
+                  />
                 </div>
                 <div className="flex items-center gap-3">
                   <input type="checkbox" checked={editing.isActive ?? true} onChange={(e) => setEditing({ ...editing, isActive: e.target.checked })} className="w-4 h-4 accent-[#C9A84C]" />

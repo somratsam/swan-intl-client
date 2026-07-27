@@ -8,6 +8,7 @@ import { getBrands, createBrand, updateBrand, deleteBrand } from '@/services/api
 import type { TBrand } from '@/types';
 import Toast, { ToastType } from '@/components/admin/Toast';
 import ConfirmDialog from '@/components/admin/ConfirmDialog';
+import ImageUpload from '@/components/admin/ImageUpload';
 
 const EMPTY: Partial<TBrand> = {
   brand: '', address: '', phone: '', email: '', brandImage: '', brandLogo: '',
@@ -105,7 +106,7 @@ export default function AdminBrandsPage() {
             <motion.div initial={{ scale: 0.93 }} animate={{ scale: 1 }} exit={{ scale: 0.93 }} onClick={(e) => e.stopPropagation()} className="w-full max-w-2xl p-8 border overflow-y-auto max-h-[90vh]" style={{ background: '#111', borderColor: '#222' }}>
               <h2 className="text-xl font-normal mb-6" style={{ fontFamily: 'Playfair Display, serif', color: '#fff' }}>{editingId ? 'Edit Brand' : 'Add Brand'}</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {([['brand', 'Brand Name'], ['address', 'Address'], ['phone', 'Phone'], ['email', 'Email'], ['brandImage', 'Brand Image URL'], ['brandLogo', 'Brand Logo URL'], ['mainBanner', 'Main Banner URL'], ['products', 'Products Description']] as [keyof TBrand, string][]).map(([f, label]) => (
+                {([['brand', 'Brand Name'], ['address', 'Address'], ['phone', 'Phone'], ['email', 'Email'], ['products', 'Products Description']] as [keyof TBrand, string][]).map(([f, label]) => (
                   <div key={f}>
                     <label className="block text-[10px] tracking-[3px] uppercase mb-2" style={{ color: '#888' }}>{label}</label>
                     <input value={(editing[f] as string) ?? ''} onChange={set(f)} className="w-full px-4 py-2.5 text-sm bg-transparent border outline-none focus:border-[#C9A84C] transition-colors" style={{ borderColor: '#222', color: '#fff' }} />
@@ -120,8 +121,48 @@ export default function AdminBrandsPage() {
                   <textarea rows={3} value={editing.history ?? ''} onChange={(e) => setEditing({ ...editing, history: e.target.value })} className="w-full px-4 py-2.5 text-sm bg-transparent border outline-none focus:border-[#C9A84C] transition-colors resize-none" style={{ borderColor: '#222', color: '#fff' }} />
                 </div>
                 <div>{arrayField(editing.features, (v) => setEditing({ ...editing, features: v }), 'Features')}</div>
-                <div>{arrayField(editing.bannerImage, (v) => setEditing({ ...editing, bannerImage: v }), 'Banner Images (URLs)')}</div>
-                <div className="md:col-span-2">{arrayField(editing.gallery, (v) => setEditing({ ...editing, gallery: v }), 'Gallery (URLs)')}</div>
+                <div>
+                  <ImageUpload
+                    label="Brand Image"
+                    value={editing.brandImage ?? ''}
+                    onChange={(url) => setEditing({ ...editing, brandImage: url })}
+                    onError={(msg) => showToast(msg, 'error')}
+                  />
+                </div>
+                <div>
+                  <ImageUpload
+                    label="Brand Logo"
+                    value={editing.brandLogo ?? ''}
+                    onChange={(url) => setEditing({ ...editing, brandLogo: url })}
+                    onError={(msg) => showToast(msg, 'error')}
+                  />
+                </div>
+                <div>
+                  <ImageUpload
+                    label="Main Banner"
+                    value={editing.mainBanner ?? ''}
+                    onChange={(url) => setEditing({ ...editing, mainBanner: url })}
+                    onError={(msg) => showToast(msg, 'error')}
+                  />
+                </div>
+                <div className="md:col-span-2">
+                  <ImageUpload
+                    multiple
+                    label="Banner Images"
+                    value={editing.bannerImage ?? []}
+                    onChange={(urls) => setEditing({ ...editing, bannerImage: urls })}
+                    onError={(msg) => showToast(msg, 'error')}
+                  />
+                </div>
+                <div className="md:col-span-2">
+                  <ImageUpload
+                    multiple
+                    label="Gallery"
+                    value={editing.gallery ?? []}
+                    onChange={(urls) => setEditing({ ...editing, gallery: urls })}
+                    onError={(msg) => showToast(msg, 'error')}
+                  />
+                </div>
               </div>
               <div className="flex gap-3 mt-8">
                 <button onClick={() => setModalOpen(false)} className="flex-1 py-3 text-xs tracking-[2px] uppercase border hover:bg-white/5 transition-colors" style={{ borderColor: '#333', color: '#888' }}>Cancel</button>

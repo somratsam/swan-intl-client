@@ -4,17 +4,22 @@ import { useState, useCallback } from 'react';
 import Image from 'next/image';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { AnimatePresence, motion } from 'framer-motion';
-import { getNewArrivals, createNewArrival, updateNewArrival, deleteNewArrival } from '@/services/api';
+import { getNewArrivals, createNewArrival, updateNewArrival, deleteNewArrival, getBrands } from '@/services/api';
 import type { TNewArrival } from '@/types';
 import Toast, { ToastType } from '@/components/admin/Toast';
 import ConfirmDialog from '@/components/admin/ConfirmDialog';
+import ImageUpload from '@/components/admin/ImageUpload';
+import BulkAddGrid from '@/components/admin/BulkAddGrid';
+import type { BulkColumn } from '@/components/admin/BulkAddGrid';
 
 const EMPTY: Partial<TNewArrival> = { brand: '', caption: '', image: '' };
 
 export default function AdminNewArrivalsPage() {
   const qc = useQueryClient();
   const { data: arrivals = [], isLoading } = useQuery({ queryKey: ['newArrivals'], queryFn: getNewArrivals });
+  const { data: brands = [] } = useQuery({ queryKey: ['brands'], queryFn: getBrands });
   const [modalOpen, setModalOpen] = useState(false);
+  const [bulkOpen, setBulkOpen] = useState(false);
   const [editing, setEditing] = useState<Partial<TNewArrival>>(EMPTY);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
@@ -35,6 +40,11 @@ export default function AdminNewArrivalsPage() {
   const openCreate = () => { setEditing(EMPTY); setEditingId(null); setModalOpen(true); };
   const openEdit = (a: TNewArrival) => { setEditing({ ...a }); setEditingId(a._id); setModalOpen(true); };
 
+  const bulkColumns: BulkColumn<Pick<TNewArrival, 'brand' | 'caption'>>[] = [
+    { key: 'brand', label: 'Brand', type: 'select', required: true, options: brands.map((b) => ({ value: b.brand, label: b.brand })) },
+    { key: 'caption', label: 'Caption', type: 'text', required: true },
+  ];
+
   return (
     <div>
       <div className="flex items-center justify-between mb-8">
@@ -42,7 +52,10 @@ export default function AdminNewArrivalsPage() {
           <h1 className="text-2xl font-normal" style={{ fontFamily: 'Playfair Display, serif', color: '#fff' }}>New Arrivals</h1>
           <p className="text-sm mt-1" style={{ color: '#666' }}>{arrivals.length} item{arrivals.length !== 1 ? 's' : ''}</p>
         </div>
-        <button onClick={openCreate} className="btn-luxury-filled">+ Add Arrival</button>
+        <div className="flex gap-3">
+          <button onClick={() => setBulkOpen(true)} className="text-xs tracking-[2px] uppercase px-4 py-2.5 border hover:bg-white/5 transition-colors" style={{ borderColor: '#333', color: '#888' }}>Bulk Add</button>
+          <button onClick={openCreate} className="btn-luxury-filled">+ Add Arrival</button>
+        </div>
       </div>
 
       {isLoading ? (
@@ -76,17 +89,18 @@ export default function AdminNewArrivalsPage() {
             <motion.div initial={{ scale: 0.93 }} animate={{ scale: 1 }} exit={{ scale: 0.93 }} onClick={(e) => e.stopPropagation()} className="w-full max-w-md p-8 border" style={{ background: '#111', borderColor: '#222' }}>
               <h2 className="text-xl font-normal mb-6" style={{ fontFamily: 'Playfair Display, serif', color: '#fff' }}>{editingId ? 'Edit Arrival' : 'Add New Arrival'}</h2>
               <div className="space-y-4">
-                {([['brand', 'Brand Name'], ['caption', 'Caption'], ['image', 'Image URL']] as [keyof TNewArrival, string][]).map(([f, label]) => (
+                {([['brand', 'Brand Name'], ['caption', 'Caption']] as [keyof TNewArrival, string][]).map(([f, label]) => (
                   <div key={f}>
                     <label className="block text-[10px] tracking-[3px] uppercase mb-2" style={{ color: '#888' }}>{label}</label>
                     <input value={(editing[f] as string) ?? ''} onChange={(e) => setEditing({ ...editing, [f]: e.target.value })} className="w-full px-4 py-2.5 text-sm bg-transparent border outline-none focus:border-[#C9A84C] transition-colors" style={{ borderColor: '#222', color: '#fff' }} />
                   </div>
                 ))}
-                {editing.image && (
-                  <div className="relative w-32 h-40 overflow-hidden mx-auto" style={{ background: '#0a0a0a' }}>
-                    <Image src={editing.image} alt="Preview" fill className="object-cover" sizes="128px" onError={() => {}} />
-                  </div>
-                )}
+                <ImageUpload
+                  label="Image"
+                  value={editing.image ?? ''}
+                  onChange={(url) => setEditing({ ...editing, image: url })}
+                  onError={(msg) => showToast(msg, 'error')}
+                />
               </div>
               <div className="flex gap-3 mt-8">
                 <button onClick={() => setModalOpen(false)} className="flex-1 py-3 text-xs tracking-[2px] uppercase border hover:bg-white/5 transition-colors" style={{ borderColor: '#333', color: '#888' }}>Cancel</button>
@@ -94,6 +108,19 @@ export default function AdminNewArrivalsPage() {
               </div>
             </motion.div>
           </motion.div>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {bulkOpen && (
+          <BulkAddGrid
+            title="Bulk Add New Arrivals"
+            columns={bulkColumns}
+            createFn={(row) => createNewArrival(row)}
+            onComplete={() => qc.invalidateQueries({ queryKey: ['newArrivals'] })}
+            onClose={() => setBulkOpen(false)}
+            onNotify={(msg, type) => showToast(msg, type)}
+          />
         )}
       </AnimatePresence>
 

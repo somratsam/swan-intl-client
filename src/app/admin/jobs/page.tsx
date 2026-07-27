@@ -7,6 +7,7 @@ import { getJobs, createJob, updateJob, deleteJob } from '@/services/api';
 import type { TJob } from '@/types';
 import Toast, { ToastType } from '@/components/admin/Toast';
 import ConfirmDialog from '@/components/admin/ConfirmDialog';
+import ImageUpload from '@/components/admin/ImageUpload';
 
 const JOB_TYPES: TJob['jobType'][] = ['full-time', 'part-time', 'contract', 'freelance', 'internship', 'temporary'];
 
@@ -105,7 +106,7 @@ export default function AdminJobsPage() {
               <h2 className="text-xl font-normal mb-6" style={{ fontFamily: 'Playfair Display, serif', color: '#fff' }}>{editingId ? 'Edit Job' : 'Add Job'}</h2>
               <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
-                  {([['title', 'Job Title'], ['company', 'Company'], ['companyLogo', 'Company Logo URL'], ['location', 'Location']] as [keyof TJob, string][]).map(([f, label]) => (
+                  {([['title', 'Job Title'], ['company', 'Company'], ['location', 'Location']] as [keyof TJob, string][]).map(([f, label]) => (
                     <div key={f}>
                       <label className="block text-[10px] tracking-[3px] uppercase mb-2" style={{ color: '#888' }}>{label}</label>
                       <input value={(editing[f] as string) ?? ''} onChange={(e) => setEditing({ ...editing, [f]: e.target.value })} className="w-full px-4 py-2.5 text-sm bg-transparent border outline-none focus:border-[#C9A84C] transition-colors" style={{ borderColor: '#222', color: '#fff' }} />
@@ -122,6 +123,12 @@ export default function AdminJobsPage() {
                     </select>
                   </div>
                 </div>
+                <ImageUpload
+                  label="Company Logo"
+                  value={editing.companyLogo ?? ''}
+                  onChange={(url) => setEditing({ ...editing, companyLogo: url })}
+                  onError={(msg) => showToast(msg, 'error')}
+                />
                 <div>
                   <label className="block text-[10px] tracking-[3px] uppercase mb-2" style={{ color: '#888' }}>Description</label>
                   <textarea rows={3} value={editing.description ?? ''} onChange={(e) => setEditing({ ...editing, description: e.target.value })} className="w-full px-4 py-2.5 text-sm bg-transparent border outline-none focus:border-[#C9A84C] transition-colors resize-none" style={{ borderColor: '#222', color: '#fff' }} />

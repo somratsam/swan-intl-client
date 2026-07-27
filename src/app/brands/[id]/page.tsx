@@ -48,16 +48,6 @@ export default function BrandDetailPage() {
 
         {/* Hero text */}
         <div className="absolute inset-0 flex flex-col items-center justify-end pb-20 px-6 text-center z-10">
-          {brand.brandLogo && (
-            <Image
-              src={brand.brandLogo}
-              alt={`${brand.brand} logo`}
-              width={150}
-              height={75}
-              className="object-contain mb-6"
-              style={{ filter: 'brightness(0) invert(1)' }}
-            />
-          )}
           <h1
             className="text-5xl md:text-7xl font-normal mb-4"
             style={{ fontFamily: 'Playfair Display, serif', color: '#fff' }}

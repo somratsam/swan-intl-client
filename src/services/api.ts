@@ -30,13 +30,16 @@ export const login = (data: TLoginPayload) =>
   api.post<TAuthResponse>('/api/auth/login', data).then((r) => r.data);
 
 // ─── UPLOAD ──────────────────────────────────────────────────────
-export const uploadImages = (files: File[]) => {
+export const uploadImages = (files: File[], onUploadProgress?: (percent: number) => void) => {
   const formData = new FormData();
   files.forEach((file) => formData.append('images', file));
   return api
     .post<TApiResponse<{ urls: string[] }>>('/api/upload', formData, {
       timeout: 60000,
       headers: { 'Content-Type': undefined },
+      onUploadProgress: (e) => {
+        if (onUploadProgress && e.total) onUploadProgress(Math.round((e.loaded / e.total) * 100));
+      },
     })
     .then((r) => r.data.data.urls);
 };

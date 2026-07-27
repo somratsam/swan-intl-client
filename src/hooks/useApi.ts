@@ -48,4 +48,7 @@ export const useJobs = () =>
   useQuery({ queryKey: ['jobs'], queryFn: getJobs });
 
 export const useUploadImages = () =>
-  useMutation({ mutationFn: uploadImages });
+  useMutation({
+    mutationFn: ({ files, onUploadProgress }: { files: File[]; onUploadProgress?: (percent: number) => void }) =>
+      uploadImages(files, onUploadProgress),
+  });

@@ -80,14 +80,20 @@ export default function BrandsPageClient() {
                       }}
                     />
                     {brand.brandLogo && (
-                      <div className="absolute top-4 left-4">
+                      <div className="absolute top-4 left-4 w-20 h-10">
+                        <div
+                          className="absolute inset-0"
+                          style={{
+                            background:
+                              'radial-gradient(ellipse at center, rgba(0,0,0,0.5) 0%, transparent 70%)',
+                          }}
+                        />
                         <Image
                           src={brand.brandLogo}
                           alt={`${brand.brand} logo`}
-                          width={80}
-                          height={40}
+                          fill
                           className="object-contain"
-                          style={{ filter: 'brightness(0) invert(1)' }}
+                          sizes="80px"
                         />
                       </div>
                     )}

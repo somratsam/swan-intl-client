@@ -31,7 +31,12 @@ export default function AdminLoginPage() {
         setLoading(false);
         return;
       }
-      authLogin(res.data.accessToken, res.data.user);
+      if (!res.data.token) {
+        setError('Login failed — no token received. Please try again.');
+        setLoading(false);
+        return;
+      }
+      authLogin(res.data.token, res.data.user);
       router.push('/admin/dashboard');
     } catch (err: unknown) {
       const msg = (err as { response?: { data?: { message?: string } } })?.response?.data?.message;

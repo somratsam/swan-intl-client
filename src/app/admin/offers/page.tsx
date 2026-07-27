@@ -8,6 +8,7 @@ import { getOffers, createOffer, updateOffer, deleteOffer } from '@/services/api
 import type { TOffer } from '@/types';
 import Toast, { ToastType } from '@/components/admin/Toast';
 import ConfirmDialog from '@/components/admin/ConfirmDialog';
+import ImageUpload from '@/components/admin/ImageUpload';
 
 const EMPTY: Partial<TOffer> = {
   image: '', title: '', description: '', tags: [],
@@ -110,10 +111,13 @@ export default function AdminOffersPage() {
             <motion.div initial={{ scale: 0.93 }} animate={{ scale: 1 }} exit={{ scale: 0.93 }} onClick={(e) => e.stopPropagation()} className="w-full max-w-2xl p-8 border overflow-y-auto max-h-[90vh]" style={{ background: '#111', borderColor: '#222' }}>
               <h2 className="text-xl font-normal mb-6" style={{ fontFamily: 'Playfair Display, serif', color: '#fff' }}>{editingId ? 'Edit Offer' : 'Add Offer'}</h2>
               <div className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <InputField label="Title" value={editing.title ?? ''} onChange={(v) => setEditing({ ...editing, title: v })} />
-                  <InputField label="Image URL" value={editing.image ?? ''} onChange={(v) => setEditing({ ...editing, image: v })} />
-                </div>
+                <InputField label="Title" value={editing.title ?? ''} onChange={(v) => setEditing({ ...editing, title: v })} />
+                <ImageUpload
+                  label="Image"
+                  value={editing.image ?? ''}
+                  onChange={(url) => setEditing({ ...editing, image: url })}
+                  onError={(msg) => showToast(msg, 'error')}
+                />
                 <div>
                   <label className="block text-[10px] tracking-[3px] uppercase mb-2" style={{ color: '#888' }}>Description</label>
                   <textarea rows={3} value={editing.description ?? ''} onChange={(e) => setEditing({ ...editing, description: e.target.value })} className="w-full px-4 py-2.5 text-sm bg-transparent border outline-none focus:border-[#C9A84C] transition-colors resize-none" style={{ borderColor: '#222', color: '#fff' }} />

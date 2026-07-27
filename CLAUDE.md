@@ -78,7 +78,7 @@ The Axios instance in `src/services/api.ts` reads `process.env.NEXT_PUBLIC_API_U
 | Method | Path | Description |
 |---|---|---|
 | POST | `/api/auth/register` | Register new user |
-| POST | `/api/auth/login` | Login — returns `{ data: { accessToken, user } }` |
+| POST | `/api/auth/login` | Login — returns `{ data: { token, user } }` (verified against `auth.service.ts`/`auth.controller.ts` 2026-07-27; the field is `token`, not `accessToken` — a prior version of this doc said `accessToken` and the frontend was written against that instead of the real API, which caused `swan_token` to be saved as the literal string `"undefined"`) |
 | POST | `/api/auth/logout` | Logout |
 
 ### Banners
