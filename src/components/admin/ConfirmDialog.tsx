@@ -29,7 +29,7 @@ export default function ConfirmDialog({ open, title = 'Confirm Delete', message,
             exit={{ scale: 0.92, opacity: 0 }}
             onClick={(e) => e.stopPropagation()}
             className="w-full max-w-md p-8 border"
-            style={{ background: '#111', borderColor: '#2a1a1a' }}
+            style={{ background: 'var(--color-card-bg)', borderColor: '#2a1a1a' }}
           >
             <div className="w-12 h-12 flex items-center justify-center border mx-auto mb-5" style={{ borderColor: '#f87171' }}>
               <svg width="20" height="20" fill="none" stroke="#f87171" strokeWidth="2" viewBox="0 0 24 24">
@@ -39,16 +39,16 @@ export default function ConfirmDialog({ open, title = 'Confirm Delete', message,
                 <path d="M9 6V4h6v2" />
               </svg>
             </div>
-            <h3 className="text-xl font-normal text-center mb-3" style={{ fontFamily: 'Playfair Display, serif', color: '#fff' }}>
+            <h3 className="text-xl font-normal text-center mb-3" style={{ fontFamily: 'Playfair Display, serif', color: 'var(--color-text)' }}>
               {title}
             </h3>
-            <p className="text-sm text-center mb-8" style={{ color: '#888' }}>{message}</p>
+            <p className="text-sm text-center mb-8" style={{ color: 'var(--color-text-muted)' }}>{message}</p>
             <div className="flex gap-4">
               <button
                 onClick={onCancel}
                 disabled={loading}
                 className="flex-1 py-3 text-xs tracking-[2px] uppercase border transition-colors hover:bg-white/5"
-                style={{ borderColor: '#333', color: '#888' }}
+                style={{ borderColor: '#333', color: 'var(--color-text-muted)' }}
               >
                 Cancel
               </button>

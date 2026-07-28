@@ -27,14 +27,14 @@ export default function SectionTitle({
       {eyebrow && (
         <p
           className="text-[10px] font-semibold tracking-[5px] uppercase mb-4"
-          style={{ color: '#C9A84C' }}
+          style={{ color: 'var(--color-accent)' }}
         >
           {eyebrow}
         </p>
       )}
       <h2
         className="text-3xl md:text-4xl lg:text-5xl font-normal leading-tight"
-        style={{ fontFamily: 'Playfair Display, serif', color: '#fff' }}
+        style={{ fontFamily: 'Playfair Display, serif', color: 'var(--color-text)' }}
       >
         {title}
       </h2>

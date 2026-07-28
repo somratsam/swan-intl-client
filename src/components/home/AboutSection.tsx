@@ -16,7 +16,7 @@ export default function AboutSection() {
   const activeStoreCount = stores?.filter((s) => s.isActive).length;
 
   return (
-    <section className="py-28 px-6 overflow-hidden" style={{ background: '#050505' }}>
+    <section className="py-28 px-6 overflow-hidden" style={{ background: 'var(--color-subtle-bg)' }}>
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
 
@@ -27,12 +27,12 @@ export default function AboutSection() {
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.75 }}
           >
-            <p className="text-[10px] tracking-[5px] uppercase mb-5" style={{ color: '#C9A84C' }}>
+            <p className="text-[10px] tracking-[5px] uppercase mb-5" style={{ color: 'var(--color-accent)' }}>
               Our Story
             </p>
             <h2
               className="text-4xl md:text-5xl font-normal leading-tight mb-8"
-              style={{ fontFamily: 'Playfair Display, serif', color: '#fff' }}
+              style={{ fontFamily: 'Playfair Display, serif', color: 'var(--color-text)' }}
             >
               Italy's Finest,{' '}
               <br />
@@ -60,29 +60,29 @@ export default function AboutSection() {
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.75, delay: 0.15 }}
             className="grid grid-cols-3 gap-px"
-            style={{ background: '#1a1a1a' }}
+            style={{ background: 'var(--color-border)' }}
           >
-            <div className="flex flex-col items-center justify-center p-8 md:p-12" style={{ background: '#0d0d0d' }}>
-              <span className="text-5xl font-light mb-3" style={{ fontFamily: 'Playfair Display, serif', color: '#C9A84C' }}>
+            <div className="flex flex-col items-center justify-center p-8 md:p-12" style={{ background: 'var(--color-dark-bg)' }}>
+              <span className="text-5xl font-light mb-3" style={{ fontFamily: 'Playfair Display, serif', color: 'var(--color-accent)' }}>
                 <StatValue isLoading={brandsLoading} isError={brandsError} value={brands?.length} />
               </span>
-              <span className="text-[9px] tracking-[3px] uppercase text-center" style={{ color: '#555' }}>
+              <span className="text-[9px] tracking-[3px] uppercase text-center" style={{ color: 'var(--color-text-dim)' }}>
                 Italian Brands
               </span>
             </div>
-            <div className="flex flex-col items-center justify-center p-8 md:p-12" style={{ background: '#0d0d0d' }}>
-              <span className="text-5xl font-light mb-3" style={{ fontFamily: 'Playfair Display, serif', color: '#C9A84C' }}>
+            <div className="flex flex-col items-center justify-center p-8 md:p-12" style={{ background: 'var(--color-dark-bg)' }}>
+              <span className="text-5xl font-light mb-3" style={{ fontFamily: 'Playfair Display, serif', color: 'var(--color-accent)' }}>
                 <StatValue isLoading={storesLoading} isError={storesError} value={activeStoreCount} />
               </span>
-              <span className="text-[9px] tracking-[3px] uppercase text-center" style={{ color: '#555' }}>
+              <span className="text-[9px] tracking-[3px] uppercase text-center" style={{ color: 'var(--color-text-dim)' }}>
                 Muscat Locations
               </span>
             </div>
-            <div className="flex flex-col items-center justify-center p-8 md:p-12" style={{ background: '#0d0d0d' }}>
-              <span className="text-5xl font-light mb-3" style={{ fontFamily: 'Playfair Display, serif', color: '#C9A84C' }}>
+            <div className="flex flex-col items-center justify-center p-8 md:p-12" style={{ background: 'var(--color-dark-bg)' }}>
+              <span className="text-5xl font-light mb-3" style={{ fontFamily: 'Playfair Display, serif', color: 'var(--color-accent)' }}>
                 10+
               </span>
-              <span className="text-[9px] tracking-[3px] uppercase text-center" style={{ color: '#555' }}>
+              <span className="text-[9px] tracking-[3px] uppercase text-center" style={{ color: 'var(--color-text-dim)' }}>
                 Years of Luxury
               </span>
             </div>

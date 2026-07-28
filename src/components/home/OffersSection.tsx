@@ -15,7 +15,7 @@ export default function OffersSection() {
   const preview = offers?.slice(0, 3);
 
   return (
-    <section className="py-28 px-6" style={{ background: '#0a0a0a' }}>
+    <section className="py-28 px-6" style={{ background: 'var(--color-dark-bg)' }}>
       <div className="max-w-7xl mx-auto">
         <SectionTitle
           eyebrow="Exclusive"
@@ -42,7 +42,7 @@ export default function OffersSection() {
                   <Link
                     href={`/offers/${offer._id}`}
                     className="group block"
-                    style={{ background: '#111' }}
+                    style={{ background: 'var(--color-card-bg)' }}
                   >
                     <div className="relative aspect-[4/3] overflow-hidden">
                       <Image
@@ -62,8 +62,8 @@ export default function OffersSection() {
                       <span
                         className="absolute top-4 right-4 text-[9px] tracking-[2px] uppercase px-3 py-1 font-semibold"
                         style={{
-                          background: active ? '#C9A84C' : '#1a1a1a',
-                          color: active ? '#000' : '#555',
+                          background: active ? 'var(--color-accent-deep)' : 'var(--color-border)',
+                          color: active ? 'var(--color-text)' : 'var(--color-text-dim)',
                         }}
                       >
                         {active ? 'Active' : 'Expired'}
@@ -75,7 +75,7 @@ export default function OffersSection() {
                           <span
                             key={tag}
                             className="text-[9px] tracking-[2px] uppercase px-2 py-1"
-                            style={{ border: '1px solid #222', color: '#666' }}
+                            style={{ border: '1px solid var(--color-border)', color: '#666' }}
                           >
                             {tag}
                           </span>
@@ -83,7 +83,7 @@ export default function OffersSection() {
                       </div>
                       <h3
                         className="text-lg font-normal mb-3 line-clamp-2"
-                        style={{ fontFamily: 'Playfair Display, serif', color: '#fff' }}
+                        style={{ fontFamily: 'Playfair Display, serif', color: 'var(--color-text)' }}
                       >
                         {offer.title}
                       </h3>
@@ -104,7 +104,7 @@ export default function OffersSection() {
         )}
 
         {!isLoading && !isError && preview && preview.length === 0 && (
-          <p className="text-center py-16" style={{ color: '#555' }}>
+          <p className="text-center py-16" style={{ color: 'var(--color-text-dim)' }}>
             No offers available.
           </p>
         )}

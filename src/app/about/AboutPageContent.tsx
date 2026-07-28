@@ -14,30 +14,30 @@ export default function AboutPageContent() {
   const activeStores = stores?.filter((s) => s.isActive);
 
   return (
-    <div style={{ background: '#0a0a0a', minHeight: '100vh' }}>
+    <div style={{ background: 'var(--color-dark-bg)', minHeight: '100vh' }}>
       {/* Hero */}
       <div
         className="relative flex flex-col items-center justify-center text-center px-6 py-48"
-        style={{ background: 'linear-gradient(135deg, #000 0%, #0d0d0d 50%, #000 100%)' }}
+        style={{ background: 'linear-gradient(135deg, var(--color-primary) 0%, var(--color-dark-bg) 50%, var(--color-primary) 100%)' }}
       >
         <div
           className="absolute inset-0"
-          style={{ background: 'radial-gradient(ellipse at 50% 40%, rgba(201,168,76,0.055) 0%, transparent 65%)' }}
+          style={{ background: 'radial-gradient(ellipse at 50% 40%, rgba(139,111,140,0.055) 0%, transparent 65%)' }}
         />
-        <motion.p {...fade} className="text-[10px] tracking-[6px] uppercase mb-6 relative z-10" style={{ color: '#C9A84C' }}>
+        <motion.p {...fade} className="text-[10px] tracking-[6px] uppercase mb-6 relative z-10" style={{ color: 'var(--color-accent)' }}>
           Our Story
         </motion.p>
         <motion.h1
           initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
           className="text-5xl md:text-7xl font-normal max-w-4xl leading-tight relative z-10"
-          style={{ fontFamily: 'Playfair Display, serif', color: '#fff' }}
+          style={{ fontFamily: 'Playfair Display, serif', color: 'var(--color-text)' }}
         >
           Swan <em>International</em>
         </motion.h1>
         <motion.p
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}
           className="mt-6 text-xs tracking-[5px] uppercase relative z-10"
-          style={{ color: '#555' }}
+          style={{ color: 'var(--color-text-dim)' }}
         >
           Muscat, Sultanate of Oman
         </motion.p>
@@ -47,8 +47,8 @@ export default function AboutPageContent() {
 
         {/* Company Story */}
         <motion.section {...fade} transition={{ duration: 0.7 }} className="mb-20">
-          <p className="text-[10px] tracking-[4px] uppercase mb-5" style={{ color: '#C9A84C' }}>Who We Are</p>
-          <h2 className="text-3xl font-normal mb-8" style={{ fontFamily: 'Playfair Display, serif', color: '#fff' }}>
+          <p className="text-[10px] tracking-[4px] uppercase mb-5" style={{ color: 'var(--color-accent)' }}>Who We Are</p>
+          <h2 className="text-3xl font-normal mb-8" style={{ fontFamily: 'Playfair Display, serif', color: 'var(--color-text)' }}>
             A Vision for Italian Luxury in Oman
           </h2>
           <p className="text-base leading-loose mb-5" style={{ color: '#777' }}>
@@ -70,12 +70,12 @@ export default function AboutPageContent() {
         <div className="divider-gold mb-20" />
 
         {/* CEO */}
-        <motion.section {...fade} transition={{ duration: 0.7 }} className="mb-20 p-10 border" style={{ background: '#0d0d0d', borderColor: 'rgba(201,168,76,0.15)' }}>
-          <p className="text-[10px] tracking-[4px] uppercase mb-5" style={{ color: '#C9A84C' }}>Leadership</p>
-          <h2 className="text-3xl font-normal mb-3" style={{ fontFamily: 'Playfair Display, serif', color: '#fff' }}>
+        <motion.section {...fade} transition={{ duration: 0.7 }} className="mb-20 p-10 border" style={{ background: 'var(--color-dark-bg)', borderColor: 'rgba(139,111,140,0.15)' }}>
+          <p className="text-[10px] tracking-[4px] uppercase mb-5" style={{ color: 'var(--color-accent)' }}>Leadership</p>
+          <h2 className="text-3xl font-normal mb-3" style={{ fontFamily: 'Playfair Display, serif', color: 'var(--color-text)' }}>
             H.H. Aliya Bint Thuwainy Al Said
           </h2>
-          <p className="text-sm mb-7" style={{ color: '#C9A84C' }}>Founder & Chief Executive Officer</p>
+          <p className="text-sm mb-7" style={{ color: 'var(--color-accent)' }}>Founder & Chief Executive Officer</p>
           <p className="text-base leading-loose" style={{ color: '#777' }}>
             Her Highness Aliya Bint Thuwainy Al Said is the visionary force behind Swan International. With a profound
             appreciation for Italian culture and fashion, she established Swan International to bring the world's
@@ -89,8 +89,8 @@ export default function AboutPageContent() {
 
         {/* Our Brands */}
         <motion.section {...fade} transition={{ duration: 0.7 }} className="mb-20">
-          <p className="text-[10px] tracking-[4px] uppercase mb-5" style={{ color: '#C9A84C' }}>Our Portfolio</p>
-          <h2 className="text-3xl font-normal mb-10" style={{ fontFamily: 'Playfair Display, serif', color: '#fff' }}>
+          <p className="text-[10px] tracking-[4px] uppercase mb-5" style={{ color: 'var(--color-accent)' }}>Our Portfolio</p>
+          <h2 className="text-3xl font-normal mb-10" style={{ fontFamily: 'Playfair Display, serif', color: 'var(--color-text)' }}>
             Iconic Italian Brands
           </h2>
 
@@ -98,7 +98,7 @@ export default function AboutPageContent() {
           {brandsError && <ErrorMessage onRetry={refetchBrands} />}
 
           {!brandsLoading && !brandsError && brands && brands.length === 0 && (
-            <p className="text-center py-16" style={{ color: '#555' }}>
+            <p className="text-center py-16" style={{ color: 'var(--color-text-dim)' }}>
               No brands available.
             </p>
           )}
@@ -113,9 +113,9 @@ export default function AboutPageContent() {
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.06 }}
                   className="p-6 border"
-                  style={{ background: '#0d0d0d', borderColor: '#1a1a1a' }}
+                  style={{ background: 'var(--color-dark-bg)', borderColor: 'var(--color-border)' }}
                 >
-                  <h3 className="text-lg font-normal mb-3" style={{ fontFamily: 'Playfair Display, serif', color: '#fff' }}>{brand.brand}</h3>
+                  <h3 className="text-lg font-normal mb-3" style={{ fontFamily: 'Playfair Display, serif', color: 'var(--color-text)' }}>{brand.brand}</h3>
                   <p className="text-sm leading-loose line-clamp-3" style={{ color: '#666' }}>{brand.description}</p>
                 </motion.div>
               ))}
@@ -131,8 +131,8 @@ export default function AboutPageContent() {
 
         {/* Our Stores */}
         <motion.section {...fade} transition={{ duration: 0.7 }} className="mb-20">
-          <p className="text-[10px] tracking-[4px] uppercase mb-5" style={{ color: '#C9A84C' }}>Our Locations</p>
-          <h2 className="text-3xl font-normal mb-10" style={{ fontFamily: 'Playfair Display, serif', color: '#fff' }}>
+          <p className="text-[10px] tracking-[4px] uppercase mb-5" style={{ color: 'var(--color-accent)' }}>Our Locations</p>
+          <h2 className="text-3xl font-normal mb-10" style={{ fontFamily: 'Playfair Display, serif', color: 'var(--color-text)' }}>
             Boutiques Across Muscat
           </h2>
 
@@ -140,7 +140,7 @@ export default function AboutPageContent() {
           {storesError && <ErrorMessage onRetry={refetchStores} />}
 
           {!storesLoading && !storesError && activeStores && activeStores.length === 0 && (
-            <p className="text-center py-16" style={{ color: '#555' }}>
+            <p className="text-center py-16" style={{ color: 'var(--color-text-dim)' }}>
               No stores available.
             </p>
           )}
@@ -155,16 +155,16 @@ export default function AboutPageContent() {
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.06 }}
                   className="flex items-start gap-6 p-6 border"
-                  style={{ background: '#0d0d0d', borderColor: '#1a1a1a' }}
+                  style={{ background: 'var(--color-dark-bg)', borderColor: 'var(--color-border)' }}
                 >
                   <span
                     className="text-xl font-light mt-0.5 shrink-0"
-                    style={{ color: '#C9A84C', fontFamily: 'Playfair Display, serif', minWidth: '32px' }}
+                    style={{ color: 'var(--color-accent)', fontFamily: 'Playfair Display, serif', minWidth: '32px' }}
                   >
                     {String(i + 1).padStart(2, '0')}
                   </span>
                   <div>
-                    <h3 className="text-base font-normal mb-2" style={{ fontFamily: 'Playfair Display, serif', color: '#fff' }}>{store.name}</h3>
+                    <h3 className="text-base font-normal mb-2" style={{ fontFamily: 'Playfair Display, serif', color: 'var(--color-text)' }}>{store.name}</h3>
                     <p className="text-sm" style={{ color: '#666' }}>{store.address}</p>
                   </div>
                 </motion.div>
@@ -182,15 +182,15 @@ export default function AboutPageContent() {
         {/* Mission / Vision */}
         <motion.section {...fade} transition={{ duration: 0.7 }}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="p-8 border" style={{ background: '#0d0d0d', borderColor: '#1a1a1a' }}>
-              <p className="text-[10px] tracking-[4px] uppercase mb-5" style={{ color: '#C9A84C' }}>Our Mission</p>
+            <div className="p-8 border" style={{ background: 'var(--color-dark-bg)', borderColor: 'var(--color-border)' }}>
+              <p className="text-[10px] tracking-[4px] uppercase mb-5" style={{ color: 'var(--color-accent)' }}>Our Mission</p>
               <p className="text-base leading-loose" style={{ color: '#777' }}>
                 To curate and deliver the finest Italian fashion experiences to the people of Oman, combining
                 world-class brands with unparalleled personal service in beautifully designed retail spaces.
               </p>
             </div>
-            <div className="p-8 border" style={{ background: '#0d0d0d', borderColor: '#1a1a1a' }}>
-              <p className="text-[10px] tracking-[4px] uppercase mb-5" style={{ color: '#C9A84C' }}>Our Vision</p>
+            <div className="p-8 border" style={{ background: 'var(--color-dark-bg)', borderColor: 'var(--color-border)' }}>
+              <p className="text-[10px] tracking-[4px] uppercase mb-5" style={{ color: 'var(--color-accent)' }}>Our Vision</p>
               <p className="text-base leading-loose" style={{ color: '#777' }}>
                 To be recognised as the undisputed home of Italian luxury fashion in the Gulf region — a brand
                 synonymous with excellence, elegance, and authentic Italian culture.

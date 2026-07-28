@@ -12,17 +12,17 @@ export default function BrandsPageClient() {
   const { data: brands, isLoading, isError, refetch } = useBrands();
 
   return (
-    <div style={{ background: '#0a0a0a', minHeight: '100vh' }}>
+    <div style={{ background: 'var(--color-dark-bg)', minHeight: '100vh' }}>
       {/* Page header */}
       <div
         className="pt-40 pb-20 px-6 text-center"
-        style={{ background: 'linear-gradient(to bottom, #000, #0a0a0a)' }}
+        style={{ background: 'linear-gradient(to bottom, var(--color-primary), var(--color-dark-bg))' }}
       >
         <motion.p
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-[10px] tracking-[5px] uppercase mb-4"
-          style={{ color: '#C9A84C' }}
+          style={{ color: 'var(--color-accent)' }}
         >
           Our Portfolio
         </motion.p>
@@ -31,7 +31,7 @@ export default function BrandsPageClient() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
           className="text-5xl md:text-6xl font-normal"
-          style={{ fontFamily: 'Playfair Display, serif', color: '#fff' }}
+          style={{ fontFamily: 'Playfair Display, serif', color: 'var(--color-text)' }}
         >
           Our Brands
         </motion.h1>
@@ -48,7 +48,7 @@ export default function BrandsPageClient() {
         {isError && <ErrorMessage onRetry={refetch} />}
 
         {!isLoading && !isError && brands && brands.length === 0 && (
-          <p className="text-center py-16" style={{ color: '#555' }}>
+          <p className="text-center py-16" style={{ color: 'var(--color-text-dim)' }}>
             No brands available.
           </p>
         )}
@@ -63,7 +63,7 @@ export default function BrandsPageClient() {
                 transition={{ delay: i * 0.07 }}
                 className="card-hover group"
               >
-                <Link href={`/brands/${brand._id}`} className="block" style={{ background: '#111' }}>
+                <Link href={`/brands/${brand._id}`} className="block" style={{ background: 'var(--color-card-bg)' }}>
                   <div className="relative aspect-[4/3] overflow-hidden">
                     <Image
                       src={brand.brandImage}
@@ -101,7 +101,7 @@ export default function BrandsPageClient() {
                   <div className="p-6">
                     <h2
                       className="text-xl font-normal mb-3"
-                      style={{ fontFamily: 'Playfair Display, serif', color: '#fff' }}
+                      style={{ fontFamily: 'Playfair Display, serif', color: 'var(--color-text)' }}
                     >
                       {brand.brand}
                     </h2>
@@ -113,7 +113,7 @@ export default function BrandsPageClient() {
                         <span
                           key={f}
                           className="text-[9px] tracking-[2px] uppercase px-2 py-1"
-                          style={{ border: '1px solid #222', color: '#555' }}
+                          style={{ border: '1px solid var(--color-border)', color: 'var(--color-text-dim)' }}
                         >
                           {f}
                         </span>
@@ -121,7 +121,7 @@ export default function BrandsPageClient() {
                     </div>
                     <span
                       className="inline-flex items-center gap-1.5 text-[10px] tracking-[2px] uppercase transition-colors duration-200 group-hover:text-white"
-                      style={{ color: '#C9A84C' }}
+                      style={{ color: 'var(--color-accent)' }}
                     >
                       Explore Brand <ArrowRight size={11} />
                     </span>

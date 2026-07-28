@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
@@ -53,26 +54,34 @@ export default function Navbar() {
         className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
         style={{
           background: scrolled
-            ? 'linear-gradient(to bottom, rgba(10,10,10,0.96) 0%, rgba(10,10,10,0.96) 80%, rgba(10,10,10,0) 100%)'
-            : 'linear-gradient(to bottom, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.15) 80%, rgba(0,0,0,0) 100%)',
+            ? 'linear-gradient(to bottom, rgba(26,15,28,0.96) 0%, rgba(26,15,28,0.96) 80%, rgba(26,15,28,0) 100%)'
+            : 'linear-gradient(to bottom, rgba(21,11,23,0.75) 0%, rgba(21,11,23,0.15) 80%, rgba(21,11,23,0) 100%)',
           backdropFilter: scrolled ? 'blur(16px)' : 'blur(0px)',
         }}
       >
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
 
           {/* Logo */}
-          <Link href="/" className="flex flex-col leading-none shrink-0">
+          <Link href="/" className="flex items-center gap-2.5 shrink-0">
             <span
-              className="text-xl font-bold tracking-[3px] uppercase"
-              style={{ fontFamily: 'Playfair Display, serif', color: '#C9A84C' }}
+              className="w-9 h-9 rounded-full flex items-center justify-center shrink-0"
+              style={{ background: 'var(--color-text)' }}
             >
-              Swan
+              <Image src="/swan-logo.png" alt="" width={28} height={20} priority />
             </span>
-            <span
-              className="text-[8px] tracking-[5px] uppercase"
-              style={{ color: '#fff', marginTop: '-1px' }}
-            >
-              International
+            <span className="flex flex-col leading-none">
+              <span
+                className="text-xl font-bold tracking-[3px] uppercase"
+                style={{ fontFamily: 'Playfair Display, serif', color: 'var(--color-accent)' }}
+              >
+                Swan
+              </span>
+              <span
+                className="text-[8px] tracking-[5px] uppercase"
+                style={{ color: 'var(--color-text)', marginTop: '-1px' }}
+              >
+                International
+              </span>
             </span>
           </Link>
 
@@ -85,14 +94,14 @@ export default function Navbar() {
                   <Link
                     href={link.href}
                     className="relative text-[10px] xl:text-[11px] tracking-[1.5px] xl:tracking-[2px] uppercase font-medium transition-colors duration-200"
-                    style={{ color: isActive ? '#C9A84C' : '#aaa' }}
+                    style={{ color: isActive ? 'var(--color-accent)' : '#aaa' }}
                   >
                     {link.label}
                     {isActive && (
                       <motion.span
                         layoutId="nav-underline"
                         className="absolute -bottom-1 left-0 right-0 h-px"
-                        style={{ background: '#C9A84C' }}
+                        style={{ background: 'var(--color-accent)' }}
                       />
                     )}
                   </Link>
@@ -106,15 +115,14 @@ export default function Navbar() {
             <div className="hidden lg:flex items-center gap-3 shrink-0">
               <Link
                 href="/admin/dashboard"
-                className="text-[10px] tracking-[2px] uppercase px-4 py-2 border transition-all duration-200 hover:bg-[#C9A84C] hover:text-black hover:border-[#C9A84C]"
-                style={{ borderColor: '#C9A84C', color: '#C9A84C' }}
+                className="text-[10px] tracking-[2px] uppercase px-4 py-2 border border-[var(--color-accent)] text-[var(--color-accent)] transition-all duration-200 hover:bg-[var(--color-accent)] hover:text-[var(--color-text)] hover:border-[var(--color-accent)]"
               >
                 Dashboard
               </Link>
               <button
                 onClick={handleLogout}
                 className="text-[10px] tracking-[2px] uppercase transition-colors hover:text-white"
-                style={{ color: '#555' }}
+                style={{ color: 'var(--color-text-dim)' }}
               >
                 Logout
               </button>
@@ -126,7 +134,7 @@ export default function Navbar() {
             className="lg:hidden flex items-center justify-center w-10 h-10 transition-colors"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-            style={{ color: '#C9A84C' }}
+            style={{ color: 'var(--color-accent)' }}
           >
             {menuOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
@@ -142,15 +150,15 @@ export default function Navbar() {
             exit={{ opacity: 0, x: '100%' }}
             transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
             className="fixed inset-0 z-40 flex flex-col"
-            style={{ background: '#0a0a0a' }}
+            style={{ background: 'var(--color-dark-bg)' }}
           >
             {/* Menu header */}
-            <div className="flex items-center justify-between px-8 h-16 border-b" style={{ borderColor: '#1a1a1a' }}>
+            <div className="flex items-center justify-between px-8 h-16 border-b" style={{ borderColor: 'var(--color-border)' }}>
               <div className="flex flex-col leading-none">
-                <span className="text-xl font-bold tracking-[3px] uppercase" style={{ fontFamily: 'Playfair Display, serif', color: '#C9A84C' }}>Swan</span>
-                <span className="text-[8px] tracking-[5px] uppercase" style={{ color: '#555' }}>International</span>
+                <span className="text-xl font-bold tracking-[3px] uppercase" style={{ fontFamily: 'Playfair Display, serif', color: 'var(--color-accent)' }}>Swan</span>
+                <span className="text-[8px] tracking-[5px] uppercase" style={{ color: 'var(--color-text-dim)' }}>International</span>
               </div>
-              <button onClick={() => setMenuOpen(false)} style={{ color: '#C9A84C' }} aria-label="Close menu">
+              <button onClick={() => setMenuOpen(false)} style={{ color: 'var(--color-accent)' }} aria-label="Close menu">
                 <X size={22} />
               </button>
             </div>
@@ -172,8 +180,8 @@ export default function Navbar() {
                         className="block py-3 text-2xl font-light tracking-wide border-b transition-colors duration-200"
                         style={{
                           fontFamily: 'Playfair Display, serif',
-                          color: isActive ? '#C9A84C' : '#ccc',
-                          borderColor: '#0f0f0f',
+                          color: isActive ? 'var(--color-accent)' : '#ccc',
+                          borderColor: 'var(--color-border)',
                         }}
                       >
                         {link.label}
@@ -192,7 +200,7 @@ export default function Navbar() {
                     <Link
                       href="/admin/dashboard"
                       className="block py-3 text-2xl font-light tracking-wide"
-                      style={{ fontFamily: 'Playfair Display, serif', color: '#C9A84C' }}
+                      style={{ fontFamily: 'Playfair Display, serif', color: 'var(--color-accent)' }}
                     >
                       Dashboard
                     </Link>
@@ -202,13 +210,13 @@ export default function Navbar() {
             </nav>
 
             {/* Footer bar */}
-            <div className="px-8 py-6 border-t flex items-center justify-between" style={{ borderColor: '#1a1a1a' }}>
+            <div className="px-8 py-6 border-t flex items-center justify-between" style={{ borderColor: 'var(--color-border)' }}>
               <p className="text-xs tracking-widest uppercase" style={{ color: '#333' }}>Muscat, Oman</p>
               {isAdmin && user && (
                 <button
                   onClick={handleLogout}
                   className="text-xs tracking-[2px] uppercase transition-colors hover:text-red-400"
-                  style={{ color: '#555' }}
+                  style={{ color: 'var(--color-text-dim)' }}
                 >
                   Logout
                 </button>

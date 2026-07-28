@@ -13,7 +13,7 @@ export default function NewArrivalsSection() {
   const preview = arrivals?.slice(0, 6);
 
   return (
-    <section className="py-28 px-6" style={{ background: '#050505' }}>
+    <section className="py-28 px-6" style={{ background: 'var(--color-subtle-bg)' }}>
       <div className="max-w-7xl mx-auto">
         <SectionTitle
           eyebrow="Fresh In"
@@ -37,7 +37,7 @@ export default function NewArrivalsSection() {
               >
                 <div
                   className="relative aspect-[3/4] overflow-hidden mb-3"
-                  style={{ background: '#111' }}
+                  style={{ background: 'var(--color-card-bg)' }}
                 >
                   <Image
                     src={item.image}
@@ -53,7 +53,7 @@ export default function NewArrivalsSection() {
                 </div>
                 <p
                   className="text-[9px] tracking-[3px] uppercase mb-1"
-                  style={{ color: '#C9A84C' }}
+                  style={{ color: 'var(--color-accent)' }}
                 >
                   {item.brand}
                 </p>
@@ -66,7 +66,7 @@ export default function NewArrivalsSection() {
         )}
 
         {!isLoading && !isError && preview && preview.length === 0 && (
-          <p className="text-center py-16" style={{ color: '#555' }}>
+          <p className="text-center py-16" style={{ color: 'var(--color-text-dim)' }}>
             No new arrivals available.
           </p>
         )}

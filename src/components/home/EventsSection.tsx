@@ -13,7 +13,7 @@ export default function EventsSection() {
   const preview = events?.slice(0, 3);
 
   return (
-    <section className="py-28 px-6" style={{ background: '#050505' }}>
+    <section className="py-28 px-6" style={{ background: 'var(--color-subtle-bg)' }}>
       <div className="max-w-7xl mx-auto">
         <SectionTitle
           eyebrow="Experiences"
@@ -34,7 +34,7 @@ export default function EventsSection() {
                 viewport={{ once: true, amount: 0.2 }}
                 transition={{ delay: i * 0.1 }}
                 className="card-hover group"
-                style={{ background: '#111' }}
+                style={{ background: 'var(--color-card-bg)' }}
               >
                 <Link href={`/events/${event._id}`} className="block">
                   <div className="relative aspect-[16/9] overflow-hidden">
@@ -54,7 +54,7 @@ export default function EventsSection() {
                     />
                     <span
                       className="absolute top-4 left-4 text-[9px] tracking-[2px] uppercase px-3 py-1 font-semibold"
-                      style={{ background: 'rgba(201,168,76,0.92)', color: '#000' }}
+                      style={{ background: 'rgba(74,37,69,0.92)', color: 'var(--color-text)' }}
                     >
                       {event.category}
                     </span>
@@ -64,7 +64,7 @@ export default function EventsSection() {
                       <div className="text-center min-w-[40px]">
                         <p
                           className="text-2xl font-bold leading-none"
-                          style={{ color: '#C9A84C', fontFamily: 'Playfair Display, serif' }}
+                          style={{ color: 'var(--color-accent)', fontFamily: 'Playfair Display, serif' }}
                         >
                           {new Date(event.date).getDate()}
                         </p>
@@ -72,19 +72,19 @@ export default function EventsSection() {
                           {new Date(event.date).toLocaleDateString('en-US', { month: 'short' })}
                         </p>
                       </div>
-                      <div className="w-px h-9" style={{ background: '#222' }} />
+                      <div className="w-px h-9" style={{ background: 'var(--color-border)' }} />
                       <div>
                         <p className="text-xs" style={{ color: '#777' }}>
                           {event.time.start} — {event.time.end}
                         </p>
-                        <p className="text-xs mt-0.5" style={{ color: '#555' }}>
+                        <p className="text-xs mt-0.5" style={{ color: 'var(--color-text-dim)' }}>
                           {event.location.city}
                         </p>
                       </div>
                     </div>
                     <h3
                       className="text-lg font-normal line-clamp-2"
-                      style={{ fontFamily: 'Playfair Display, serif', color: '#fff' }}
+                      style={{ fontFamily: 'Playfair Display, serif', color: 'var(--color-text)' }}
                     >
                       {event.title}
                     </h3>
@@ -96,7 +96,7 @@ export default function EventsSection() {
         )}
 
         {!isLoading && !isError && preview && preview.length === 0 && (
-          <p className="text-center py-16" style={{ color: '#555' }}>
+          <p className="text-center py-16" style={{ color: 'var(--color-text-dim)' }}>
             No events available.
           </p>
         )}

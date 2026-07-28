@@ -49,13 +49,13 @@ export default function AdminLoginPage() {
   return (
     <div
       className="min-h-screen flex items-center justify-center px-6"
-      style={{ background: '#040404' }}
+      style={{ background: 'var(--color-subtle-bg)' }}
     >
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            'radial-gradient(ellipse at 50% 35%, rgba(201,168,76,0.045) 0%, transparent 65%)',
+            'radial-gradient(ellipse at 50% 35%, rgba(139,111,140,0.045) 0%, transparent 65%)',
         }}
       />
 
@@ -69,7 +69,7 @@ export default function AdminLoginPage() {
         <div className="text-center mb-12">
           <h1
             className="text-4xl font-bold tracking-[4px] uppercase"
-            style={{ fontFamily: 'Playfair Display, serif', color: '#C9A84C' }}
+            style={{ fontFamily: 'Playfair Display, serif', color: 'var(--color-accent)' }}
           >
             Swan
           </h1>
@@ -78,7 +78,7 @@ export default function AdminLoginPage() {
           </p>
           <h2
             className="text-xl font-normal"
-            style={{ fontFamily: 'Playfair Display, serif', color: '#fff' }}
+            style={{ fontFamily: 'Playfair Display, serif', color: 'var(--color-text)' }}
           >
             Admin Portal
           </h2>
@@ -86,7 +86,7 @@ export default function AdminLoginPage() {
         </div>
 
         {/* Form card */}
-        <div className="p-10 border" style={{ background: '#0d0d0d', borderColor: '#1a1a1a' }}>
+        <div className="p-10 border" style={{ background: 'var(--color-dark-bg)', borderColor: 'var(--color-border)' }}>
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label className="block text-[9px] tracking-[3px] uppercase mb-2" style={{ color: '#666' }}>
@@ -97,8 +97,8 @@ export default function AdminLoginPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-3 text-sm bg-transparent border outline-none focus:border-[#C9A84C] transition-colors"
-                style={{ borderColor: '#1e1e1e', color: '#fff' }}
+                className="w-full px-4 py-3 text-sm bg-transparent border outline-none focus:border-[var(--color-accent)] transition-colors"
+                style={{ borderColor: 'var(--color-border)', color: 'var(--color-text)' }}
                 placeholder="admin@swanintl.om"
               />
             </div>
@@ -113,8 +113,8 @@ export default function AdminLoginPage() {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-4 py-3 pr-11 text-sm bg-transparent border outline-none focus:border-[#C9A84C] transition-colors"
-                  style={{ borderColor: '#1e1e1e', color: '#fff' }}
+                  className="w-full px-4 py-3 pr-11 text-sm bg-transparent border outline-none focus:border-[var(--color-accent)] transition-colors"
+                  style={{ borderColor: 'var(--color-border)', color: 'var(--color-text)' }}
                   placeholder="••••••••"
                 />
                 <button
@@ -157,7 +157,7 @@ export default function AdminLoginPage() {
           </form>
         </div>
 
-        <p className="text-center mt-6 text-xs" style={{ color: '#2a2a2a' }}>
+        <p className="text-center mt-6 text-xs" style={{ color: 'var(--color-border)' }}>
           Swan International © {new Date().getFullYear()}
         </p>
       </motion.div>

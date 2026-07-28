@@ -3,16 +3,18 @@
 @import "tailwindcss";
 
 :root {
-  --color-primary: #000000;
-  --color-secondary: #ffffff;
-  --color-accent: #C9A84C;
-  --color-accent-dim: rgba(201, 168, 76, 0.1);
-  --color-dark-bg: #0A0A0A;
-  --color-card-bg: #111111;
-  --color-subtle-bg: #050505;
-  --color-text-muted: #888888;
-  --color-text-dim: #555555;
-  --color-border: #1A1A1A;
+  --color-primary: #150B17;
+  --color-secondary: #F2ECE8;
+  --color-text: #F2ECE8;
+  --color-accent: #8B6F8C;
+  --color-accent-deep: #4A2545;
+  --color-accent-dim: rgba(139, 111, 140, 0.1);
+  --color-dark-bg: #1A0F1C;
+  --color-card-bg: #241628;
+  --color-subtle-bg: #150E17;
+  --color-text-muted: #A296A3;
+  --color-text-dim: #887988;
+  --color-border: #2E1F32;
   --font-heading: 'Playfair Display', serif;
   --font-body: 'Inter', sans-serif;
   --transition-base: 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
@@ -66,9 +68,9 @@
 /* ─── Scrollbar ─────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: var(--color-dark-bg); }
-::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 4px; }
+::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--color-accent); }
-::selection { background: var(--color-accent); color: #000; }
+::selection { background: var(--color-accent); color: var(--color-text); }
 
 /* ─── Keyframes ──────────────────────────────────────────── */
 @keyframes shimmer {
@@ -90,9 +92,9 @@
 .skeleton {
   background: linear-gradient(
     90deg,
-    #141414 25%,
-    #1e1e1e 50%,
-    #141414 75%
+    var(--color-subtle-bg) 25%,
+    var(--color-border) 50%,
+    var(--color-subtle-bg) 75%
   );
   background-size: 200% 100%;
   animation: shimmer 1.8s ease-in-out infinite;
@@ -134,8 +136,8 @@
 }
 
 .btn-luxury:hover {
-  background: var(--color-accent);
-  color: #000;
+  background: var(--color-accent-deep);
+  color: var(--color-text);
   transform: translateY(-1px);
 }
 
@@ -147,9 +149,9 @@
   justify-content: center;
   gap: 8px;
   padding: 13px 36px;
-  background: var(--color-accent);
-  border: 1px solid var(--color-accent);
-  color: #000;
+  background: var(--color-accent-deep);
+  border: 1px solid var(--color-accent-deep);
+  color: var(--color-text);
   font-family: var(--font-body);
   font-size: 11px;
   font-weight: 600;
@@ -163,8 +165,8 @@
 }
 
 .btn-luxury-filled:hover {
-  background: #b8943d;
-  border-color: #b8943d;
+  background: #5D3A5A;
+  border-color: #5D3A5A;
   transform: translateY(-1px);
 }
 
@@ -178,7 +180,7 @@
 
 .card-hover:hover {
   transform: translateY(-5px);
-  box-shadow: 0 24px 64px rgba(201, 168, 76, 0.08),
+  box-shadow: 0 24px 64px rgba(139, 111, 140, 0.08),
               0 8px 24px rgba(0, 0, 0, 0.5);
 }
 
@@ -202,8 +204,8 @@
   width: 100%;
   padding: 12px 16px;
   background: transparent;
-  border: 1px solid #222;
-  color: #fff;
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
   font-family: var(--font-body);
   font-size: 14px;
   outline: none;

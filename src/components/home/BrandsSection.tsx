@@ -13,7 +13,7 @@ export default function BrandsSection() {
   const { data: brands, isLoading, isError, refetch } = useBrands();
 
   return (
-    <section className="py-28 px-6" style={{ background: '#0a0a0a' }}>
+    <section className="py-28 px-6" style={{ background: 'var(--color-dark-bg)' }}>
       <div className="max-w-7xl mx-auto">
         <SectionTitle
           eyebrow="Our Portfolio"
@@ -25,13 +25,13 @@ export default function BrandsSection() {
         {isError && <ErrorMessage onRetry={refetch} />}
 
         {!isLoading && !isError && brands && brands.length === 0 && (
-          <p className="text-center py-16" style={{ color: '#555' }}>
+          <p className="text-center py-16" style={{ color: 'var(--color-text-dim)' }}>
             No brands available.
           </p>
         )}
 
         {!isLoading && !isError && brands && brands.length > 0 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px" style={{ background: '#1a1a1a' }}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px" style={{ background: 'var(--color-border)' }}>
             {brands.map((brand, i) => (
               <motion.div
                 key={brand._id}
@@ -61,13 +61,13 @@ export default function BrandsSection() {
                   <div className="absolute bottom-0 left-0 right-0 p-6 translate-y-1 group-hover:translate-y-0 transition-transform duration-400">
                     <h3
                       className="text-xl font-normal mb-2"
-                      style={{ fontFamily: 'Playfair Display, serif', color: '#fff' }}
+                      style={{ fontFamily: 'Playfair Display, serif', color: 'var(--color-text)' }}
                     >
                       {brand.brand}
                     </h3>
                     <span
                       className="inline-flex items-center gap-1.5 text-[10px] tracking-[2px] uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                      style={{ color: '#C9A84C' }}
+                      style={{ color: 'var(--color-accent)' }}
                     >
                       Explore <ArrowRight size={11} />
                     </span>

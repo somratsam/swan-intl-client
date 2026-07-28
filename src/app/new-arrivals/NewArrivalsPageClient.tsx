@@ -15,10 +15,10 @@ export default function NewArrivalsPageClient() {
   const filtered = activeBrand === 'All' ? arrivals : arrivals?.filter((a) => a.brand === activeBrand);
 
   return (
-    <div style={{ background: '#0a0a0a', minHeight: '100vh' }}>
-      <div className="pt-40 pb-20 px-6 text-center" style={{ background: 'linear-gradient(to bottom, #000, #0a0a0a)' }}>
-        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-[10px] tracking-[5px] uppercase mb-4" style={{ color: '#C9A84C' }}>Fresh In</motion.p>
-        <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="text-5xl md:text-6xl font-normal" style={{ fontFamily: 'Playfair Display, serif', color: '#fff' }}>
+    <div style={{ background: 'var(--color-dark-bg)', minHeight: '100vh' }}>
+      <div className="pt-40 pb-20 px-6 text-center" style={{ background: 'linear-gradient(to bottom, var(--color-primary), var(--color-dark-bg))' }}>
+        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-[10px] tracking-[5px] uppercase mb-4" style={{ color: 'var(--color-accent)' }}>Fresh In</motion.p>
+        <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="text-5xl md:text-6xl font-normal" style={{ fontFamily: 'Playfair Display, serif', color: 'var(--color-text)' }}>
           New Arrivals
         </motion.h1>
         <motion.div initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ delay: 0.3 }} className="divider-gold w-20 mx-auto mt-8" />
@@ -33,9 +33,9 @@ export default function NewArrivalsPageClient() {
                 onClick={() => setActiveBrand(brand)}
                 className="text-[10px] tracking-[2px] uppercase px-5 py-2 transition-all duration-200"
                 style={{
-                  border: `1px solid ${activeBrand === brand ? '#C9A84C' : '#1e1e1e'}`,
-                  background: activeBrand === brand ? '#C9A84C' : 'transparent',
-                  color: activeBrand === brand ? '#000' : '#777',
+                  border: `1px solid ${activeBrand === brand ? 'var(--color-accent-deep)' : 'var(--color-border)'}`,
+                  background: activeBrand === brand ? 'var(--color-accent-deep)' : 'transparent',
+                  color: activeBrand === brand ? 'var(--color-text)' : '#777',
                 }}
               >
                 {brand}
@@ -48,13 +48,13 @@ export default function NewArrivalsPageClient() {
         {isError && <ErrorMessage onRetry={refetch} />}
 
         {!isLoading && !isError && arrivals && arrivals.length === 0 && (
-          <p className="text-center py-16" style={{ color: '#555' }}>
+          <p className="text-center py-16" style={{ color: 'var(--color-text-dim)' }}>
             No new arrivals available.
           </p>
         )}
 
         {!isLoading && !isError && arrivals && arrivals.length > 0 && filtered && filtered.length === 0 && (
-          <p className="text-center py-16" style={{ color: '#555' }}>
+          <p className="text-center py-16" style={{ color: 'var(--color-text-dim)' }}>
             No new arrivals found for this brand.
           </p>
         )}
@@ -69,7 +69,7 @@ export default function NewArrivalsPageClient() {
                 transition={{ delay: Math.min(i * 0.04, 0.5) }}
                 className="group"
               >
-                <div className="relative aspect-[3/4] overflow-hidden mb-3" style={{ background: '#111' }}>
+                <div className="relative aspect-[3/4] overflow-hidden mb-3" style={{ background: 'var(--color-card-bg)' }}>
                   <Image
                     src={item.image}
                     alt={item.caption}
@@ -79,7 +79,7 @@ export default function NewArrivalsPageClient() {
                   />
                   <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ background: 'rgba(0,0,0,0.3)' }} />
                 </div>
-                <p className="text-[9px] tracking-[3px] uppercase mb-1" style={{ color: '#C9A84C' }}>{item.brand}</p>
+                <p className="text-[9px] tracking-[3px] uppercase mb-1" style={{ color: 'var(--color-accent)' }}>{item.brand}</p>
                 <p className="text-xs line-clamp-2" style={{ color: '#666' }}>{item.caption}</p>
               </motion.div>
             ))}

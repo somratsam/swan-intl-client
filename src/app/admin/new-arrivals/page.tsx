@@ -49,36 +49,36 @@ export default function AdminNewArrivalsPage() {
     <div>
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-2xl font-normal" style={{ fontFamily: 'Playfair Display, serif', color: '#fff' }}>New Arrivals</h1>
+          <h1 className="text-2xl font-normal" style={{ fontFamily: 'Playfair Display, serif', color: 'var(--color-text)' }}>New Arrivals</h1>
           <p className="text-sm mt-1" style={{ color: '#666' }}>{arrivals.length} item{arrivals.length !== 1 ? 's' : ''}</p>
         </div>
         <div className="flex gap-3">
-          <button onClick={() => setBulkOpen(true)} className="text-xs tracking-[2px] uppercase px-4 py-2.5 border hover:bg-white/5 transition-colors" style={{ borderColor: '#333', color: '#888' }}>Bulk Add</button>
+          <button onClick={() => setBulkOpen(true)} className="text-xs tracking-[2px] uppercase px-4 py-2.5 border hover:bg-white/5 transition-colors" style={{ borderColor: '#333', color: 'var(--color-text-muted)' }}>Bulk Add</button>
           <button onClick={openCreate} className="btn-luxury-filled">+ Add Arrival</button>
         </div>
       </div>
 
       {isLoading ? (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">{[...Array(8)].map((_, i) => <div key={i} className="aspect-[3/4] skeleton" style={{ background: '#111' }} />)}</div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">{[...Array(8)].map((_, i) => <div key={i} className="aspect-[3/4] skeleton" style={{ background: 'var(--color-card-bg)' }} />)}</div>
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
           {arrivals.map((a) => (
-            <div key={a._id} className="group relative" style={{ background: '#111' }}>
+            <div key={a._id} className="group relative" style={{ background: 'var(--color-card-bg)' }}>
               <div className="relative aspect-[3/4] overflow-hidden">
                 {a.image && <Image src={a.image} alt={a.caption} fill className="object-cover" sizes="200px" />}
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center gap-3" style={{ background: 'rgba(0,0,0,0.7)' }}>
-                  <button onClick={() => openEdit(a)} className="text-xs px-3 py-1.5 border hover:bg-white/10 transition-colors" style={{ borderColor: '#C9A84C', color: '#C9A84C' }}>Edit</button>
+                  <button onClick={() => openEdit(a)} className="text-xs px-3 py-1.5 border hover:bg-white/10 transition-colors" style={{ borderColor: 'var(--color-accent)', color: 'var(--color-accent)' }}>Edit</button>
                   <button onClick={() => setDeleteId(a._id)} className="text-xs px-3 py-1.5 border hover:bg-red-900/30 transition-colors" style={{ borderColor: '#c0392b', color: '#f87171' }}>Del</button>
                 </div>
               </div>
               <div className="p-3">
-                <p className="text-[10px] tracking-[2px] uppercase mb-1" style={{ color: '#C9A84C' }}>{a.brand}</p>
+                <p className="text-[10px] tracking-[2px] uppercase mb-1" style={{ color: 'var(--color-accent)' }}>{a.brand}</p>
                 <p className="text-xs line-clamp-2" style={{ color: '#666' }}>{a.caption}</p>
               </div>
             </div>
           ))}
           {arrivals.length === 0 && (
-            <div className="col-span-full py-16 text-center text-sm" style={{ color: '#555' }}>No arrivals yet.</div>
+            <div className="col-span-full py-16 text-center text-sm" style={{ color: 'var(--color-text-dim)' }}>No arrivals yet.</div>
           )}
         </div>
       )}
@@ -86,13 +86,13 @@ export default function AdminNewArrivalsPage() {
       <AnimatePresence>
         {modalOpen && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-50 flex items-center justify-center px-4" style={{ background: 'rgba(0,0,0,0.85)' }} onClick={() => setModalOpen(false)}>
-            <motion.div initial={{ scale: 0.93 }} animate={{ scale: 1 }} exit={{ scale: 0.93 }} onClick={(e) => e.stopPropagation()} className="w-full max-w-md p-8 border" style={{ background: '#111', borderColor: '#222' }}>
-              <h2 className="text-xl font-normal mb-6" style={{ fontFamily: 'Playfair Display, serif', color: '#fff' }}>{editingId ? 'Edit Arrival' : 'Add New Arrival'}</h2>
+            <motion.div initial={{ scale: 0.93 }} animate={{ scale: 1 }} exit={{ scale: 0.93 }} onClick={(e) => e.stopPropagation()} className="w-full max-w-md p-8 border" style={{ background: 'var(--color-card-bg)', borderColor: 'var(--color-border)' }}>
+              <h2 className="text-xl font-normal mb-6" style={{ fontFamily: 'Playfair Display, serif', color: 'var(--color-text)' }}>{editingId ? 'Edit Arrival' : 'Add New Arrival'}</h2>
               <div className="space-y-4">
                 {([['brand', 'Brand Name'], ['caption', 'Caption']] as [keyof TNewArrival, string][]).map(([f, label]) => (
                   <div key={f}>
-                    <label className="block text-[10px] tracking-[3px] uppercase mb-2" style={{ color: '#888' }}>{label}</label>
-                    <input value={(editing[f] as string) ?? ''} onChange={(e) => setEditing({ ...editing, [f]: e.target.value })} className="w-full px-4 py-2.5 text-sm bg-transparent border outline-none focus:border-[#C9A84C] transition-colors" style={{ borderColor: '#222', color: '#fff' }} />
+                    <label className="block text-[10px] tracking-[3px] uppercase mb-2" style={{ color: 'var(--color-text-muted)' }}>{label}</label>
+                    <input value={(editing[f] as string) ?? ''} onChange={(e) => setEditing({ ...editing, [f]: e.target.value })} className="w-full px-4 py-2.5 text-sm bg-transparent border outline-none focus:border-[var(--color-accent)] transition-colors" style={{ borderColor: 'var(--color-border)', color: 'var(--color-text)' }} />
                   </div>
                 ))}
                 <ImageUpload
@@ -103,7 +103,7 @@ export default function AdminNewArrivalsPage() {
                 />
               </div>
               <div className="flex gap-3 mt-8">
-                <button onClick={() => setModalOpen(false)} className="flex-1 py-3 text-xs tracking-[2px] uppercase border hover:bg-white/5 transition-colors" style={{ borderColor: '#333', color: '#888' }}>Cancel</button>
+                <button onClick={() => setModalOpen(false)} className="flex-1 py-3 text-xs tracking-[2px] uppercase border hover:bg-white/5 transition-colors" style={{ borderColor: '#333', color: 'var(--color-text-muted)' }}>Cancel</button>
                 <button onClick={() => saveMut.mutate()} disabled={saveMut.isPending} className="flex-1 btn-luxury-filled justify-center" style={{ opacity: saveMut.isPending ? 0.7 : 1 }}>{saveMut.isPending ? 'Saving…' : 'Save'}</button>
               </div>
             </motion.div>

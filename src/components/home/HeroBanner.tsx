@@ -32,14 +32,14 @@ export default function HeroBanner() {
       <div
         className="relative w-full h-screen flex items-center justify-center overflow-hidden"
         style={{
-          background: 'linear-gradient(135deg, #000 0%, #0d0d0d 50%, #000 100%)',
+          background: 'linear-gradient(135deg, var(--color-primary) 0%, var(--color-dark-bg) 50%, var(--color-primary) 100%)',
         }}
       >
         <div
           className="absolute inset-0"
           style={{
             background:
-              'radial-gradient(ellipse at 50% 40%, rgba(201,168,76,0.06) 0%, transparent 65%)',
+              'radial-gradient(ellipse at 50% 40%, rgba(139,111,140,0.06) 0%, transparent 65%)',
           }}
         />
         <div className="relative z-10 text-center px-6 max-w-4xl">
@@ -48,7 +48,7 @@ export default function HeroBanner() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
             className="text-[10px] tracking-[7px] uppercase mb-7"
-            style={{ color: '#C9A84C' }}
+            style={{ color: 'var(--color-accent)' }}
           >
             Muscat, Sultanate of Oman
           </motion.p>
@@ -57,7 +57,7 @@ export default function HeroBanner() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.9 }}
             className="text-5xl sm:text-7xl lg:text-8xl font-normal leading-tight mb-6"
-            style={{ fontFamily: 'Playfair Display, serif', color: '#fff' }}
+            style={{ fontFamily: 'Playfair Display, serif', color: 'var(--color-text)' }}
           >
             Swan <em>International</em>
           </motion.h1>
@@ -80,7 +80,7 @@ export default function HeroBanner() {
           className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
         >
           <span className="text-[9px] tracking-[4px] uppercase" style={{ color: '#444' }}>Scroll</span>
-          <div className="w-px h-10" style={{ background: 'linear-gradient(to bottom, #C9A84C, transparent)' }} />
+          <div className="w-px h-10" style={{ background: 'linear-gradient(to bottom, var(--color-accent), transparent)' }} />
         </motion.div>
       </div>
     );
@@ -145,12 +145,12 @@ export default function HeroBanner() {
             transition={{ duration: 0.75 }}
             className="max-w-4xl"
           >
-            <p className="text-[10px] tracking-[7px] uppercase mb-5" style={{ color: '#fff' }}>
+            <p className="text-[10px] tracking-[7px] uppercase mb-5" style={{ color: 'var(--color-text)' }}>
               Swan International
             </p>
             <h1
               className="text-4xl sm:text-6xl lg:text-7xl font-normal leading-tight mb-5"
-              style={{ fontFamily: 'Playfair Display, serif', color: '#fff' }}
+              style={{ fontFamily: 'Playfair Display, serif', color: 'var(--color-text)' }}
             >
               {items[current].title}
             </h1>
@@ -173,7 +173,7 @@ export default function HeroBanner() {
             onClick={prev}
             aria-label="Previous slide"
             className="absolute left-5 top-1/2 -translate-y-1/2 z-30 w-11 h-11 flex items-center justify-center border transition-all duration-300 hover:bg-white/10 hover:border-white/40"
-            style={{ borderColor: 'rgba(255,255,255,0.2)', color: '#fff' }}
+            style={{ borderColor: 'rgba(255,255,255,0.2)', color: 'var(--color-text)' }}
           >
             <ChevronLeft size={18} />
           </button>
@@ -181,7 +181,7 @@ export default function HeroBanner() {
             onClick={next}
             aria-label="Next slide"
             className="absolute right-5 top-1/2 -translate-y-1/2 z-30 w-11 h-11 flex items-center justify-center border transition-all duration-300 hover:bg-white/10 hover:border-white/40"
-            style={{ borderColor: 'rgba(255,255,255,0.2)', color: '#fff' }}
+            style={{ borderColor: 'rgba(255,255,255,0.2)', color: 'var(--color-text)' }}
           >
             <ChevronRight size={18} />
           </button>
@@ -200,7 +200,7 @@ export default function HeroBanner() {
               style={{
                 width:  i === current ? '28px' : '6px',
                 height: '2px',
-                background: i === current ? '#C9A84C' : 'rgba(255,255,255,0.3)',
+                background: i === current ? 'var(--color-accent)' : 'rgba(255,255,255,0.3)',
               }}
             />
           ))}
@@ -214,8 +214,8 @@ export default function HeroBanner() {
         transition={{ delay: 1.2 }}
         className="absolute bottom-10 right-8 z-30 hidden md:flex flex-col items-center gap-2"
       >
-        <div className="w-px h-10" style={{ background: 'linear-gradient(to bottom, #C9A84C, transparent)' }} />
-        <span className="text-[9px] tracking-[3px] uppercase" style={{ color: '#555' }}>Scroll</span>
+        <div className="w-px h-10" style={{ background: 'linear-gradient(to bottom, var(--color-accent), transparent)' }} />
+        <span className="text-[9px] tracking-[3px] uppercase" style={{ color: 'var(--color-text-dim)' }}>Scroll</span>
       </motion.div>
     </div>
   );

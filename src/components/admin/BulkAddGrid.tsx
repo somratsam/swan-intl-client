@@ -52,14 +52,14 @@ function statusBadge(row: BulkRow<unknown>) {
   switch (row.status) {
     case 'uploading':
     case 'creating':
-      return <Loader2 size={14} className="animate-spin" style={{ color: '#C9A84C' }} />;
+      return <Loader2 size={14} className="animate-spin" style={{ color: 'var(--color-accent)' }} />;
     case 'success':
       return <CheckCircle2 size={14} style={{ color: '#4ade80' }} />;
     case 'upload-failed':
     case 'create-failed':
       return <AlertCircle size={14} style={{ color: '#f87171' }} />;
     default:
-      return <span className="w-3.5 h-3.5 rounded-full inline-block" style={{ background: '#222' }} />;
+      return <span className="w-3.5 h-3.5 rounded-full inline-block" style={{ background: 'var(--color-border)' }} />;
   }
 }
 
@@ -272,9 +272,9 @@ export default function BulkAddGrid<T extends Record<string, string | number>>({
         exit={{ scale: 0.96 }}
         onClick={(e) => e.stopPropagation()}
         className="w-full max-w-5xl p-8 border overflow-y-auto max-h-[90vh]"
-        style={{ background: '#111', borderColor: '#222' }}
+        style={{ background: 'var(--color-card-bg)', borderColor: 'var(--color-border)' }}
       >
-        <h2 className="text-xl font-normal mb-2" style={{ fontFamily: 'Playfair Display, serif', color: '#fff' }}>
+        <h2 className="text-xl font-normal mb-2" style={{ fontFamily: 'Playfair Display, serif', color: 'var(--color-text)' }}>
           {title}
         </h2>
         <p className="text-xs mb-6" style={{ color: '#666' }}>
@@ -283,15 +283,15 @@ export default function BulkAddGrid<T extends Record<string, string | number>>({
 
         {phase !== 'idle' && phase !== 'done' && (
           <div className="mb-6">
-            <p className="text-xs mb-2" style={{ color: '#888' }}>
+            <p className="text-xs mb-2" style={{ color: 'var(--color-text-muted)' }}>
               {phase === 'uploading' ? 'Uploading images' : 'Creating records'}: {phaseProgress.current}/{phaseProgress.total}
             </p>
-            <div className="w-full h-1 overflow-hidden" style={{ background: '#1a1a1a' }}>
+            <div className="w-full h-1 overflow-hidden" style={{ background: 'var(--color-border)' }}>
               <div
                 className="h-full transition-all duration-200"
                 style={{
                   width: `${phaseProgress.total ? (phaseProgress.current / phaseProgress.total) * 100 : 0}%`,
-                  background: '#C9A84C',
+                  background: 'var(--color-accent)',
                 }}
               />
             </div>
@@ -299,25 +299,25 @@ export default function BulkAddGrid<T extends Record<string, string | number>>({
         )}
 
         {rows.length > 0 && (
-          <div className="overflow-x-auto mb-4 border" style={{ borderColor: '#1a1a1a' }}>
+          <div className="overflow-x-auto mb-4 border" style={{ borderColor: 'var(--color-border)' }}>
             <table className="w-full text-sm">
               <thead>
-                <tr style={{ background: '#0d0d0d', borderBottom: '1px solid #1a1a1a' }}>
-                  <th className="text-left px-3 py-2 text-[10px] tracking-[2px] uppercase" style={{ color: '#555' }}>Image</th>
+                <tr style={{ background: '#0d0d0d', borderBottom: '1px solid var(--color-border)' }}>
+                  <th className="text-left px-3 py-2 text-[10px] tracking-[2px] uppercase" style={{ color: 'var(--color-text-dim)' }}>Image</th>
                   {columns.map((col) => (
-                    <th key={String(col.key)} className="text-left px-3 py-2 text-[10px] tracking-[2px] uppercase" style={{ color: '#555' }}>
+                    <th key={String(col.key)} className="text-left px-3 py-2 text-[10px] tracking-[2px] uppercase" style={{ color: 'var(--color-text-dim)' }}>
                       {col.label}
                     </th>
                   ))}
-                  <th className="text-left px-3 py-2 text-[10px] tracking-[2px] uppercase" style={{ color: '#555' }}>Status</th>
+                  <th className="text-left px-3 py-2 text-[10px] tracking-[2px] uppercase" style={{ color: 'var(--color-text-dim)' }}>Status</th>
                   <th className="px-3 py-2" />
                 </tr>
               </thead>
               <tbody>
                 {rows.map((row) => (
-                  <tr key={row.id} style={{ borderBottom: '1px solid #1a1a1a' }}>
+                  <tr key={row.id} style={{ borderBottom: '1px solid var(--color-border)' }}>
                     <td className="px-3 py-2">
-                      <div className="relative w-12 h-12 overflow-hidden" style={{ background: '#0a0a0a' }}>
+                      <div className="relative w-12 h-12 overflow-hidden" style={{ background: 'var(--color-dark-bg)' }}>
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img src={row.previewUrl} alt="" className="w-full h-full object-cover" />
                       </div>
@@ -329,10 +329,10 @@ export default function BulkAddGrid<T extends Record<string, string | number>>({
                             value={row.fields[col.key] ?? ''}
                             onChange={(e) => updateRowField(row.id, col.key, e.target.value)}
                             disabled={saving || row.status === 'success'}
-                            className="w-full px-2 py-1.5 text-xs border outline-none focus:border-[#C9A84C] transition-colors disabled:opacity-50"
+                            className="w-full px-2 py-1.5 text-xs border outline-none focus:border-[var(--color-accent)] transition-colors disabled:opacity-50"
                             style={{
-                              borderColor: row.invalid && !row.fields[col.key] ? '#c0392b' : '#222',
-                              color: '#fff',
+                              borderColor: row.invalid && !row.fields[col.key] ? '#c0392b' : 'var(--color-border)',
+                              color: 'var(--color-text)',
                               background: '#0d0d0d',
                             }}
                           >
@@ -347,10 +347,10 @@ export default function BulkAddGrid<T extends Record<string, string | number>>({
                             value={row.fields[col.key] ?? ''}
                             onChange={(e) => updateRowField(row.id, col.key, e.target.value)}
                             disabled={saving || row.status === 'success'}
-                            className="w-full px-2 py-1.5 text-xs bg-transparent border outline-none focus:border-[#C9A84C] transition-colors disabled:opacity-50"
+                            className="w-full px-2 py-1.5 text-xs bg-transparent border outline-none focus:border-[var(--color-accent)] transition-colors disabled:opacity-50"
                             style={{
-                              borderColor: row.invalid && !row.fields[col.key] ? '#c0392b' : '#222',
-                              color: '#fff',
+                              borderColor: row.invalid && !row.fields[col.key] ? '#c0392b' : 'var(--color-border)',
+                              color: 'var(--color-text)',
                             }}
                           />
                         )}
@@ -369,7 +369,7 @@ export default function BulkAddGrid<T extends Record<string, string | number>>({
                           onClick={() => removeRow(row.id)}
                           disabled={saving}
                           className="hover:text-red-400 transition-colors disabled:opacity-40"
-                          style={{ color: '#555' }}
+                          style={{ color: 'var(--color-text-dim)' }}
                           aria-label="Remove row"
                         >
                           <X size={14} />
@@ -393,8 +393,8 @@ export default function BulkAddGrid<T extends Record<string, string | number>>({
           disabled={saving || atLimit}
           className="w-full flex flex-col items-center justify-center gap-2 py-6 border border-dashed transition-colors disabled:cursor-not-allowed"
           style={{
-            borderColor: dragActive ? '#C9A84C' : '#222',
-            background: dragActive ? 'rgba(201,168,76,0.05)' : 'transparent',
+            borderColor: dragActive ? 'var(--color-accent)' : 'var(--color-border)',
+            background: dragActive ? 'rgba(139,111,140,0.05)' : 'transparent',
             opacity: saving || atLimit ? 0.5 : 1,
           }}
         >
@@ -424,7 +424,7 @@ export default function BulkAddGrid<T extends Record<string, string | number>>({
             onClick={onClose}
             disabled={saving}
             className="flex-1 py-3 text-xs tracking-[2px] uppercase border hover:bg-white/5 transition-colors disabled:opacity-40"
-            style={{ borderColor: '#333', color: '#888' }}
+            style={{ borderColor: '#333', color: 'var(--color-text-muted)' }}
           >
             Close
           </button>

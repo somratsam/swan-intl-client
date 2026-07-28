@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { FaInstagram, FaFacebook, FaWhatsapp } from 'react-icons/fa';
 import { useBrands, useStores } from '@/hooks/useApi';
@@ -33,7 +34,7 @@ export default function Footer() {
   if (pathname.startsWith('/admin')) return null;
 
   return (
-    <footer style={{ background: '#050505', borderTop: '1px solid #141414' }}>
+    <footer style={{ background: 'var(--color-subtle-bg)', borderTop: '1px solid var(--color-border)' }}>
       <div className="max-w-7xl mx-auto px-6 pt-20 pb-10">
 
         {/* Main grid */}
@@ -41,22 +42,30 @@ export default function Footer() {
 
           {/* Brand column */}
           <div>
-            <div className="mb-6">
-              <h2
-                className="text-2xl font-bold tracking-[3px] uppercase"
-                style={{ fontFamily: 'Playfair Display, serif', color: '#C9A84C' }}
+            <div className="flex items-center gap-2.5 mb-6">
+              <span
+                className="w-9 h-9 rounded-full flex items-center justify-center shrink-0"
+                style={{ background: 'var(--color-text)' }}
               >
-                Swan
-              </h2>
-              <p className="text-[8px] tracking-[6px] uppercase mt-1" style={{ color: '#444' }}>
-                International
-              </p>
+                <Image src="/swan-logo.png" alt="" width={28} height={20} />
+              </span>
+              <div>
+                <h2
+                  className="text-2xl font-bold tracking-[3px] uppercase"
+                  style={{ fontFamily: 'Playfair Display, serif', color: 'var(--color-accent)' }}
+                >
+                  Swan
+                </h2>
+                <p className="text-[8px] tracking-[6px] uppercase mt-1" style={{ color: '#444' }}>
+                  International
+                </p>
+              </div>
             </div>
-            <p className="text-sm leading-relaxed mb-6" style={{ color: '#555', lineHeight: '1.75' }}>
+            <p className="text-sm leading-relaxed mb-6" style={{ color: 'var(--color-text-dim)', lineHeight: '1.75' }}>
               Luxury Italian fashion retailer in Muscat, Oman. Curating Europe's
               finest labels for the discerning connoisseur.
             </p>
-            <p className="text-[10px] tracking-[3px] uppercase" style={{ color: '#C9A84C' }}>
+            <p className="text-[10px] tracking-[3px] uppercase" style={{ color: 'var(--color-accent)' }}>
               Muscat, Sultanate of Oman
             </p>
 
@@ -69,8 +78,8 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
-                  className="w-8 h-8 flex items-center justify-center border transition-all duration-200 hover:border-[#C9A84C] hover:text-[#C9A84C]"
-                  style={{ borderColor: '#222', color: '#555' }}
+                  className="w-8 h-8 flex items-center justify-center border transition-all duration-200 hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]"
+                  style={{ borderColor: 'var(--color-border)', color: 'var(--color-text-dim)' }}
                 >
                   <Icon size={14} />
                 </a>
@@ -80,7 +89,7 @@ export default function Footer() {
 
           {/* Quick links */}
           <div>
-            <h4 className="text-[10px] tracking-[3px] uppercase font-semibold mb-6" style={{ color: '#C9A84C' }}>
+            <h4 className="text-[10px] tracking-[3px] uppercase font-semibold mb-6" style={{ color: 'var(--color-accent)' }}>
               Navigation
             </h4>
             <ul className="space-y-2.5">
@@ -89,7 +98,7 @@ export default function Footer() {
                   <Link
                     href={link.href}
                     className="text-sm transition-colors duration-200 hover:text-white"
-                    style={{ color: '#555' }}
+                    style={{ color: 'var(--color-text-dim)' }}
                   >
                     {link.label}
                   </Link>
@@ -101,7 +110,7 @@ export default function Footer() {
           {/* Brands */}
           {brandsLoading && (
             <div>
-              <h4 className="text-[10px] tracking-[3px] uppercase font-semibold mb-6" style={{ color: '#C9A84C' }}>
+              <h4 className="text-[10px] tracking-[3px] uppercase font-semibold mb-6" style={{ color: 'var(--color-accent)' }}>
                 Our Brands
               </h4>
               <div className="space-y-3">
@@ -113,7 +122,7 @@ export default function Footer() {
           )}
           {!brandsLoading && !brandsError && brands && brands.length > 0 && (
             <div>
-              <h4 className="text-[10px] tracking-[3px] uppercase font-semibold mb-6" style={{ color: '#C9A84C' }}>
+              <h4 className="text-[10px] tracking-[3px] uppercase font-semibold mb-6" style={{ color: 'var(--color-accent)' }}>
                 Our Brands
               </h4>
               <ul className="space-y-2.5">
@@ -122,7 +131,7 @@ export default function Footer() {
                     <Link
                       href={`/brands/${brand._id}`}
                       className="text-sm transition-colors duration-200 hover:text-white"
-                      style={{ color: '#555' }}
+                      style={{ color: 'var(--color-text-dim)' }}
                     >
                       {brand.brand}
                     </Link>
@@ -135,7 +144,7 @@ export default function Footer() {
           {/* Stores */}
           {storesLoading && (
             <div>
-              <h4 className="text-[10px] tracking-[3px] uppercase font-semibold mb-6" style={{ color: '#C9A84C' }}>
+              <h4 className="text-[10px] tracking-[3px] uppercase font-semibold mb-6" style={{ color: 'var(--color-accent)' }}>
                 Our Stores
               </h4>
               <div className="space-y-3">
@@ -147,7 +156,7 @@ export default function Footer() {
           )}
           {!storesLoading && !storesError && activeStores && activeStores.length > 0 && (
             <div>
-              <h4 className="text-[10px] tracking-[3px] uppercase font-semibold mb-6" style={{ color: '#C9A84C' }}>
+              <h4 className="text-[10px] tracking-[3px] uppercase font-semibold mb-6" style={{ color: 'var(--color-accent)' }}>
                 Our Stores
               </h4>
               <ul className="space-y-2.5">
@@ -156,7 +165,7 @@ export default function Footer() {
                     <Link
                       href="/stores"
                       className="text-sm transition-colors duration-200 hover:text-white"
-                      style={{ color: '#555' }}
+                      style={{ color: 'var(--color-text-dim)' }}
                     >
                       {store.name}
                     </Link>

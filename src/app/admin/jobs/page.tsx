@@ -19,8 +19,8 @@ const EMPTY: Partial<TJob> = {
 function arrayArea(label: string, value: string[], onChange: (v: string[]) => void) {
   return (
     <div>
-      <label className="block text-[10px] tracking-[3px] uppercase mb-2" style={{ color: '#888' }}>{label} <span style={{ color: '#555' }}>(one per line)</span></label>
-      <textarea rows={4} value={value.join('\n')} onChange={(e) => onChange(e.target.value.split('\n').filter(Boolean))} className="w-full px-4 py-2.5 text-sm bg-transparent border outline-none focus:border-[#C9A84C] transition-colors resize-none" style={{ borderColor: '#222', color: '#fff' }} />
+      <label className="block text-[10px] tracking-[3px] uppercase mb-2" style={{ color: 'var(--color-text-muted)' }}>{label} <span style={{ color: 'var(--color-text-dim)' }}>(one per line)</span></label>
+      <textarea rows={4} value={value.join('\n')} onChange={(e) => onChange(e.target.value.split('\n').filter(Boolean))} className="w-full px-4 py-2.5 text-sm bg-transparent border outline-none focus:border-[var(--color-accent)] transition-colors resize-none" style={{ borderColor: 'var(--color-border)', color: 'var(--color-text)' }} />
     </div>
   );
 }
@@ -49,51 +49,51 @@ export default function AdminJobsPage() {
   const openCreate = () => { setEditing(EMPTY); setEditingId(null); setModalOpen(true); };
   const openEdit = (j: TJob) => { setEditing({ ...j }); setEditingId(j._id); setModalOpen(true); };
 
-  const JOB_TYPE_COLORS: Record<string, string> = { 'full-time': '#C9A84C', 'part-time': '#7eb8c9', 'contract': '#c97e7e', 'freelance': '#9ec97e', 'internship': '#c9b47e', 'temporary': '#b47ec9' };
+  const JOB_TYPE_COLORS: Record<string, string> = { 'full-time': '#e0a05e', 'part-time': '#7eb8c9', 'contract': '#c97e7e', 'freelance': '#9ec97e', 'internship': '#c9b47e', 'temporary': '#b47ec9' };
 
   return (
     <div>
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-2xl font-normal" style={{ fontFamily: 'Playfair Display, serif', color: '#fff' }}>Jobs</h1>
+          <h1 className="text-2xl font-normal" style={{ fontFamily: 'Playfair Display, serif', color: 'var(--color-text)' }}>Jobs</h1>
           <p className="text-sm mt-1" style={{ color: '#666' }}>{jobs.length} position{jobs.length !== 1 ? 's' : ''}</p>
         </div>
         <button onClick={openCreate} className="btn-luxury-filled">+ Add Job</button>
       </div>
 
       {isLoading ? (
-        <div className="space-y-3">{[...Array(4)].map((_, i) => <div key={i} className="h-16 skeleton" style={{ background: '#111' }} />)}</div>
+        <div className="space-y-3">{[...Array(4)].map((_, i) => <div key={i} className="h-16 skeleton" style={{ background: 'var(--color-card-bg)' }} />)}</div>
       ) : (
-        <div className="border" style={{ borderColor: '#1a1a1a' }}>
+        <div className="border" style={{ borderColor: 'var(--color-border)' }}>
           <table className="w-full text-sm">
             <thead>
-              <tr style={{ background: '#0d0d0d', borderBottom: '1px solid #1a1a1a' }}>
+              <tr style={{ background: 'var(--color-dark-bg)', borderBottom: '1px solid var(--color-border)' }}>
                 {['Title', 'Company', 'Location', 'Salary', 'Type', 'Actions'].map((h) => (
-                  <th key={h} className="text-left px-4 py-3 text-[10px] tracking-[2px] uppercase" style={{ color: '#555' }}>{h}</th>
+                  <th key={h} className="text-left px-4 py-3 text-[10px] tracking-[2px] uppercase" style={{ color: 'var(--color-text-dim)' }}>{h}</th>
                 ))}
               </tr>
             </thead>
             <tbody>
               {jobs.map((j) => (
-                <tr key={j._id} style={{ borderBottom: '1px solid #1a1a1a' }} className="hover:bg-white/[0.02] transition-colors">
+                <tr key={j._id} style={{ borderBottom: '1px solid var(--color-border)' }} className="hover:bg-white/[0.02] transition-colors">
                   <td className="px-4 py-3 font-medium" style={{ color: '#ddd' }}>{j.title}</td>
-                  <td className="px-4 py-3" style={{ color: '#888' }}>{j.company}</td>
-                  <td className="px-4 py-3" style={{ color: '#888' }}>{j.location}</td>
-                  <td className="px-4 py-3" style={{ color: '#C9A84C' }}>OMR {j.salary?.toLocaleString()}</td>
+                  <td className="px-4 py-3" style={{ color: 'var(--color-text-muted)' }}>{j.company}</td>
+                  <td className="px-4 py-3" style={{ color: 'var(--color-text-muted)' }}>{j.location}</td>
+                  <td className="px-4 py-3" style={{ color: 'var(--color-accent)' }}>OMR {j.salary?.toLocaleString()}</td>
                   <td className="px-4 py-3">
-                    <span className="text-[9px] tracking-[1px] uppercase px-2 py-1 capitalize" style={{ background: `${JOB_TYPE_COLORS[j.jobType] || '#C9A84C'}22`, color: JOB_TYPE_COLORS[j.jobType] || '#C9A84C', border: `1px solid ${JOB_TYPE_COLORS[j.jobType] || '#C9A84C'}44` }}>
+                    <span className="text-[9px] tracking-[1px] uppercase px-2 py-1 capitalize" style={{ background: `${JOB_TYPE_COLORS[j.jobType] || '#e0a05e'}22`, color: JOB_TYPE_COLORS[j.jobType] || '#e0a05e', border: `1px solid ${JOB_TYPE_COLORS[j.jobType] || '#e0a05e'}44` }}>
                       {j.jobType}
                     </span>
                   </td>
                   <td className="px-4 py-3">
                     <div className="flex gap-3">
-                      <button onClick={() => openEdit(j)} className="text-xs hover:text-white transition-colors" style={{ color: '#C9A84C' }}>Edit</button>
+                      <button onClick={() => openEdit(j)} className="text-xs hover:text-white transition-colors" style={{ color: 'var(--color-accent)' }}>Edit</button>
                       <button onClick={() => setDeleteId(j._id)} className="text-xs hover:text-red-400 transition-colors" style={{ color: '#666' }}>Delete</button>
                     </div>
                   </td>
                 </tr>
               ))}
-              {jobs.length === 0 && <tr><td colSpan={6} className="px-4 py-12 text-center text-sm" style={{ color: '#555' }}>No jobs yet.</td></tr>}
+              {jobs.length === 0 && <tr><td colSpan={6} className="px-4 py-12 text-center text-sm" style={{ color: 'var(--color-text-dim)' }}>No jobs yet.</td></tr>}
             </tbody>
           </table>
         </div>
@@ -102,23 +102,23 @@ export default function AdminJobsPage() {
       <AnimatePresence>
         {modalOpen && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-50 flex items-center justify-center px-4" style={{ background: 'rgba(0,0,0,0.85)' }} onClick={() => setModalOpen(false)}>
-            <motion.div initial={{ scale: 0.93 }} animate={{ scale: 1 }} exit={{ scale: 0.93 }} onClick={(e) => e.stopPropagation()} className="w-full max-w-2xl p-8 border overflow-y-auto max-h-[90vh]" style={{ background: '#111', borderColor: '#222' }}>
-              <h2 className="text-xl font-normal mb-6" style={{ fontFamily: 'Playfair Display, serif', color: '#fff' }}>{editingId ? 'Edit Job' : 'Add Job'}</h2>
+            <motion.div initial={{ scale: 0.93 }} animate={{ scale: 1 }} exit={{ scale: 0.93 }} onClick={(e) => e.stopPropagation()} className="w-full max-w-2xl p-8 border overflow-y-auto max-h-[90vh]" style={{ background: 'var(--color-card-bg)', borderColor: 'var(--color-border)' }}>
+              <h2 className="text-xl font-normal mb-6" style={{ fontFamily: 'Playfair Display, serif', color: 'var(--color-text)' }}>{editingId ? 'Edit Job' : 'Add Job'}</h2>
               <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   {([['title', 'Job Title'], ['company', 'Company'], ['location', 'Location']] as [keyof TJob, string][]).map(([f, label]) => (
                     <div key={f}>
-                      <label className="block text-[10px] tracking-[3px] uppercase mb-2" style={{ color: '#888' }}>{label}</label>
-                      <input value={(editing[f] as string) ?? ''} onChange={(e) => setEditing({ ...editing, [f]: e.target.value })} className="w-full px-4 py-2.5 text-sm bg-transparent border outline-none focus:border-[#C9A84C] transition-colors" style={{ borderColor: '#222', color: '#fff' }} />
+                      <label className="block text-[10px] tracking-[3px] uppercase mb-2" style={{ color: 'var(--color-text-muted)' }}>{label}</label>
+                      <input value={(editing[f] as string) ?? ''} onChange={(e) => setEditing({ ...editing, [f]: e.target.value })} className="w-full px-4 py-2.5 text-sm bg-transparent border outline-none focus:border-[var(--color-accent)] transition-colors" style={{ borderColor: 'var(--color-border)', color: 'var(--color-text)' }} />
                     </div>
                   ))}
                   <div>
-                    <label className="block text-[10px] tracking-[3px] uppercase mb-2" style={{ color: '#888' }}>Salary (OMR)</label>
-                    <input type="number" value={editing.salary ?? 0} onChange={(e) => setEditing({ ...editing, salary: Number(e.target.value) })} className="w-full px-4 py-2.5 text-sm bg-transparent border outline-none focus:border-[#C9A84C] transition-colors" style={{ borderColor: '#222', color: '#fff' }} />
+                    <label className="block text-[10px] tracking-[3px] uppercase mb-2" style={{ color: 'var(--color-text-muted)' }}>Salary (OMR)</label>
+                    <input type="number" value={editing.salary ?? 0} onChange={(e) => setEditing({ ...editing, salary: Number(e.target.value) })} className="w-full px-4 py-2.5 text-sm bg-transparent border outline-none focus:border-[var(--color-accent)] transition-colors" style={{ borderColor: 'var(--color-border)', color: 'var(--color-text)' }} />
                   </div>
                   <div>
-                    <label className="block text-[10px] tracking-[3px] uppercase mb-2" style={{ color: '#888' }}>Job Type</label>
-                    <select value={editing.jobType ?? 'full-time'} onChange={(e) => setEditing({ ...editing, jobType: e.target.value as TJob['jobType'] })} className="w-full px-4 py-2.5 text-sm border outline-none focus:border-[#C9A84C] transition-colors" style={{ borderColor: '#222', color: '#fff', background: '#111' }}>
+                    <label className="block text-[10px] tracking-[3px] uppercase mb-2" style={{ color: 'var(--color-text-muted)' }}>Job Type</label>
+                    <select value={editing.jobType ?? 'full-time'} onChange={(e) => setEditing({ ...editing, jobType: e.target.value as TJob['jobType'] })} className="w-full px-4 py-2.5 text-sm border outline-none focus:border-[var(--color-accent)] transition-colors" style={{ borderColor: 'var(--color-border)', color: 'var(--color-text)', background: 'var(--color-card-bg)' }}>
                       {JOB_TYPES.map((t) => <option key={t} value={t}>{t}</option>)}
                     </select>
                   </div>
@@ -130,15 +130,15 @@ export default function AdminJobsPage() {
                   onError={(msg) => showToast(msg, 'error')}
                 />
                 <div>
-                  <label className="block text-[10px] tracking-[3px] uppercase mb-2" style={{ color: '#888' }}>Description</label>
-                  <textarea rows={3} value={editing.description ?? ''} onChange={(e) => setEditing({ ...editing, description: e.target.value })} className="w-full px-4 py-2.5 text-sm bg-transparent border outline-none focus:border-[#C9A84C] transition-colors resize-none" style={{ borderColor: '#222', color: '#fff' }} />
+                  <label className="block text-[10px] tracking-[3px] uppercase mb-2" style={{ color: 'var(--color-text-muted)' }}>Description</label>
+                  <textarea rows={3} value={editing.description ?? ''} onChange={(e) => setEditing({ ...editing, description: e.target.value })} className="w-full px-4 py-2.5 text-sm bg-transparent border outline-none focus:border-[var(--color-accent)] transition-colors resize-none" style={{ borderColor: 'var(--color-border)', color: 'var(--color-text)' }} />
                 </div>
                 {arrayArea('Requirements', editing.requirements ?? [], (v) => setEditing({ ...editing, requirements: v }))}
                 {arrayArea('Responsibilities', editing.responsibilities ?? [], (v) => setEditing({ ...editing, responsibilities: v }))}
                 {arrayArea('Benefits (optional)', editing.benefits ?? [], (v) => setEditing({ ...editing, benefits: v }))}
               </div>
               <div className="flex gap-3 mt-8">
-                <button onClick={() => setModalOpen(false)} className="flex-1 py-3 text-xs tracking-[2px] uppercase border hover:bg-white/5 transition-colors" style={{ borderColor: '#333', color: '#888' }}>Cancel</button>
+                <button onClick={() => setModalOpen(false)} className="flex-1 py-3 text-xs tracking-[2px] uppercase border hover:bg-white/5 transition-colors" style={{ borderColor: '#333', color: 'var(--color-text-muted)' }}>Cancel</button>
                 <button onClick={() => saveMut.mutate()} disabled={saveMut.isPending} className="flex-1 btn-luxury-filled justify-center" style={{ opacity: saveMut.isPending ? 0.7 : 1 }}>{saveMut.isPending ? 'Saving…' : 'Save Job'}</button>
               </div>
             </motion.div>

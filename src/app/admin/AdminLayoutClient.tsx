@@ -38,35 +38,35 @@ export default function AdminLayoutClient({ children }: { children: React.ReactN
 
   if (!user || !isAdmin) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: '#050505' }}>
+      <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--color-subtle-bg)' }}>
         <div
           className="w-6 h-6 border-2 rounded-full animate-spin"
-          style={{ borderColor: '#C9A84C', borderTopColor: 'transparent' }}
+          style={{ borderColor: 'var(--color-accent)', borderTopColor: 'transparent' }}
         />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen flex" style={{ background: '#050505' }}>
+    <div className="min-h-screen flex" style={{ background: 'var(--color-subtle-bg)' }}>
 
       {/* ── Sidebar ──────────────────────────────────────── */}
       <aside
         className="fixed top-0 left-0 h-full z-40 flex flex-col w-16 lg:w-60"
-        style={{ background: '#080808', borderRight: '1px solid #141414' }}
+        style={{ background: 'var(--color-card-bg)', borderRight: '1px solid var(--color-border)' }}
       >
         {/* Logo */}
-        <div className="h-16 flex items-center justify-center lg:justify-start lg:px-5 border-b shrink-0" style={{ borderColor: '#141414' }}>
+        <div className="h-16 flex items-center justify-center lg:justify-start lg:px-5 border-b shrink-0" style={{ borderColor: 'var(--color-border)' }}>
           <Link href="/admin/dashboard">
             <span
               className="text-lg font-bold tracking-[3px] uppercase"
-              style={{ fontFamily: 'Playfair Display, serif', color: '#C9A84C' }}
+              style={{ fontFamily: 'Playfair Display, serif', color: 'var(--color-accent)' }}
             >
               S
             </span>
             <span
               className="text-sm font-bold tracking-[3px] uppercase ml-1 hidden lg:inline"
-              style={{ fontFamily: 'Playfair Display, serif', color: '#C9A84C' }}
+              style={{ fontFamily: 'Playfair Display, serif', color: 'var(--color-accent)' }}
             >
               wan
             </span>
@@ -85,18 +85,18 @@ export default function AdminLayoutClient({ children }: { children: React.ReactN
                     title={label}
                     className="flex items-center gap-3 px-3 py-2.5 transition-all duration-200 group rounded-sm"
                     style={{
-                      background:   active ? 'rgba(201,168,76,0.08)' : 'transparent',
-                      borderLeft:   active ? '2px solid #C9A84C'     : '2px solid transparent',
+                      background:   active ? 'rgba(139,111,140,0.08)' : 'transparent',
+                      borderLeft:   active ? '2px solid var(--color-accent)'      : '2px solid transparent',
                     }}
                   >
                     <Icon
                       size={16}
-                      className="shrink-0 transition-colors group-hover:text-[#C9A84C]"
-                      style={{ color: active ? '#C9A84C' : '#444' }}
+                      className="shrink-0 transition-colors group-hover:text-[var(--color-accent)]"
+                      style={{ color: active ? 'var(--color-accent)' : '#444' }}
                     />
                     <span
                       className="text-xs tracking-[0.5px] whitespace-nowrap hidden lg:block"
-                      style={{ color: active ? '#C9A84C' : '#666' }}
+                      style={{ color: active ? 'var(--color-accent)' : '#666' }}
                     >
                       {label}
                     </span>
@@ -108,7 +108,7 @@ export default function AdminLayoutClient({ children }: { children: React.ReactN
         </nav>
 
         {/* User / Logout */}
-        <div className="p-3 lg:p-4 border-t shrink-0" style={{ borderColor: '#141414' }}>
+        <div className="p-3 lg:p-4 border-t shrink-0" style={{ borderColor: 'var(--color-border)' }}>
           <div className="hidden lg:block mb-3">
             <p className="text-xs truncate" style={{ color: '#666' }}>{user.email}</p>
             <p className="text-[9px] tracking-[2px] uppercase mt-0.5" style={{ color: '#444' }}>{user.role}</p>
@@ -135,9 +135,9 @@ export default function AdminLayoutClient({ children }: { children: React.ReactN
         <div
           className="h-16 flex items-center px-6 border-b sticky top-0 z-30"
           style={{
-            background:    'rgba(8,8,8,0.96)',
+            background:    'rgba(36,22,40,0.96)',
             backdropFilter:'blur(12px)',
-            borderColor:   '#141414',
+            borderColor:   'var(--color-border)',
           }}
         >
           <div className="ml-auto flex items-center gap-4">
@@ -151,7 +151,7 @@ export default function AdminLayoutClient({ children }: { children: React.ReactN
             </Link>
             <div
               className="w-8 h-8 flex items-center justify-center text-xs font-bold"
-              style={{ background: 'rgba(201,168,76,0.12)', color: '#C9A84C' }}
+              style={{ background: 'rgba(139,111,140,0.12)', color: 'var(--color-accent)' }}
             >
               {user.firstName?.[0]?.toUpperCase() ?? 'A'}
             </div>

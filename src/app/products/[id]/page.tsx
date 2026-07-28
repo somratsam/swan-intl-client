@@ -23,7 +23,7 @@ export default function ProductDetailPage() {
   const currentItem = product.items[activeItem];
 
   return (
-    <div style={{ background: '#0a0a0a', minHeight: '100vh' }}>
+    <div style={{ background: 'var(--color-dark-bg)', minHeight: '100vh' }}>
       <div className="pt-28 pb-24 max-w-7xl mx-auto px-6">
         <Link
           href="/products"
@@ -37,7 +37,7 @@ export default function ProductDetailPage() {
 
           {/* Image column */}
           <motion.div initial={{ opacity: 0, x: -24 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }}>
-            <div className="relative aspect-[3/4] overflow-hidden mb-4" style={{ background: '#111' }}>
+            <div className="relative aspect-[3/4] overflow-hidden mb-4" style={{ background: 'var(--color-card-bg)' }}>
               <Image
                 src={currentItem?.image || product.image}
                 alt={product.name}
@@ -55,7 +55,7 @@ export default function ProductDetailPage() {
                     onClick={() => setActiveGalleryImg(i)}
                     className="relative w-16 h-16 overflow-hidden border-2 transition-all duration-200"
                     style={{
-                      borderColor: activeGalleryImg === i ? '#C9A84C' : '#1a1a1a',
+                      borderColor: activeGalleryImg === i ? 'var(--color-accent)' : 'var(--color-border)',
                     }}
                   >
                     <Image src={img} alt="" fill className="object-cover" sizes="64px" />
@@ -67,8 +67,8 @@ export default function ProductDetailPage() {
 
           {/* Details column */}
           <motion.div initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }}>
-            <p className="text-[10px] tracking-[4px] uppercase mb-3" style={{ color: '#C9A84C' }}>{product.category}</p>
-            <h1 className="text-4xl font-normal mb-4" style={{ fontFamily: 'Playfair Display, serif', color: '#fff' }}>
+            <p className="text-[10px] tracking-[4px] uppercase mb-3" style={{ color: 'var(--color-accent)' }}>{product.category}</p>
+            <h1 className="text-4xl font-normal mb-4" style={{ fontFamily: 'Playfair Display, serif', color: 'var(--color-text)' }}>
               {product.name}
             </h1>
             <a
@@ -85,7 +85,7 @@ export default function ProductDetailPage() {
             {/* Tags */}
             <div className="flex flex-wrap gap-2 mb-10">
               {product.tags.map((tag) => (
-                <span key={tag} className="text-[9px] tracking-[2px] uppercase px-3 py-1" style={{ border: '1px solid #1a1a1a', color: '#555' }}>
+                <span key={tag} className="text-[9px] tracking-[2px] uppercase px-3 py-1" style={{ border: '1px solid var(--color-border)', color: 'var(--color-text-dim)' }}>
                   {tag}
                 </span>
               ))}
@@ -94,7 +94,7 @@ export default function ProductDetailPage() {
             {/* Variants */}
             {product.items.length > 1 && (
               <div className="mb-8">
-                <p className="text-[9px] tracking-[3px] uppercase mb-4" style={{ color: '#C9A84C' }}>Variants</p>
+                <p className="text-[9px] tracking-[3px] uppercase mb-4" style={{ color: 'var(--color-accent)' }}>Variants</p>
                 <div className="flex flex-wrap gap-3">
                   {product.items.map((item, i) => (
                     <button
@@ -102,9 +102,9 @@ export default function ProductDetailPage() {
                       onClick={() => { setActiveItem(i); setActiveGalleryImg(0); }}
                       className="text-xs px-4 py-2 transition-all duration-200"
                       style={{
-                        border: `1px solid ${activeItem === i ? '#C9A84C' : '#1a1a1a'}`,
-                        background: activeItem === i ? 'rgba(201,168,76,0.08)' : 'transparent',
-                        color: activeItem === i ? '#C9A84C' : '#777',
+                        border: `1px solid ${activeItem === i ? 'var(--color-accent)' : 'var(--color-border)'}`,
+                        background: activeItem === i ? 'rgba(139,111,140,0.08)' : 'transparent',
+                        color: activeItem === i ? 'var(--color-accent)' : '#777',
                       }}
                     >
                       {item.title}
@@ -116,8 +116,8 @@ export default function ProductDetailPage() {
 
             {/* Item detail */}
             {currentItem && (
-              <div className="p-6 border" style={{ background: '#0d0d0d', borderColor: '#1a1a1a' }}>
-                <p className="text-[9px] tracking-[3px] uppercase mb-2" style={{ color: '#C9A84C' }}>{currentItem.brand}</p>
+              <div className="p-6 border" style={{ background: 'var(--color-dark-bg)', borderColor: 'var(--color-border)' }}>
+                <p className="text-[9px] tracking-[3px] uppercase mb-2" style={{ color: 'var(--color-accent)' }}>{currentItem.brand}</p>
                 <p className="text-sm leading-relaxed" style={{ color: '#777' }}>{currentItem.description}</p>
               </div>
             )}

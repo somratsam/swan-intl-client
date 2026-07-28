@@ -21,7 +21,7 @@ export default function OfferDetailPage() {
   const active = new Date(offer.dateRange.endDate) >= new Date();
 
   return (
-    <div style={{ background: '#0a0a0a', minHeight: '100vh' }}>
+    <div style={{ background: 'var(--color-dark-bg)', minHeight: '100vh' }}>
       {/* Banner */}
       <div className="relative h-[60vh] overflow-hidden">
         <Image src={offer.image} alt={offer.title} fill priority className="object-cover" sizes="100vw" />
@@ -32,18 +32,18 @@ export default function OfferDetailPage() {
         <Link
           href="/offers"
           className="absolute top-24 left-6 z-20 flex items-center gap-2 text-xs tracking-[2px] uppercase hover:text-white transition-colors"
-          style={{ color: '#888' }}
+          style={{ color: 'var(--color-text-muted)' }}
         >
           <ArrowLeft size={14} /> All Offers
         </Link>
         <div className="absolute inset-0 flex flex-col items-center justify-end pb-16 px-6 text-center z-10">
           <span
             className="text-[9px] tracking-[3px] uppercase px-4 py-2 mb-5 font-semibold"
-            style={{ background: active ? '#C9A84C' : '#1a1a1a', color: active ? '#000' : '#555' }}
+            style={{ background: active ? 'var(--color-accent-deep)' : 'var(--color-border)', color: active ? 'var(--color-text)' : 'var(--color-text-dim)' }}
           >
             {active ? 'Active Offer' : 'Expired'}
           </span>
-          <h1 className="text-4xl md:text-5xl font-normal max-w-3xl" style={{ fontFamily: 'Playfair Display, serif', color: '#fff' }}>
+          <h1 className="text-4xl md:text-5xl font-normal max-w-3xl" style={{ fontFamily: 'Playfair Display, serif', color: 'var(--color-text)' }}>
             {offer.title}
           </h1>
         </div>
@@ -55,23 +55,23 @@ export default function OfferDetailPage() {
         <motion.div
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
           className="flex flex-wrap gap-10 mb-12 pb-12 border-b"
-          style={{ borderColor: '#1a1a1a' }}
+          style={{ borderColor: 'var(--color-border)' }}
         >
           <div>
-            <p className="text-[9px] tracking-[3px] uppercase mb-2" style={{ color: '#C9A84C' }}>Start Date</p>
-            <p className="text-lg" style={{ fontFamily: 'Playfair Display, serif', color: '#fff' }}>
+            <p className="text-[9px] tracking-[3px] uppercase mb-2" style={{ color: 'var(--color-accent)' }}>Start Date</p>
+            <p className="text-lg" style={{ fontFamily: 'Playfair Display, serif', color: 'var(--color-text)' }}>
               {new Date(offer.dateRange.startDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
             </p>
           </div>
           <div>
-            <p className="text-[9px] tracking-[3px] uppercase mb-2" style={{ color: '#C9A84C' }}>End Date</p>
-            <p className="text-lg" style={{ fontFamily: 'Playfair Display, serif', color: '#fff' }}>
+            <p className="text-[9px] tracking-[3px] uppercase mb-2" style={{ color: 'var(--color-accent)' }}>End Date</p>
+            <p className="text-lg" style={{ fontFamily: 'Playfair Display, serif', color: 'var(--color-text)' }}>
               {new Date(offer.dateRange.endDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
             </p>
           </div>
           <div className="flex flex-wrap gap-2 mt-1">
             {offer.tags.map((tag) => (
-              <span key={tag} className="text-[9px] tracking-[2px] uppercase px-3 py-1.5" style={{ border: '1px solid #1e1e1e', color: '#555' }}>
+              <span key={tag} className="text-[9px] tracking-[2px] uppercase px-3 py-1.5" style={{ border: '1px solid var(--color-border)', color: 'var(--color-text-dim)' }}>
                 {tag}
               </span>
             ))}
@@ -80,7 +80,7 @@ export default function OfferDetailPage() {
 
         {/* Description */}
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-14">
-          <p className="text-base leading-loose" style={{ color: '#888', lineHeight: '1.85' }}>{offer.description}</p>
+          <p className="text-base leading-loose" style={{ color: 'var(--color-text-muted)', lineHeight: '1.85' }}>{offer.description}</p>
         </motion.div>
 
         {/* Exclusive Details */}
@@ -90,8 +90,8 @@ export default function OfferDetailPage() {
             { label: 'Gift Vouchers',   value: offer.exclusiveOfferDetails.giftVouchers   },
             { label: 'Special Events',  value: offer.exclusiveOfferDetails.specialEvents  },
           ].map(({ label, value }) => (
-            <div key={label} className="p-6 border" style={{ background: '#0d0d0d', borderColor: '#1a1a1a' }}>
-              <p className="text-[9px] tracking-[3px] uppercase mb-3" style={{ color: '#C9A84C' }}>{label}</p>
+            <div key={label} className="p-6 border" style={{ background: 'var(--color-dark-bg)', borderColor: 'var(--color-border)' }}>
+              <p className="text-[9px] tracking-[3px] uppercase mb-3" style={{ color: 'var(--color-accent)' }}>{label}</p>
               <p className="text-sm leading-relaxed" style={{ color: '#777' }}>{value}</p>
             </div>
           ))}
@@ -99,29 +99,29 @@ export default function OfferDetailPage() {
 
         {/* Store + Social */}
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="p-8 border" style={{ background: '#0d0d0d', borderColor: '#1a1a1a' }}>
-            <p className="text-[9px] tracking-[3px] uppercase mb-6" style={{ color: '#C9A84C' }}>Store Details</p>
+          <div className="p-8 border" style={{ background: 'var(--color-dark-bg)', borderColor: 'var(--color-border)' }}>
+            <p className="text-[9px] tracking-[3px] uppercase mb-6" style={{ color: 'var(--color-accent)' }}>Store Details</p>
             <div className="space-y-3">
               <div className="flex items-start gap-2.5">
-                <MapPin size={13} className="mt-0.5 shrink-0" style={{ color: '#C9A84C' }} />
+                <MapPin size={13} className="mt-0.5 shrink-0" style={{ color: 'var(--color-accent)' }} />
                 <p className="text-sm" style={{ color: '#777' }}>{offer.location.address}</p>
               </div>
               <div className="flex items-center gap-2.5">
-                <Phone size={13} style={{ color: '#C9A84C' }} />
+                <Phone size={13} style={{ color: 'var(--color-accent)' }} />
                 <p className="text-sm" style={{ color: '#777' }}>{offer.contact.phone}</p>
               </div>
               <div className="flex items-center gap-2.5">
-                <Mail size={13} style={{ color: '#C9A84C' }} />
+                <Mail size={13} style={{ color: 'var(--color-accent)' }} />
                 <p className="text-sm" style={{ color: '#777' }}>{offer.contact.email}</p>
               </div>
               <div className="flex items-start gap-2.5">
-                <Clock size={13} className="mt-0.5 shrink-0" style={{ color: '#C9A84C' }} />
+                <Clock size={13} className="mt-0.5 shrink-0" style={{ color: 'var(--color-accent)' }} />
                 <p className="text-sm" style={{ color: '#777' }}>{offer.contact.storeHours}</p>
               </div>
             </div>
           </div>
-          <div className="p-8 border" style={{ background: '#0d0d0d', borderColor: '#1a1a1a' }}>
-            <p className="text-[9px] tracking-[3px] uppercase mb-6" style={{ color: '#C9A84C' }}>Social Media</p>
+          <div className="p-8 border" style={{ background: 'var(--color-dark-bg)', borderColor: 'var(--color-border)' }}>
+            <p className="text-[9px] tracking-[3px] uppercase mb-6" style={{ color: 'var(--color-accent)' }}>Social Media</p>
             <div className="space-y-4">
               {offer.social_media.instagram && (
                 <a href={offer.social_media.instagram} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-sm hover:text-white transition-colors" style={{ color: '#777' }}>
@@ -135,7 +135,7 @@ export default function OfferDetailPage() {
               )}
               {offer.social_media.twitter && (
                 <a href={offer.social_media.twitter} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-sm hover:text-white transition-colors" style={{ color: '#777' }}>
-                  <span style={{ color: '#C9A84C', fontSize: '14px' }}>𝕏</span> Twitter
+                  <span style={{ color: 'var(--color-accent)', fontSize: '14px' }}>𝕏</span> Twitter
                 </a>
               )}
             </div>

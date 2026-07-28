@@ -8,7 +8,7 @@ import { GridSkeleton } from '@/components/ui/LoadingSkeleton';
 import ErrorMessage from '@/components/ui/ErrorMessage';
 
 const TYPE_COLORS: Record<string, string> = {
-  'full-time':  '#C9A84C',
+  'full-time':  '#e0a05e',
   'part-time':  '#7eb8c9',
   'contract':   '#c97e7e',
   'freelance':  '#9ec97e',
@@ -24,10 +24,10 @@ export default function JobsPageClient() {
   const filtered = activeType === 'All' ? jobs : jobs?.filter((j) => j.jobType === activeType);
 
   return (
-    <div style={{ background: '#0a0a0a', minHeight: '100vh' }}>
-      <div className="pt-40 pb-20 px-6 text-center" style={{ background: 'linear-gradient(to bottom, #000, #0a0a0a)' }}>
-        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-[10px] tracking-[5px] uppercase mb-4" style={{ color: '#C9A84C' }}>Join Us</motion.p>
-        <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="text-5xl md:text-6xl font-normal" style={{ fontFamily: 'Playfair Display, serif', color: '#fff' }}>
+    <div style={{ background: 'var(--color-dark-bg)', minHeight: '100vh' }}>
+      <div className="pt-40 pb-20 px-6 text-center" style={{ background: 'linear-gradient(to bottom, var(--color-primary), var(--color-dark-bg))' }}>
+        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-[10px] tracking-[5px] uppercase mb-4" style={{ color: 'var(--color-accent)' }}>Join Us</motion.p>
+        <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="text-5xl md:text-6xl font-normal" style={{ fontFamily: 'Playfair Display, serif', color: 'var(--color-text)' }}>
           Careers
         </motion.h1>
         <motion.div initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ delay: 0.3 }} className="divider-gold w-20 mx-auto mt-8" />
@@ -42,9 +42,9 @@ export default function JobsPageClient() {
                 onClick={() => setActiveType(type)}
                 className="text-[10px] tracking-[2px] uppercase px-5 py-2 transition-all duration-200 capitalize"
                 style={{
-                  border: `1px solid ${activeType === type ? '#C9A84C' : '#1e1e1e'}`,
-                  background: activeType === type ? '#C9A84C' : 'transparent',
-                  color: activeType === type ? '#000' : '#777',
+                  border: `1px solid ${activeType === type ? 'var(--color-accent-deep)' : 'var(--color-border)'}`,
+                  background: activeType === type ? 'var(--color-accent-deep)' : 'transparent',
+                  color: activeType === type ? 'var(--color-text)' : '#777',
                 }}
               >
                 {type}
@@ -57,13 +57,13 @@ export default function JobsPageClient() {
         {isError && <ErrorMessage onRetry={refetch} />}
 
         {!isLoading && !isError && jobs && jobs.length === 0 && (
-          <p className="text-center py-16" style={{ color: '#555' }}>
+          <p className="text-center py-16" style={{ color: 'var(--color-text-dim)' }}>
             No jobs available.
           </p>
         )}
 
         {!isLoading && !isError && jobs && jobs.length > 0 && filtered && filtered.length === 0 && (
-          <p className="text-center py-16" style={{ color: '#555' }}>
+          <p className="text-center py-16" style={{ color: 'var(--color-text-dim)' }}>
             No jobs found for this type.
           </p>
         )}
@@ -77,7 +77,7 @@ export default function JobsPageClient() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.06 }}
                 className="p-8 border"
-                style={{ background: '#111', borderColor: '#1a1a1a' }}
+                style={{ background: 'var(--color-card-bg)', borderColor: 'var(--color-border)' }}
               >
                 <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-6">
                   <div>
@@ -85,15 +85,15 @@ export default function JobsPageClient() {
                       <span
                         className="text-[9px] tracking-[2px] uppercase px-3 py-1 font-semibold capitalize"
                         style={{
-                          background: `${TYPE_COLORS[job.jobType] || '#C9A84C'}18`,
-                          color: TYPE_COLORS[job.jobType] || '#C9A84C',
-                          border: `1px solid ${TYPE_COLORS[job.jobType] || '#C9A84C'}30`,
+                          background: `${TYPE_COLORS[job.jobType] || '#e0a05e'}18`,
+                          color: TYPE_COLORS[job.jobType] || '#e0a05e',
+                          border: `1px solid ${TYPE_COLORS[job.jobType] || '#e0a05e'}30`,
                         }}
                       >
                         {job.jobType}
                       </span>
                     </div>
-                    <h2 className="text-2xl font-normal mb-2" style={{ fontFamily: 'Playfair Display, serif', color: '#fff' }}>
+                    <h2 className="text-2xl font-normal mb-2" style={{ fontFamily: 'Playfair Display, serif', color: 'var(--color-text)' }}>
                       {job.title}
                     </h2>
                     <div className="flex flex-wrap items-center gap-4 text-xs" style={{ color: '#666' }}>
@@ -108,10 +108,10 @@ export default function JobsPageClient() {
                     </div>
                   </div>
                   <div className="text-right shrink-0">
-                    <p className="text-xl font-semibold" style={{ color: '#C9A84C', fontFamily: 'Playfair Display, serif' }}>
+                    <p className="text-xl font-semibold" style={{ color: 'var(--color-accent)', fontFamily: 'Playfair Display, serif' }}>
                       OMR {job.salary.toLocaleString()}
                     </p>
-                    <p className="text-xs mt-0.5" style={{ color: '#555' }}>per month</p>
+                    <p className="text-xs mt-0.5" style={{ color: 'var(--color-text-dim)' }}>per month</p>
                   </div>
                 </div>
 
@@ -119,11 +119,11 @@ export default function JobsPageClient() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-7">
                   <div>
-                    <p className="text-[9px] tracking-[3px] uppercase mb-4" style={{ color: '#C9A84C' }}>Requirements</p>
+                    <p className="text-[9px] tracking-[3px] uppercase mb-4" style={{ color: 'var(--color-accent)' }}>Requirements</p>
                     <ul className="space-y-2.5">
                       {job.requirements.map((req, ri) => (
                         <li key={ri} className="flex items-start gap-2.5 text-sm" style={{ color: '#777' }}>
-                          <span style={{ color: '#C9A84C', marginTop: '3px', fontSize: '10px' }}>—</span>
+                          <span style={{ color: 'var(--color-accent)', marginTop: '3px', fontSize: '10px' }}>—</span>
                           {req}
                         </li>
                       ))}
@@ -131,11 +131,11 @@ export default function JobsPageClient() {
                   </div>
                   {job.benefits && job.benefits.length > 0 && (
                     <div>
-                      <p className="text-[9px] tracking-[3px] uppercase mb-4" style={{ color: '#C9A84C' }}>Benefits</p>
+                      <p className="text-[9px] tracking-[3px] uppercase mb-4" style={{ color: 'var(--color-accent)' }}>Benefits</p>
                       <ul className="space-y-2.5">
                         {job.benefits.map((ben, bi) => (
                           <li key={bi} className="flex items-start gap-2.5 text-sm" style={{ color: '#777' }}>
-                            <span style={{ color: '#C9A84C', marginTop: '2px', fontSize: '11px' }}>✓</span>
+                            <span style={{ color: 'var(--color-accent)', marginTop: '2px', fontSize: '11px' }}>✓</span>
                             {ben}
                           </li>
                         ))}

@@ -138,7 +138,7 @@ export default function ImageUpload(props: ImageUploadProps) {
   return (
     <div>
       {label && (
-        <label className="block text-[10px] tracking-[3px] uppercase mb-2" style={{ color: '#888' }}>
+        <label className="block text-[10px] tracking-[3px] uppercase mb-2" style={{ color: 'var(--color-text-muted)' }}>
           {label}
         </label>
       )}
@@ -146,7 +146,7 @@ export default function ImageUpload(props: ImageUploadProps) {
       {currentImages.length > 0 && (
         <div className="flex flex-wrap gap-3 mb-3">
           {currentImages.map((url, i) => (
-            <div key={`${url}-${i}`} className="relative w-20 h-20 overflow-hidden border" style={{ borderColor: '#222', background: '#0a0a0a' }}>
+            <div key={`${url}-${i}`} className="relative w-20 h-20 overflow-hidden border" style={{ borderColor: 'var(--color-border)', background: 'var(--color-dark-bg)' }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={url} alt="" className="w-full h-full object-cover" />
               <button
@@ -155,7 +155,7 @@ export default function ImageUpload(props: ImageUploadProps) {
                 disabled={uploading}
                 aria-label="Remove image"
                 className="absolute top-1 right-1 w-5 h-5 flex items-center justify-center rounded-full transition-colors disabled:opacity-40"
-                style={{ background: 'rgba(0,0,0,0.75)', color: '#fff' }}
+                style={{ background: 'rgba(0,0,0,0.75)', color: 'var(--color-text)' }}
               >
                 <X size={11} />
               </button>
@@ -174,23 +174,23 @@ export default function ImageUpload(props: ImageUploadProps) {
         disabled={uploading}
         className="w-full flex flex-col items-center justify-center gap-2 py-8 border border-dashed transition-colors disabled:cursor-not-allowed"
         style={{
-          borderColor: dragActive ? '#C9A84C' : '#222',
-          background: dragActive ? 'rgba(201,168,76,0.05)' : 'transparent',
+          borderColor: dragActive ? 'var(--color-accent)' : 'var(--color-border)',
+          background: dragActive ? 'rgba(139,111,140,0.05)' : 'transparent',
           opacity: uploading ? 0.6 : 1,
         }}
       >
         {uploading ? (
           <>
-            <Loader2 size={20} className="animate-spin" style={{ color: '#C9A84C' }} />
-            <p className="text-xs" style={{ color: '#888' }}>Uploading… {progress}%</p>
-            <div className="w-40 h-1 overflow-hidden" style={{ background: '#1a1a1a' }}>
-              <div className="h-full transition-all duration-200" style={{ width: `${progress}%`, background: '#C9A84C' }} />
+            <Loader2 size={20} className="animate-spin" style={{ color: 'var(--color-accent)' }} />
+            <p className="text-xs" style={{ color: 'var(--color-text-muted)' }}>Uploading… {progress}%</p>
+            <div className="w-40 h-1 overflow-hidden" style={{ background: 'var(--color-border)' }}>
+              <div className="h-full transition-all duration-200" style={{ width: `${progress}%`, background: 'var(--color-accent)' }} />
             </div>
             {localPreviews.length > 0 && (
               <div className="flex flex-wrap gap-2 mt-2">
                 {localPreviews.map((url, i) => (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img key={i} src={url} alt="" className="w-12 h-12 object-cover border" style={{ borderColor: '#222' }} />
+                  <img key={i} src={url} alt="" className="w-12 h-12 object-cover border" style={{ borderColor: 'var(--color-border)' }} />
                 ))}
               </div>
             )}
@@ -233,15 +233,15 @@ export default function ImageUpload(props: ImageUploadProps) {
           }}
           disabled={uploading}
           placeholder="Or paste an image URL"
-          className="flex-1 px-3 py-2 text-xs bg-transparent border outline-none focus:border-[#C9A84C] transition-colors disabled:opacity-50"
-          style={{ borderColor: '#222', color: '#fff' }}
+          className="flex-1 px-3 py-2 text-xs bg-transparent border outline-none focus:border-[var(--color-accent)] transition-colors disabled:opacity-50"
+          style={{ borderColor: 'var(--color-border)', color: 'var(--color-text)' }}
         />
         <button
           type="button"
           onClick={handleManualUrlAdd}
           disabled={uploading || !manualUrl.trim()}
           className="text-[10px] tracking-[2px] uppercase px-3 py-2 border transition-colors disabled:opacity-40"
-          style={{ borderColor: '#333', color: '#888' }}
+          style={{ borderColor: '#333', color: 'var(--color-text-muted)' }}
         >
           Add
         </button>

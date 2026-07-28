@@ -17,8 +17,8 @@ export default function AdminIndexPage() {
   }, [user, isAdmin, router]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center" style={{ background: '#050505' }}>
-      <div className="w-6 h-6 border-2 border-t-transparent rounded-full animate-spin" style={{ borderColor: '#C9A84C', borderTopColor: 'transparent' }} />
+    <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--color-subtle-bg)' }}>
+      <div className="w-6 h-6 border-2 border-t-transparent rounded-full animate-spin" style={{ borderColor: 'var(--color-accent)', borderTopColor: 'transparent' }} />
     </div>
   );
 }

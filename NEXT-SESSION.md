@@ -1,9 +1,35 @@
 # Next Session Guide
 
 **Last updated:** 2026-07-27
-**Status:** NOT complete. Section F — F1/F2/F3 done, F4 partially done (brand logo filter fixed; Cloudinary delivery helper and 401 handling still pending). Bulk Add — New Arrivals verified end-to-end; Products wired, not yet browser-tested. Products price removal + Shop CTA built, not yet browser-tested.
+**Status:** NOT complete. Section F — F1/F2/F3 done, F4 partially done (brand logo filter fixed; Cloudinary delivery helper and 401 handling still pending). Section G (rebrand + logo + CSS variable refactor) — done, verified, spot-checked by the user in the browser. Bulk Add — New Arrivals verified end-to-end; Products wired, not yet browser-tested. Products price removal + Shop CTA built, not yet browser-tested.
 
 This file is the "what to do next" companion — for the full verified history of what's actually been done and confirmed, read `PROGRESS.md` first. Don't trust a prior session's "done" claim without re-checking; see the ground rules at the bottom.
+
+---
+
+## Before anything else: check `git status` on the frontend repo
+
+As of the end of the 2026-07-27 session, the entire Section G rebrand/logo/CSS-refactor work (42 files, all verified via `tsc`/`npm run build`) was sitting **uncommitted** in the working tree, plus a new untracked `public/swan-logo.png`. The user was asked whether to commit and push before ending the session — check whether that happened. If `git status` still shows all those files modified, that's a full day of verified, working changes at risk of being lost or clobbered; get it committed before doing anything else. The backend repo (`swan-intl-m-server`) was already clean and in sync with `origin/main` as of the same check.
+
+---
+
+## Punch list from the 2026-07-27 post-rebrand review, worst first
+
+Full detail and reasoning for each in `PROGRESS.md` → "Known issues." Short version, in priority order:
+
+1. **F4 — 401 handling.** No axios response interceptor exists at all; `AuthContext` never checks token expiry; `AdminLayoutClient`'s guard trusts stale localStorage and never fires once a token has actually expired server-side. An admin with an expired token sees a fully-rendered but silently broken admin UI — every request 401s, nothing recovers them to `/admin/login`. This was supposed to be *reported* before being fixed (per the original F4 plan) — the report is now done (above), so this is ready to be scoped into an actual fix next.
+2. **Admin tables clip content on narrow viewports** — `overflow-x-hidden` on `<main>` + no `overflow-x-auto` wrapper on any `<table>`. Not just ugly — columns become unreachable.
+3. **Contact page** still stacks 5 store cards above the message form on mobile (`grid-cols-1 lg:grid-cols-2`, no `order-*` classes) — still open from the original Section C audit.
+4. **Product detail page** still has no hero image, unlike Brand/Offer/Event detail.
+5. **Home Stores section vs. `/stores` listing** still mismatched (text-only vs. photo-led).
+6. **New Arrivals card alignment / six-across cramping** — still open.
+7. **Mobile nav overlay** doesn't show the new logo mark (navbar collapsed bar and footer both do) — easy, scoped fix, flagged during Section G.
+8. **F4 — Cloudinary `f_auto`/`q_auto` delivery helper** (`src/lib/image.ts`) — still not built. Every image serves at full original upload resolution.
+9. **Micro-text contrast** — `text-[8px]`–`text-[10px]` usages of `--color-text-muted`/`--color-text-dim` pass the WCAG math for normal-size text but are meaningfully smaller than what that math assumes; worth a second look at those specific sizes, not the tokens themselves.
+10. **Navbar Logout button hover** — same inline-style-vs-Tailwind-hover specificity bug as the Dashboard button (which *was* fixed this session), just lower severity since there's no hover background to expose it. Flagged, not fixed, no decision made yet.
+11. **Admin sidebar logo** also lacks the mark — lowest priority of the logo-consistency items, arguably fine as-is given it's a persistent icon rail, not a marketing surface.
+
+**Not on this list because it's already resolved:** the backend `POST /api/auth/register` role-escalation issue this file previously flagged as an open security risk. Re-checked directly against the live backend code on 2026-07-27 — it was already closed in backend commit `b33ec93` (2026-07-26), a day before the prior "still open" note was written. `auth.validator.ts` doesn't declare `role` (Zod strips it), `auth.interface.ts`'s `TRegisterPayload` doesn't type it, and `auth.service.ts` hardcodes `role: 'user'` regardless. If this shows up as "open" anywhere else, that note is stale — verify against the live files, not against an old report.
 
 ---
 
@@ -39,14 +65,13 @@ Two things from this session haven't been looked at yet — worth doing together
 
 ## Then: F4 remainder
 
-1. `src/lib/image.ts` — Cloudinary `f_auto,q_auto` + width delivery helper. Must pass non-Cloudinary URLs (picsum placeholders, manually-pasted URLs) through untouched.
+1. `src/lib/image.ts` — Cloudinary `f_auto,q_auto` + width delivery helper. Must pass non-Cloudinary URLs (picsum placeholders, manually-pasted URLs) through untouched. See punch-list item 8 above.
 2. ~~Brand logo filter~~ — done, see `PROGRESS.md`. One related loose end flagged but not fixed: `admin/brands/page.tsx`'s table thumbnail still has its own `filter: 'invert(1)'`, which would now turn a white logo black on a dark table row.
-3. Report — don't just fix — what the axios interceptor currently does on a 401 response, before changing anything.
+3. ~~Report what the axios interceptor does on a 401~~ — **done, 2026-07-27** (see punch-list item 1 above and `PROGRESS.md` → Known issues). Confirmed genuinely broken, not just unreported: no response interceptor, no client-side expiry check, route guard never fires on a stale-but-expired token. Ready to be scoped into an actual fix.
 
 ## Also pending / flagged, not yet scheduled
 
-- **Backend, live security issue:** `POST /api/auth/register` still allows unauthenticated self-registration as admin (arbitrary `role` in the payload, no route guard). Confirmed unchanged on direct read this session. Recommend prioritizing this over further frontend polish — it's in the backend repo, not touched here.
-- **Tier 2 visual polish** (full detail in `PROGRESS.md` → "Known issues"): New Arrivals card alignment/six-across cramping, Home Stores section (text-only) vs. `/stores` listing page (photo-led) mismatch, Contact page's mobile layout burying the form under 5 store cards. Plus lower-priority leftovers from the Section C audit: Event detail's fetch-the-whole-list pattern, filter-pill layout shift on 4 listing pages, and a few typographic scale inconsistencies between detail pages.
+- **Tier 2 visual polish** (full detail in `PROGRESS.md` → "Known issues", punch-list items 2–7 and 9–11 above): admin table mobile overflow, Contact page mobile order, Product detail hero, Stores home/listing mismatch, New Arrivals card alignment, mobile nav + admin sidebar logo gaps, micro-text contrast, Logout hover bug. Plus lower-priority leftovers from the Section C audit: Event detail's fetch-the-whole-list pattern, filter-pill layout shift on 4 listing pages, and a few typographic scale inconsistencies between detail pages.
 - `/admin/dashboard` loading/error states — reported as thin (no loading state, no error state), not fixed. No decision made yet on whether it's worth building out.
 
 ---

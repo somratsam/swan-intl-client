@@ -1,8 +1,8 @@
 # Swan International — Frontend Progress
 
 **Last updated:** 2026-07-27
-**Build status:** verified — `npm run build` compiles all 24 routes with zero errors (last checked after Products price removal / Shop CTA, 2026-07-27); backend `tsc --noEmit` also verified clean after the `product.controller.ts` fix
-**Overall status:** NOT complete. Section F — F1/F2/F3 done, F4 partially done. Bulk Add verified end-to-end for New Arrivals; wired for Products but not yet browser-tested. Products price removal + Shop CTA built, not yet browser-tested. See "Known issues" below for what's still open.
+**Build status:** verified — `npm run build` compiles all 24 routes with zero errors (last checked after the CSS-variable refactor, Section G, 2026-07-27); backend `tsc --noEmit` also verified clean after the `product.controller.ts` fix
+**Overall status:** NOT complete. Section F — F1/F2/F3 done, F4 partially done (2 of 3 sub-items still pending — see Section F below). Section G — aubergine/mauve rebrand, navbar/footer logo, CSS variable refactor — done and verified. Bulk Add verified end-to-end for New Arrivals; wired for Products but not yet browser-tested. Products price removal + Shop CTA built, not yet browser-tested. See "Known issues" below for what's still open.
 
 ---
 
@@ -45,7 +45,7 @@ Full prioritized report delivered from direct code reading (not a rendered walkt
 1. `api.ts` `baseURL` now reads `NEXT_PUBLIC_API_URL`, falling back to `http://localhost:5000`. `.env.local` (gitignored) + `.env.example` (committed) created; `.gitignore` updated with a `!.env.example` exception since the blanket `.env*` rule would otherwise have swallowed it too. Verified via `git check-ignore` / `git status`.
 2. Upload-specific 60s timeout — implemented as part of F1 (see below), not as a standalone Section E step.
 3. Removed the `register` export and the now-unused `TRegisterPayload` import from `api.ts` (verified no other references anywhere in `src/`).
-   - **Unresolved, backend repo, live security issue:** `POST /api/auth/register` still accepts an arbitrary `role` in the request payload with no auth guard on the route. Confirmed by directly reading `auth.validator.ts`, `auth.interface.ts`, and `auth.service.ts` — all three unchanged, still vulnerable. Anyone can currently self-register as an admin account. Not touched this session (backend repo) — recommend prioritizing this.
+   - **Correction (2026-07-27, Section G session):** this file previously said the backend's register-role-escalation issue was still open. That was stale. Re-checked by directly reading the live current content of `swan-intl-m-server/src/app/modules/auth/auth.service.ts`, `auth.validator.ts`, and `auth.interface.ts` — the issue was already fixed, in backend commit `b33ec93` ("Close register role escalation, add seed script"), dated 2026-07-26, i.e. *before* this file's prior "still open" note was written on 2026-07-27. Current state, verified: `auth.interface.ts`'s `TRegisterPayload` has no `role` field; `auth.validator.ts`'s `RegisterValidator` (Zod) doesn't declare `role` either, and `.parse()` strips unrecognized keys by default, so a client-sent `role` never survives validation; `auth.service.ts`'s `register()` also hardcodes `role: 'user'` after spreading `...payload`, which would override it even if it somehow got through. Three independent layers all close it. Backend repo confirmed clean working tree, in sync with `origin/main`. Lesson: this file wasn't re-verified against the actual code before being carried forward as still-open in the previous update — don't repeat that.
 
 ### Section F — Admin image uploads (F1–F3 done, F4 pending)
 - Removed the public "ADMIN" links from `Navbar.tsx` (desktop + mobile menu) and `Footer.tsx`. Already-authenticated admins still see Dashboard/Logout when browsing the public site; anonymous visitors see no entry point at all. Admin access is now `/admin/login` typed directly.
@@ -122,13 +122,56 @@ Fixed: `TAuthResponse.data.token` (renamed to match backend), `admin/login/page.
 
 ---
 
+### Section G — Aubergine/mauve rebrand, navbar/footer logo, CSS variable refactor (done, verified)
+
+Color-only correction — no layout, typography, or structural changes anywhere in this section. Site was originally black/gold; didn't match the actual Swan logo (deep aubergine + dusty mauve swan mark).
+
+**New palette** (`globals.css` `:root`):
+| Variable | New value | Was |
+|---|---|---|
+| `--color-primary` | `#150B17` | `#000000` |
+| `--color-secondary` / `--color-text` | `#F2ECE8` | `#ffffff` |
+| `--color-accent` | `#8B6F8C` | `#C9A84C` (gold) |
+| `--color-accent-deep` | `#4A2545` | (new — heavier elements: filled buttons, active states) |
+| `--color-dark-bg` | `#1A0F1C` | `#0A0A0A` |
+| `--color-card-bg` | `#241628` | `#111111` |
+| `--color-subtle-bg` | `#150E17` | `#050505` |
+| `--color-text-muted` | `#A296A3` | `#888888` |
+| `--color-text-dim` | `#887988` | `#555555` |
+| `--color-border` | `#2E1F32` | `#1A1A1A`/`#222`/`#2a2a2a`/`#1e1e1e` (folded together) |
+
+**Batch 1–4 rollout** (shared/layout, `home/`, public listing+detail pages, `admin/` — 41 files total): every file diffed, `tsc --noEmit` after each batch, full `npm run build` at the end. Two real bugs found and fixed along the way, not just recolored:
+- `Navbar.tsx`'s Dashboard link hover: `hover:bg-[#8B6F8C]` paired with `hover:text-black` — black text on the new (lighter) accent background, unreadable. Fixed to pair with `--color-text`.
+- Same file, same link: a **second**, different bug found later — an inline `style={{ color: '#8B6F8C' }}` was pinning the text color even on hover, because inline styles always beat class-based `:hover` rules on specificity regardless of the class being correct. Background flipped to accent on hover but text stayed pinned to the *same* accent color as the background — invisible. Fixed by moving the base color into a Tailwind class (`text-[#8B6F8C]`) so default and hover state live in the same specificity tier.
+- **Not fixed, still open:** the **Logout** button right next to Dashboard (`Navbar.tsx`, desktop admin controls) has the identical inline-style-vs-hover-class conflict (`style={{ color: ... }}` fighting `hover:text-white`) — not an invisibility bug since there's no hover background there, just a dead hover effect (text never actually changes color on hover). Flagged to the user, no decision made on fixing it.
+
+**Footer text tint:** `--color-text-muted`/`--color-text-dim` were originally left as plain grays (not part of the gold→mauve mapping) but read flat against the new warmer background. Tinted toward mauve; both new values were run through a real WCAG contrast check against the darkest background in the palette (`--color-subtle-bg` #150E17, used for the footer) before landing on them — muted came out to 6.71:1 (comfortable), the first proposed dim value only hit 3.07:1 (fails the 4.5:1 text minimum), so `--color-text-dim` was brightened to `#887988` (4.64:1) instead of using the initially-proposed darker value.
+
+**Logo mark** (`public/swan-logo.png`, PNG not SVG — no vector source exists): added to both `Navbar.tsx` and `Footer.tsx`, mark + wordmark pairing, `next/image` at 28×20 inside a 36px `rounded-full` chip. The chip is **required, not optional** — sampled the actual logo pixel colors via `sharp` and ran real contrast math: the deep-aubergine half of the mark is only 1.1–1.4:1 against both navbar/footer dark backgrounds (functionally invisible), while the light-mauve half is fine (5.2–5.3:1) unchipped. Chip color `#F2ECE8` (already `--color-text`, no new hex introduced) was itself checked against *both* halves of the logo, not just the dark backgrounds: aubergine hits 11.63:1 on the chip, but the mauve half only reaches 3.04:1 — confirmed via a full lightness-range scan that this is a hard ceiling set by the mauve tone's own luminance, not something a different chip color fixes; 3.04:1 clears WCAG's 3:1 graphical-object minimum (the correct threshold for a decorative mark, not the 4.5:1 text minimum), so it was accepted as the ceiling rather than chased further. Shape (circle) matches the existing icon-badge language already used everywhere else in the app (Toast status dot, ImageUpload's remove button, admin spinners) — buttons/cards/inputs in this codebase are all hard-cornered with zero `border-radius`, but every icon-scale accent is `rounded-full`, so the chip follows that existing pattern rather than introducing a new shape.
+- **Not applied: the mobile nav overlay.** `Navbar.tsx`'s full-screen hamburger menu header (opens on mobile) still shows the old text-only wordmark with no chip/mark — inconsistent with the collapsed desktop bar and the footer, both of which now show it. Found during the Section G review below, not yet fixed.
+- **Not applied: the admin sidebar.** `AdminLayoutClient.tsx`'s collapsed-sidebar logo (renders as a bare "S"/"wan" text split) also never got the mark. Lower priority — it's a persistent 64px icon rail, a legitimately different context from a marketing navbar, not clearly a bug the way the mobile overlay is.
+
+**CSS variable refactor:** 711 of 717 hardcoded hex literals matching the palette above converted to `var(--color-*)` references across all 41 rebrand-touched files, so future palette changes are a one-line edit in `globals.css` instead of a repo-wide find/replace. `#F2ECE8` literals mapped to `var(--color-text)` specifically (not `--color-secondary`, which holds the identical value but is used for the global `body` default — a deliberate, user-confirmed choice given the ambiguity). **6 occurrences deliberately left as hex, not missed:** `#8B6F8C22`/`#8B6F8C44` (accent color with a baked-in alpha suffix, used for translucent status badges in `admin/banners`, `admin/events`, `admin/products`, `admin/stores`) — concatenating a `var()` reference with a trailing hex byte produces invalid CSS, and these encode color+transparency as one literal with no matching single CSS variable, so swapping them wasn't safe or in scope. `globals.css`'s own `:root` declarations also stay literal, obviously — they're the values the variables resolve to. Full-repo grep after the refactor confirms only these expected exceptions remain. Verified: `tsc --noEmit` after every batch, full `npm run build` clean (24/24 routes) at the end.
+
+**Spot-checked visually by the user** — navbar logo and overall rebrand confirmed working in the browser.
+
+---
+
 ## Known issues — not yet fixed
 
-### Flagged directly this session (browser-observed — not visible from reading code alone)
-- New Arrivals: card alignment and six-across cramping.
-- Home Stores section renders text-only cards, while the full `/stores` page is photo-led — the two don't match.
-- Product detail page has no hero image/header, unlike Brand/Offer/Event detail, which all open with one.
-- Contact page: on mobile, the 5 store cards render above the message form, pushing the actual contact form below the fold.
+Prioritized worst/most-impactful first, per the full post-rebrand review (2026-07-27). Items marked "code-level only" were assessed by reading the source, not by rendering in a browser — this environment has no browser/screenshot tool, so anything about actual rendered/responsive behavior carries that caveat until someone drives it in devtools or a real device.
+
+1. **F4 — 401 handling: confirmed broken, not just "unreported."** `api.ts` has a request interceptor (attaches the token) but **no response interceptor at all** — a 401 is never caught specially anywhere, it's just a generic axios error. `AuthContext` trusts `localStorage` on mount with no expiry check and no server round-trip. `AdminLayoutClient`'s route guard only checks `!user || !isAdmin` against that same stale local state, so once a token expires server-side the guard never fires — the admin UI keeps rendering as if still logged in, every subsequent data call then 401s, "Retry" buttons just repeat the same failing call forever, and nothing ever calls `logout()` or redirects to `/admin/login`. An admin hits this with no way to understand what's wrong and no recovery path except manually re-navigating to the login page themselves. Highest priority on this list — it silently breaks a real workflow.
+2. **Admin tables are unreachable, not just cramped, on narrow viewports (code-level only).** `AdminLayoutClient.tsx` sets `overflow-x-hidden` on `<main>`, and every admin table (`Products`, `Banners`, etc.) is a bare `<table className="w-full text-sm">` with no `overflow-x-auto` wrapper. Combined, a table wider than the viewport doesn't scroll — columns get silently clipped and become physically inaccessible, not just visually squeezed.
+3. **Contact page: still buries the form under 5 store cards on mobile.** Confirmed unchanged (`ContactPageContent.tsx`, `grid-cols-1 lg:grid-cols-2`, no `order-*` classes) — the rebrand was color-only, so this Section C finding is untouched and still live for every mobile visitor.
+4. **Product detail page still has no hero image/header**, unlike Brand/Offer/Event detail, which all open with one. Confirmed unchanged.
+5. **Home Stores section (text-only cards) still doesn't match `/stores` (photo-led).** Not independently re-diagnosed this pass, but nothing this session touched layout, so this Section C finding stands.
+6. **New Arrivals: card alignment / six-across cramping.** Same — untouched, still open.
+7. **Mobile nav overlay missing the new logo mark** — see Section G above. New inconsistency from today's logo work, not yet closed out.
+8. **F4 — Cloudinary `f_auto`/`q_auto` delivery helper: still not built.** `src/lib/image.ts` doesn't exist; grepped the whole codebase for any Cloudinary transform logic — none. Every image is served at full original upload resolution through both `next/image` and the deliberate plain-`<img>` fallback in `ImageUpload`'s manual-URL path. Real page-weight cost, worse on mobile connections.
+9. **Micro-text contrast may be under the real bar despite passing the math (code-level only).** The Section G muted/dim tint work computed WCAG ratios correctly for normal-size text (`--color-text-dim` ≈ 4.64:1, clears the 4.5:1 normal-text minimum). But several usages of dim/muted text — admin table meta, card labels — are `text-[8px]`/`text-[9px]`/`text-[10px]`, well under what WCAG's size thresholds assume "normal" text to be; text that small arguably needs more headroom than the 4.5:1 floor, not the floor itself. Flagged as a gap in the contrast pass, not a new problem — the ratio was checked, not the render size.
+10. **Not fixed: `Navbar.tsx`'s Logout button hover.** Same inline-style-vs-Tailwind-hover-class specificity bug as the Dashboard button (see Section G), but lower severity — no hover background, so the failure mode is just "hover text color never visibly changes," not invisible text. Flagged to the user during Section G, no decision made on fixing it.
+11. **Admin sidebar logo also lacks the mark** — see Section G. Lower priority than item 7; a persistent icon rail is a different context from a marketing navbar.
 
 ### From the Section C code audit, still open (lower priority — not independently re-confirmed this session)
 - Event detail page (`events/[id]/page.tsx`) fetches the entire events list via `useEvents()` and finds the one it needs client-side, instead of a dedicated by-ID fetch the way Brand/Offer/Product detail pages have.

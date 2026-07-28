@@ -17,10 +17,10 @@ export default function ProductsPageClient() {
   const filtered = activeCategory === 'All' ? products : products?.filter((p) => p.category === activeCategory);
 
   return (
-    <div style={{ background: '#0a0a0a', minHeight: '100vh' }}>
-      <div className="pt-40 pb-20 px-6 text-center" style={{ background: 'linear-gradient(to bottom, #000, #0a0a0a)' }}>
-        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-[10px] tracking-[5px] uppercase mb-4" style={{ color: '#C9A84C' }}>Collections</motion.p>
-        <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="text-5xl md:text-6xl font-normal" style={{ fontFamily: 'Playfair Display, serif', color: '#fff' }}>
+    <div style={{ background: 'var(--color-dark-bg)', minHeight: '100vh' }}>
+      <div className="pt-40 pb-20 px-6 text-center" style={{ background: 'linear-gradient(to bottom, var(--color-primary), var(--color-dark-bg))' }}>
+        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-[10px] tracking-[5px] uppercase mb-4" style={{ color: 'var(--color-accent)' }}>Collections</motion.p>
+        <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="text-5xl md:text-6xl font-normal" style={{ fontFamily: 'Playfair Display, serif', color: 'var(--color-text)' }}>
           Products
         </motion.h1>
         <motion.div initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ delay: 0.3 }} className="divider-gold w-20 mx-auto mt-8" />
@@ -32,7 +32,7 @@ export default function ProductsPageClient() {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4 }}
           className="inline-flex items-center gap-1.5 text-[10px] tracking-[2px] uppercase mt-6 transition-colors hover:text-white"
-          style={{ color: '#C9A84C' }}
+          style={{ color: 'var(--color-accent)' }}
         >
           Shop the Collection at swan-intl.com <ExternalLink size={11} />
         </motion.a>
@@ -47,9 +47,9 @@ export default function ProductsPageClient() {
                 onClick={() => setActiveCategory(cat)}
                 className="text-[10px] tracking-[2px] uppercase px-5 py-2 transition-all duration-200"
                 style={{
-                  border: `1px solid ${activeCategory === cat ? '#C9A84C' : '#1e1e1e'}`,
-                  background: activeCategory === cat ? '#C9A84C' : 'transparent',
-                  color: activeCategory === cat ? '#000' : '#777',
+                  border: `1px solid ${activeCategory === cat ? 'var(--color-accent-deep)' : 'var(--color-border)'}`,
+                  background: activeCategory === cat ? 'var(--color-accent-deep)' : 'transparent',
+                  color: activeCategory === cat ? 'var(--color-text)' : '#777',
                 }}
               >
                 {cat}
@@ -62,13 +62,13 @@ export default function ProductsPageClient() {
         {isError && <ErrorMessage onRetry={refetch} />}
 
         {!isLoading && !isError && products && products.length === 0 && (
-          <p className="text-center py-16" style={{ color: '#555' }}>
+          <p className="text-center py-16" style={{ color: 'var(--color-text-dim)' }}>
             No products available.
           </p>
         )}
 
         {!isLoading && !isError && products && products.length > 0 && filtered && filtered.length === 0 && (
-          <p className="text-center py-16" style={{ color: '#555' }}>
+          <p className="text-center py-16" style={{ color: 'var(--color-text-dim)' }}>
             No products found in this category.
           </p>
         )}
@@ -83,7 +83,7 @@ export default function ProductsPageClient() {
                 transition={{ delay: Math.min(i * 0.06, 0.6) }}
                 className="card-hover group"
               >
-                <Link href={`/products/${product._id}`} className="block" style={{ background: '#111' }}>
+                <Link href={`/products/${product._id}`} className="block" style={{ background: 'var(--color-card-bg)' }}>
                   <div className="relative aspect-[3/4] overflow-hidden">
                     <Image
                       src={product.image}
@@ -93,7 +93,7 @@ export default function ProductsPageClient() {
                       sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
                     />
                     <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ background: 'rgba(0,0,0,0.25)' }} />
-                    <span className="absolute top-3 right-3 text-[9px] tracking-[2px] uppercase px-2 py-1 font-semibold" style={{ background: 'rgba(201,168,76,0.88)', color: '#000' }}>
+                    <span className="absolute top-3 right-3 text-[9px] tracking-[2px] uppercase px-2 py-1 font-semibold" style={{ background: 'rgba(74,37,69,0.88)', color: 'var(--color-text)' }}>
                       {product.category}
                     </span>
                   </div>
