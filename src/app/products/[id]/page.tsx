@@ -15,13 +15,17 @@ export default function ProductDetailPage() {
   const { id } = useParams<{ id: string }>();
   const { data: product, isLoading, isError, refetch } = useProductById(id);
   const [activeItem,       setActiveItem]       = useState(0);
-  const [activeGalleryImg, setActiveGalleryImg] = useState(0);
+  const [activeGalleryImg, setActiveGalleryImg] = useState<number | null>(null);
 
   if (isLoading) return <DetailSkeleton />;
   if (isError)   return <ErrorMessage onRetry={refetch} />;
   if (!product)  return null;
 
   const currentItem = product.items[activeItem];
+  const displayImage =
+    activeGalleryImg !== null && currentItem?.gallery[activeGalleryImg]
+      ? currentItem.gallery[activeGalleryImg]
+      : currentItem?.image || product.image;
 
   return (
     <div style={{ background: 'var(--color-dark-bg)', minHeight: '100vh' }}>
@@ -40,7 +44,7 @@ export default function ProductDetailPage() {
           <motion.div initial={{ opacity: 0, x: -24 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }}>
             <div className="relative aspect-[3/4] overflow-hidden mb-4" style={{ background: 'var(--color-card-bg)' }}>
               <Image
-                src={optimizeImage(currentItem?.image || product.image)}
+                src={optimizeImage(displayImage)}
                 alt={product.name}
                 fill
                 priority
@@ -76,7 +80,8 @@ export default function ProductDetailPage() {
               href="https://swan-intl.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-luxury-filled mb-6"
+              className="btn-luxury-filled mb-6 w-full sm:w-auto text-center"
+              style={{ whiteSpace: 'normal' }}
             >
               Shop the Collection at swan-intl.com <ExternalLink size={14} />
             </a>
@@ -100,7 +105,7 @@ export default function ProductDetailPage() {
                   {product.items.map((item, i) => (
                     <button
                       key={i}
-                      onClick={() => { setActiveItem(i); setActiveGalleryImg(0); }}
+                      onClick={() => { setActiveItem(i); setActiveGalleryImg(null); }}
                       className="text-xs px-4 py-2 transition-all duration-200"
                       style={{
                         border: `1px solid ${activeItem === i ? 'var(--color-accent)' : 'var(--color-border)'}`,
