@@ -7,6 +7,7 @@ import { ArrowRight } from 'lucide-react';
 import { useBrands } from '@/hooks/useApi';
 import { GridSkeleton } from '@/components/ui/LoadingSkeleton';
 import ErrorMessage from '@/components/ui/ErrorMessage';
+import { optimizeImage } from '@/lib/image';
 
 export default function BrandsPageClient() {
   const { data: brands, isLoading, isError, refetch } = useBrands();
@@ -66,7 +67,7 @@ export default function BrandsPageClient() {
                 <Link href={`/brands/${brand._id}`} className="block" style={{ background: 'var(--color-card-bg)' }}>
                   <div className="relative aspect-[4/3] overflow-hidden">
                     <Image
-                      src={brand.brandImage}
+                      src={optimizeImage(brand.brandImage)}
                       alt={brand.brand}
                       fill
                       className="object-cover transition-transform duration-700 group-hover:scale-105"
@@ -89,7 +90,7 @@ export default function BrandsPageClient() {
                           }}
                         />
                         <Image
-                          src={brand.brandLogo}
+                          src={optimizeImage(brand.brandLogo)}
                           alt={`${brand.brand} logo`}
                           fill
                           className="object-contain"

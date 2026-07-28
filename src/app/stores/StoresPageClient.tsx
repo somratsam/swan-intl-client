@@ -6,6 +6,7 @@ import { MapPin, Phone, Mail, Clock } from 'lucide-react';
 import { useStores } from '@/hooks/useApi';
 import { GridSkeleton } from '@/components/ui/LoadingSkeleton';
 import ErrorMessage from '@/components/ui/ErrorMessage';
+import { optimizeImage } from '@/lib/image';
 
 export default function StoresPageClient() {
   const { data: stores, isLoading, isError, refetch } = useStores();
@@ -45,7 +46,7 @@ export default function StoresPageClient() {
                 {store.images.length > 0 && (
                   <div className="relative aspect-[16/7] overflow-hidden">
                     <Image
-                      src={store.images[0]}
+                      src={optimizeImage(store.images[0])}
                       alt={store.name}
                       fill
                       className="object-cover"

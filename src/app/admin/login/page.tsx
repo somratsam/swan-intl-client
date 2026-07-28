@@ -20,6 +20,13 @@ export default function AdminLoginPage() {
     if (user && isAdmin) router.replace('/admin/dashboard');
   }, [user, isAdmin, router]);
 
+  useEffect(() => {
+    if (sessionStorage.getItem('swan_session_expired')) {
+      sessionStorage.removeItem('swan_session_expired');
+      setError('Your session has expired. Please sign in again.');
+    }
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');

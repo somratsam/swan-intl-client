@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useBanners } from '@/hooks/useApi';
 import { HeroSkeleton } from '@/components/ui/LoadingSkeleton';
+import { optimizeImage } from '@/lib/image';
 
 export default function HeroBanner() {
   const { data: banners, isLoading } = useBanners();
@@ -106,7 +107,7 @@ export default function HeroBanner() {
           className="absolute inset-0"
         >
           <Image
-            src={items[current].image}
+            src={optimizeImage(items[current].image)}
             alt={items[current].title}
             fill
             priority

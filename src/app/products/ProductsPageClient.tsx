@@ -8,6 +8,7 @@ import { ExternalLink } from 'lucide-react';
 import { useProducts } from '@/hooks/useApi';
 import { GridSkeleton } from '@/components/ui/LoadingSkeleton';
 import ErrorMessage from '@/components/ui/ErrorMessage';
+import { optimizeImage } from '@/lib/image';
 
 export default function ProductsPageClient() {
   const { data: products, isLoading, isError, refetch } = useProducts();
@@ -86,7 +87,7 @@ export default function ProductsPageClient() {
                 <Link href={`/products/${product._id}`} className="block" style={{ background: 'var(--color-card-bg)' }}>
                   <div className="relative aspect-[3/4] overflow-hidden">
                     <Image
-                      src={product.image}
+                      src={optimizeImage(product.image)}
                       alt={product.name}
                       fill
                       className="object-cover transition-transform duration-700 group-hover:scale-105"

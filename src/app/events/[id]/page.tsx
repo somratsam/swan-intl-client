@@ -8,6 +8,7 @@ import { ArrowLeft, Calendar, Clock, MapPin, Mail, Phone } from 'lucide-react';
 import { useEvents } from '@/hooks/useApi';
 import { DetailSkeleton } from '@/components/ui/LoadingSkeleton';
 import ErrorMessage from '@/components/ui/ErrorMessage';
+import { optimizeImage } from '@/lib/image';
 
 export default function EventDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -27,7 +28,7 @@ export default function EventDetailPage() {
     <div style={{ background: 'var(--color-dark-bg)', minHeight: '100vh' }}>
       {/* Banner */}
       <div className="relative h-[60vh] overflow-hidden">
-        <Image src={event.image} alt={event.title} fill priority className="object-cover" sizes="100vw" />
+        <Image src={optimizeImage(event.image)} alt={event.title} fill priority className="object-cover" sizes="100vw" />
         <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.3) 100%)' }} />
         <Link
           href="/events"

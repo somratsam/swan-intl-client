@@ -7,6 +7,7 @@ import { useEvents } from '@/hooks/useApi';
 import SectionTitle from '@/components/ui/SectionTitle';
 import { GridSkeleton } from '@/components/ui/LoadingSkeleton';
 import ErrorMessage from '@/components/ui/ErrorMessage';
+import { optimizeImage } from '@/lib/image';
 
 export default function EventsSection() {
   const { data: events, isLoading, isError, refetch } = useEvents();
@@ -39,7 +40,7 @@ export default function EventsSection() {
                 <Link href={`/events/${event._id}`} className="block">
                   <div className="relative aspect-[16/9] overflow-hidden">
                     <Image
-                      src={event.image}
+                      src={optimizeImage(event.image)}
                       alt={event.title}
                       fill
                       className="object-cover transition-transform duration-700 group-hover:scale-105"

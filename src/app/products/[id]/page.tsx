@@ -9,6 +9,7 @@ import { ArrowLeft, ExternalLink } from 'lucide-react';
 import { useProductById } from '@/hooks/useApi';
 import { DetailSkeleton } from '@/components/ui/LoadingSkeleton';
 import ErrorMessage from '@/components/ui/ErrorMessage';
+import { optimizeImage } from '@/lib/image';
 
 export default function ProductDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -39,7 +40,7 @@ export default function ProductDetailPage() {
           <motion.div initial={{ opacity: 0, x: -24 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }}>
             <div className="relative aspect-[3/4] overflow-hidden mb-4" style={{ background: 'var(--color-card-bg)' }}>
               <Image
-                src={currentItem?.image || product.image}
+                src={optimizeImage(currentItem?.image || product.image)}
                 alt={product.name}
                 fill
                 priority
@@ -58,7 +59,7 @@ export default function ProductDetailPage() {
                       borderColor: activeGalleryImg === i ? 'var(--color-accent)' : 'var(--color-border)',
                     }}
                   >
-                    <Image src={img} alt="" fill className="object-cover" sizes="64px" />
+                    <Image src={optimizeImage(img)} alt="" fill className="object-cover" sizes="64px" />
                   </button>
                 ))}
               </div>

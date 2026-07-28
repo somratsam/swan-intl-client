@@ -8,6 +8,7 @@ import { ArrowLeft, Phone, Mail, MapPin } from 'lucide-react';
 import { useBrandById } from '@/hooks/useApi';
 import { DetailSkeleton } from '@/components/ui/LoadingSkeleton';
 import ErrorMessage from '@/components/ui/ErrorMessage';
+import { optimizeImage } from '@/lib/image';
 
 export default function BrandDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -22,7 +23,7 @@ export default function BrandDetailPage() {
       {/* Full-screen hero */}
       <div className="relative h-screen overflow-hidden">
         <Image
-          src={brand.mainBanner || brand.brandImage}
+          src={optimizeImage(brand.mainBanner || brand.brandImage)}
           alt={brand.brand}
           fill
           priority
@@ -119,7 +120,7 @@ export default function BrandDetailPage() {
               {brand.gallery.map((img, i) => (
                 <div key={i} className="relative aspect-square overflow-hidden group">
                   <Image
-                    src={img}
+                    src={optimizeImage(img)}
                     alt={`${brand.brand} gallery ${i + 1}`}
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-105"

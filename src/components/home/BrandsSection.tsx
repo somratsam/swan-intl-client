@@ -8,6 +8,7 @@ import { useBrands } from '@/hooks/useApi';
 import SectionTitle from '@/components/ui/SectionTitle';
 import { GridSkeleton } from '@/components/ui/LoadingSkeleton';
 import ErrorMessage from '@/components/ui/ErrorMessage';
+import { optimizeImage } from '@/lib/image';
 
 export default function BrandsSection() {
   const { data: brands, isLoading, isError, refetch } = useBrands();
@@ -45,7 +46,7 @@ export default function BrandsSection() {
                   className="group block relative overflow-hidden aspect-[4/3]"
                 >
                   <Image
-                    src={brand.brandImage}
+                    src={optimizeImage(brand.brandImage)}
                     alt={brand.brand}
                     fill
                     className="object-cover transition-transform duration-700 group-hover:scale-108"

@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import { useNewArrivals } from '@/hooks/useApi';
 import { GridSkeleton } from '@/components/ui/LoadingSkeleton';
 import ErrorMessage from '@/components/ui/ErrorMessage';
+import { optimizeImage } from '@/lib/image';
 
 export default function NewArrivalsPageClient() {
   const { data: arrivals, isLoading, isError, refetch } = useNewArrivals();
@@ -71,7 +72,7 @@ export default function NewArrivalsPageClient() {
               >
                 <div className="relative aspect-[3/4] overflow-hidden mb-3" style={{ background: 'var(--color-card-bg)' }}>
                   <Image
-                    src={item.image}
+                    src={optimizeImage(item.image)}
                     alt={item.caption}
                     fill
                     className="object-cover transition-transform duration-700 group-hover:scale-110"

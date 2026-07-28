@@ -7,6 +7,7 @@ import { motion } from 'framer-motion';
 import { useEvents } from '@/hooks/useApi';
 import { GridSkeleton } from '@/components/ui/LoadingSkeleton';
 import ErrorMessage from '@/components/ui/ErrorMessage';
+import { optimizeImage } from '@/lib/image';
 
 export default function EventsPageClient() {
   const { data: events, isLoading, isError, refetch } = useEvents();
@@ -73,7 +74,7 @@ export default function EventsPageClient() {
                 <Link href={`/events/${event._id}`} className="block" style={{ background: 'var(--color-card-bg)' }}>
                   <div className="relative aspect-[16/9] overflow-hidden">
                     <Image
-                      src={event.image}
+                      src={optimizeImage(event.image)}
                       alt={event.title}
                       fill
                       className="object-cover transition-transform duration-700 group-hover:scale-105"

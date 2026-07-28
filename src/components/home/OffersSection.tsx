@@ -7,6 +7,7 @@ import { useOffers } from '@/hooks/useApi';
 import SectionTitle from '@/components/ui/SectionTitle';
 import { GridSkeleton } from '@/components/ui/LoadingSkeleton';
 import ErrorMessage from '@/components/ui/ErrorMessage';
+import { optimizeImage } from '@/lib/image';
 
 const isActive = (endDate: string) => new Date(endDate) >= new Date();
 
@@ -46,7 +47,7 @@ export default function OffersSection() {
                   >
                     <div className="relative aspect-[4/3] overflow-hidden">
                       <Image
-                        src={offer.image}
+                        src={optimizeImage(offer.image)}
                         alt={offer.title}
                         fill
                         className="object-cover transition-transform duration-700 group-hover:scale-105"

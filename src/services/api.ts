@@ -25,6 +25,20 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (typeof window !== 'undefined' && error.response?.status === 401) {
+      const { pathname } = window.location;
+      if (pathname.startsWith('/admin') && pathname !== '/admin/login') {
+        sessionStorage.setItem('swan_session_expired', '1');
+        window.dispatchEvent(new Event('swan:unauthorized'));
+      }
+    }
+    return Promise.reject(error);
+  }
+);
+
 // ─── AUTH ────────────────────────────────────────────────────────
 export const login = (data: TLoginPayload) =>
   api.post<TAuthResponse>('/api/auth/login', data).then((r) => r.data);
