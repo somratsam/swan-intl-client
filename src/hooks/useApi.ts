@@ -1,5 +1,6 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import {
+  forgotPassword,
   getBanners,
   getBrandById,
   getBrands,
@@ -11,6 +12,7 @@ import {
   getProductById,
   getProducts,
   getStores,
+  resetPassword,
   uploadImages,
 } from '@/services/api';
 
@@ -51,4 +53,12 @@ export const useUploadImages = () =>
   useMutation({
     mutationFn: ({ files, onUploadProgress }: { files: File[]; onUploadProgress?: (percent: number) => void }) =>
       uploadImages(files, onUploadProgress),
+  });
+
+export const useForgotPassword = () =>
+  useMutation({ mutationFn: (email: string) => forgotPassword(email) });
+
+export const useResetPassword = () =>
+  useMutation({
+    mutationFn: ({ token, password }: { token: string; password: string }) => resetPassword(token, password),
   });

@@ -43,6 +43,12 @@ api.interceptors.response.use(
 export const login = (data: TLoginPayload) =>
   api.post<TAuthResponse>('/api/auth/login', data).then((r) => r.data);
 
+export const forgotPassword = (email: string) =>
+  api.post<TApiResponse<null>>('/api/auth/forgot-password', { email }).then((r) => r.data);
+
+export const resetPassword = (token: string, password: string) =>
+  api.post<TApiResponse<null>>('/api/auth/reset-password', { token, password }).then((r) => r.data);
+
 // ─── UPLOAD ──────────────────────────────────────────────────────
 export const uploadImages = (files: File[], onUploadProgress?: (percent: number) => void) => {
   const formData = new FormData();

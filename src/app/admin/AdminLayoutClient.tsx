@@ -10,6 +10,8 @@ import {
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 
+const PUBLIC_ADMIN_PATHS = ['/admin/login', '/admin/forgot-password', '/admin/reset-password'];
+
 const navItems = [
   { label: 'Dashboard',   href: '/admin/dashboard',    Icon: LayoutDashboard },
   { label: 'Banners',     href: '/admin/banners',       Icon: ImageIcon       },
@@ -23,20 +25,20 @@ const navItems = [
 ];
 
 export default function AdminLayoutClient({ children }: { children: React.ReactNode }) {
-  const { user, isAdmin, logout } = useAuth();
+  const { user, isAdmin, isLoading, logout } = useAuth();
   const router   = useRouter();
   const pathname = usePathname();
-  const isLoginPage = pathname === '/admin/login';
+  const isPublicPage = PUBLIC_ADMIN_PATHS.includes(pathname);
 
   useEffect(() => {
-    if (!isLoginPage && (!user || !isAdmin)) {
+    if (!isPublicPage && !isLoading && (!user || !isAdmin)) {
       router.replace('/admin/login');
     }
-  }, [user, isAdmin, isLoginPage, router]);
+  }, [user, isAdmin, isLoading, isPublicPage, router]);
 
-  if (isLoginPage) return <>{children}</>;
+  if (isPublicPage) return <>{children}</>;
 
-  if (!user || !isAdmin) {
+  if (isLoading || !user || !isAdmin) {
     return (
       <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--color-subtle-bg)' }}>
         <div

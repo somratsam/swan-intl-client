@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { LogIn, Eye, EyeOff } from 'lucide-react';
@@ -133,6 +134,16 @@ export default function AdminLoginPage() {
                   {showPw ? <EyeOff size={15} /> : <Eye size={15} />}
                 </button>
               </div>
+            </div>
+
+            <div className="flex justify-end -mt-2">
+              <Link
+                href="/admin/forgot-password"
+                className="text-xs hover:text-white transition-colors"
+                style={{ color: '#666' }}
+              >
+                Forgot password?
+              </Link>
             </div>
 
             {error && (
