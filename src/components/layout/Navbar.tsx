@@ -149,14 +149,22 @@ export default function Navbar() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: '100%' }}
             transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
-            className="fixed inset-0 z-40 flex flex-col"
+            className="fixed inset-0 z-[60] flex flex-col"
             style={{ background: 'var(--color-dark-bg)' }}
           >
             {/* Menu header */}
             <div className="flex items-center justify-between px-8 h-16 border-b" style={{ borderColor: 'var(--color-border)' }}>
-              <div className="flex flex-col leading-none">
-                <span className="text-xl font-bold tracking-[3px] uppercase" style={{ fontFamily: 'Playfair Display, serif', color: 'var(--color-accent)' }}>Swan</span>
-                <span className="text-[8px] tracking-[5px] uppercase" style={{ color: 'var(--color-text-dim)' }}>International</span>
+              <div className="flex items-center gap-2.5">
+                <span
+                  className="w-9 h-9 rounded-full flex items-center justify-center shrink-0"
+                  style={{ background: 'var(--color-text)' }}
+                >
+                  <Image src="/swan-logo.png" alt="" width={28} height={20} />
+                </span>
+                <span className="flex flex-col leading-none">
+                  <span className="text-xl font-bold tracking-[3px] uppercase" style={{ fontFamily: 'Playfair Display, serif', color: 'var(--color-accent)' }}>Swan</span>
+                  <span className="text-[8px] tracking-[5px] uppercase" style={{ color: 'var(--color-text-dim)', marginTop: '-1px' }}>International</span>
+                </span>
               </div>
               <button onClick={() => setMenuOpen(false)} style={{ color: 'var(--color-accent)' }} aria-label="Close menu">
                 <X size={22} />
