@@ -7,6 +7,7 @@ type AuthContextType = {
   user: TUser | null;
   token: string | null;
   isAdmin: boolean;
+  isLoading: boolean;
   login: (token: string, user: TUser) => void;
   logout: () => void;
 };
@@ -15,6 +16,7 @@ const AuthContext = createContext<AuthContextType>({
   user: null,
   token: null,
   isAdmin: false,
+  isLoading: true,
   login: () => {},
   logout: () => {},
 });
@@ -22,6 +24,7 @@ const AuthContext = createContext<AuthContextType>({
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<TUser | null>(null);
   const [token, setToken] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const storedToken = localStorage.getItem('swan_token');
@@ -35,6 +38,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         localStorage.removeItem('swan_user');
       }
     }
+    setIsLoading(false);
   }, []);
 
   const loginFn = (newToken: string, newUser: TUser) => {
@@ -63,6 +67,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         user,
         token,
         isAdmin: user?.role === 'admin',
+        isLoading,
         login: loginFn,
         logout: logoutFn,
       }}

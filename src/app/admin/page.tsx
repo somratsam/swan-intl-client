@@ -6,15 +6,16 @@ import { useAuth } from '@/context/AuthContext';
 
 export default function AdminIndexPage() {
   const router = useRouter();
-  const { user, isAdmin } = useAuth();
+  const { user, isAdmin, isLoading } = useAuth();
 
   useEffect(() => {
+    if (isLoading) return;
     if (user && isAdmin) {
       router.replace('/admin/dashboard');
     } else {
       router.replace('/admin/login');
     }
-  }, [user, isAdmin, router]);
+  }, [user, isAdmin, isLoading, router]);
 
   return (
     <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--color-subtle-bg)' }}>
