@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import {
   LayoutDashboard, Image as ImageIcon, Tag, MapPin,
-  Percent, Calendar, Sparkles, ShoppingBag, Briefcase, LogOut, ExternalLink,
+  Percent, Calendar, Sparkles, ShoppingBag, Briefcase, LogOut, ExternalLink, MessageSquare,
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 
@@ -14,6 +14,7 @@ const PUBLIC_ADMIN_PATHS = ['/admin/login', '/admin/forgot-password', '/admin/re
 
 const navItems = [
   { label: 'Dashboard',   href: '/admin/dashboard',    Icon: LayoutDashboard },
+  { label: 'Messages',    href: '/admin/messages',      Icon: MessageSquare   },
   { label: 'Banners',     href: '/admin/banners',       Icon: ImageIcon       },
   { label: 'Brands',      href: '/admin/brands',        Icon: Tag             },
   { label: 'Stores',      href: '/admin/stores',        Icon: MapPin          },

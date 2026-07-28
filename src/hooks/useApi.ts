@@ -1,4 +1,5 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
+import type { TContactPayload } from '@/types';
 import {
   forgotPassword,
   getBanners,
@@ -13,6 +14,7 @@ import {
   getProducts,
   getStores,
   resetPassword,
+  submitContactForm,
   uploadImages,
 } from '@/services/api';
 
@@ -62,3 +64,6 @@ export const useResetPassword = () =>
   useMutation({
     mutationFn: ({ token, password }: { token: string; password: string }) => resetPassword(token, password),
   });
+
+export const useSubmitContactForm = () =>
+  useMutation({ mutationFn: (data: TContactPayload) => submitContactForm(data) });

@@ -4,19 +4,30 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Phone, Mail, Clock, MapPin } from 'lucide-react';
 import { FaInstagram, FaFacebook } from 'react-icons/fa';
-import { useStores } from '@/hooks/useApi';
+import { useStores, useSubmitContactForm } from '@/hooks/useApi';
 import ErrorMessage from '@/components/ui/ErrorMessage';
+import Toast, { ToastType } from '@/components/admin/Toast';
 
 export default function ContactPageContent() {
   const { data: stores, isLoading, isError, refetch } = useStores();
   const activeStores = stores?.filter((s) => s.isActive);
   const [form,      setForm]      = useState({ name: '', email: '', subject: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
+  const [toast,     setToast]     = useState<{ msg: string; type: ToastType } | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const submitContact = useSubmitContactForm();
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
-    setForm({ name: '', email: '', subject: '', message: '' });
+    try {
+      await submitContact.mutateAsync(form);
+      setToast({ msg: 'Message sent successfully.', type: 'success' });
+      setSubmitted(true);
+      setForm({ name: '', email: '', subject: '', message: '' });
+    } catch (err: unknown) {
+      const msg = (err as { response?: { data?: { message?: string } } })?.response?.data?.message;
+      setToast({ msg: msg || 'Something went wrong. Please try again.', type: 'error' });
+    }
   };
 
   return (
@@ -153,8 +164,13 @@ export default function ContactPageContent() {
                     style={{ borderColor: 'var(--color-border)', color: 'var(--color-text)' }}
                   />
                 </div>
-                <button type="submit" className="btn-luxury-filled w-full justify-center">
-                  Send Message
+                <button
+                  type="submit"
+                  disabled={submitContact.isPending}
+                  className="btn-luxury-filled w-full justify-center"
+                  style={{ opacity: submitContact.isPending ? 0.65 : 1 }}
+                >
+                  {submitContact.isPending ? 'Sending…' : 'Send Message'}
                 </button>
               </form>
             )}
@@ -162,6 +178,8 @@ export default function ContactPageContent() {
 
         </div>
       </div>
+
+      {toast && <Toast message={toast.msg} type={toast.type} onClose={() => setToast(null)} />}
     </div>
   );
 }

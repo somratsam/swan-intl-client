@@ -3,6 +3,9 @@ import type {
   TApiResponse,
   TBanner,
   TBrand,
+  TContact,
+  TContactListResponse,
+  TContactPayload,
   TEvent,
   TJob,
   TNewArrival,
@@ -151,5 +154,18 @@ export const updateJob = (id: string, data: Partial<TJob>) =>
   api.put<TApiResponse<TJob>>(`/api/jobs/update-job/${id}`, data).then((r) => r.data.data);
 export const deleteJob = (id: string) =>
   api.delete<TApiResponse<null>>(`/api/jobs/delete-job/${id}`).then((r) => r.data);
+
+// ─── CONTACT ─────────────────────────────────────────────────────
+export const submitContactForm = (data: TContactPayload) =>
+  api.post<TApiResponse<null>>('/api/contact', data).then((r) => r.data);
+
+export const getContacts = (page = 1, limit = 50) =>
+  api.get<TApiResponse<TContactListResponse>>(`/api/contact?page=${page}&limit=${limit}`).then((r) => r.data.data);
+
+export const markContactAsRead = (id: string) =>
+  api.patch<TApiResponse<TContact>>(`/api/contact/${id}/read`).then((r) => r.data.data);
+
+export const replyToContact = (id: string, replyText: string) =>
+  api.post<TApiResponse<TContact>>(`/api/contact/${id}/reply`, { replyText }).then((r) => r.data.data);
 
 export default api;

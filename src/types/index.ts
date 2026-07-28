@@ -33,6 +33,33 @@ export type TAuthResponse = {
   };
 };
 
+export type TContactPayload = {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+};
+
+export type TContact = {
+  _id: string;
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+  read: boolean;
+  replyText?: string;
+  repliedAt?: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type TContactListResponse = {
+  contacts: TContact[];
+  total: number;
+  page: number;
+  limit: number;
+};
+
 export type TBanner = {
   _id: string;
   title: string;
